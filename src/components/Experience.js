@@ -74,7 +74,7 @@ const Experience = () => {
                   <h3 className="text-lg font-semibold text-white">{exp.title}</h3>
                   <span className="text-blue-400">{exp.period}</span>
                 </div>
-                <p className="text-gray-400 mb-2">{exp.company}</p> {/* Reduced margin */}
+                <p className="text-blue-400 mb-2">{exp.company}</p> {/* Reduced margin */}
                 <ul className="list-disc list-inside text-gray-300 space-y-1"> {/* Reduced spacing between bullets */}
                   {exp.achievements.map((achievement, achievementIndex) => (
                     <li key={achievementIndex} className="text-sm leading-relaxed">
