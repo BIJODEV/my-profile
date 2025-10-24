@@ -1,6 +1,6 @@
 # 👋 Hi, I'm Bijo Dev
 
-## 🛡️ Cloud Security Engineer & Full-Stack Developer
+## 🛡️ Cloud Security Engineer
 
 [![Portfolio](https://img.shields.io/badge/🌐_Visit_My_Portfolio-Live-blue)](https://bijodev.github.io/my-profile/)
 [![LinkedIn](https://img.shields.io/badge/📧_Connect_On_LinkedIn-blue)](https://linkedin.com/in/bijo-dev-84a618b7)
