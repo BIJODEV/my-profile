@@ -8,11 +8,13 @@ import Projects from './components/Projects';
 import Certifications from './components/Certifications';
 import Education from './components/Education';
 import Hobbies from './components/Hobbies';
+import SEO from './components/SEO';
 import './index.css';
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-300">
+      <SEO />
       <Header />
       
       <main className="container mx-auto px-4 py-8">

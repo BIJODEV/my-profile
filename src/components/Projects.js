@@ -24,9 +24,9 @@ const Projects = () => {
         title: "Adaptive Profiling with Cloudflare Workers",
         year: "2025",
         description: "Built a dynamic profiling system inspired by Imperva to baseline traffic using entropy and scoring. Enabled real-time WAF rule tuning based on behavioral patterns, improving anomaly detection and reducing false positives.",
-        githubUrl: "#",
-        liveUrl: "#", 
-        mediumUrl: "#",
+        githubUrl: "https://github.com/BIJODEV/Cloudflare-Dynamic-Profiling",
+        liveUrl: "https://github.com/BIJODEV/Adaptive-Profiler-Demo", 
+        mediumUrl: "https://medium.com/@bijodev1/cloudflare-workers-kv-d1-and-a-curious-idea-that-became-adaptive-profiling-49d1dbbf0534",
         tags: ["Cloudflare Workers", "D1 Database", "KV Namespaces", "WAF Tuning", "Behavioral Analysis"],
         borderColor: "border-purple-500"
       },
@@ -34,9 +34,9 @@ const Projects = () => {
         title: "CRS Rule Intelligence",
         year: "2025", 
         description: "Built a tool to extract regex patterns from OWASP CRS rules and correlate them with blocked request payloads. Enabled deeper analysis of triggered signatures, improving visibility to 40% into rule behavior and enhancing WAF diagnostics.",
-        githubUrl: "#",
-        liveUrl: "#",
-        mediumUrl: "#",
+        githubUrl: "https://github.com/BIJODEV/crs-rule-lookup-project",
+        liveUrl: "https://crs-rule-lookup.onrender.com/",
+        mediumUrl: "https://medium.com/@bijodev1/diagnosing-cloudflare-security-events-with-crs-rule-intelligence-a-developers-journey-e61b583b56b0",
         tags: ["OWASP CRS", "Regex Analysis", "WAF Diagnostics", "Cloudflare", "Security Analytics"],
         borderColor: "border-orange-500"
       }

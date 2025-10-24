@@ -94,7 +94,7 @@ const Experience = () => {
       {/* Enhanced scroll hint */}
       <div className="text-center mt-4">
         <p className="text-gray-400 text-sm flex items-center justify-center space-x-2">
-          <span>Showing 2 of {experiences.length} companies</span>
+          {/* <span>{experiences.length} companies</span> */}
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>

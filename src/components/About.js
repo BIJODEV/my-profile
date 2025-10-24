@@ -7,7 +7,7 @@ const About = () => {
       <h2 className="text-xl font-bold text-white mb-4">Professional Profile</h2>
       <div className="space-y-4 text-gray-300">
         <p>
-          <strong className="text-white">Cloud Security Engineer & Full-Stack Developer</strong> with 10+ years of comprehensive experience spanning security architecture, application development, and infrastructure management.
+          <strong className="text-white">Cloud Security Engineer</strong> with 10+ years of comprehensive experience spanning security architecture, application development, and infrastructure management.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
