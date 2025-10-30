@@ -46,7 +46,7 @@ const Projects = () => {
         title: "KnowYourChurch",
         description: "Comprehensive church management platform with user authentication, media gallery, payments, and admin dashboard.",
         tags: ["React", "Node.js", "Supabase", "Cloudinary", "Razorpay", "OAuth"],
-        liveUrl: "https://knowurchurch.com/",
+        url: "https://knowurchurch.com/",
         borderColor: "border-purple-500"
       },
       {
