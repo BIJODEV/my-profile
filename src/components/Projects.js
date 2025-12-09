@@ -143,7 +143,7 @@ const SecurityToolCard = ({ project }) => {
     <div className={`bg-gray-700 rounded-lg p-4 border-l-4 ${project.borderColor} min-w-[300px] max-w-md flex-shrink-0`}>
       <div className="flex justify-between items-start mb-2">
         <h4 className="text-lg font-semibold text-white">{project.title}</h4>
-        <span className="text-blue-400 text-sm bg-blue-900 px-2 py-1 rounded">{project.year}</span>
+        {/* <span className="text-blue-400 text-sm bg-blue-900 px-2 py-1 rounded">{project.year}</span> */}
       </div>
       <p className="text-gray-300 text-sm mb-3">{project.description}</p>
       <div className="flex flex-wrap gap-2 mb-3">
