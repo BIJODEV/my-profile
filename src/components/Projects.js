@@ -52,8 +52,8 @@ const Projects = () => {
       {
         title: "Bible Quiz App",
         description: "Interactive quiz application for biblical knowledge testing with scoring system and progress tracking.",
-        url: "https://bijodev.github.io/bible-quiz-app/",
-        tags: ["React", "JavaScript", "Local Storage"],
+        url: "https://bibleqz.web.app",
+        tags: ["React", "JavaScript", "Firebase"],
         borderColor: "border-yellow-500"
       }
     ]
