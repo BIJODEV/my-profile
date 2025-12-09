@@ -22,7 +22,7 @@ const Projects = () => {
     securityTools: [
       {
         title: "Adaptive Profiling with Cloudflare Workers",
-        year: "2025",
+        // year: "2025",
         description: "Built a dynamic profiling system inspired by Imperva to baseline traffic using entropy and scoring. Enabled real-time WAF rule tuning based on behavioral patterns, improving anomaly detection and reducing false positives.",
         githubUrl: "https://github.com/BIJODEV/Cloudflare-Dynamic-Profiling",
         liveUrl: "https://github.com/BIJODEV/Adaptive-Profiler-Demo", 
@@ -32,7 +32,7 @@ const Projects = () => {
       },
       {
         title: "CRS Rule Intelligence",
-        year: "2025", 
+        // year: "2025", 
         description: "Built a tool to extract regex patterns from OWASP CRS rules and correlate them with blocked request payloads. Enabled deeper analysis of triggered signatures, improving visibility to 40% into rule behavior and enhancing WAF diagnostics.",
         githubUrl: "https://github.com/BIJODEV/crs-rule-lookup-project",
         liveUrl: "https://crs-rule-lookup.onrender.com/",
