@@ -15,7 +15,7 @@ const Projects = () => {
         title: "Cloudflare Onboarding Visualizer",
         description: "Interactive visualization tool for application migration to Cloudflare. Shows traffic flow, security layers, and integration points.",
         url: "https://bijodev.github.io/cloudflare-onboarding-visualizer/",
-        tags: ["Data Visualization", "React", "D3.js", "Cloudflare"],
+        tags: ["Data Visualization", "React", "Reactflow", "Cloudflare"],
         borderColor: "border-green-500"
       }
     ],
