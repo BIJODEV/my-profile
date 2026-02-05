@@ -74,7 +74,7 @@ const Projects = () => {
         {/* Production Applications */}
         <div>
           <h3 className="text-lg font-semibold text-blue-400 mb-4">Production Applications</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {projects.production.map((project, index) => (
               <ProjectCard key={index} project={project} />
             ))}
