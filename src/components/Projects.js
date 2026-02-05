@@ -17,7 +17,14 @@ const Projects = () => {
         url: "https://bijodev.github.io/cloudflare-onboarding-visualizer/",
         tags: ["Data Visualization", "React", "Reactflow", "Cloudflare"],
         borderColor: "border-green-500"
-      }
+      },
+      {
+        title: "System Design Master",
+        description: "Interactive platform for mastering system design interviews. Features real-time visualization labs (Load Balancing, Caching, Consistent Hashing), theory guides, and interview prep resources.",
+        url: "https://sysdesignmaster.web.app",
+        tags: ["React", "Firebase", "Visualization Lab", "System Design", "Education"],
+        borderColor: "border-indigo-500"
+      },
     ],
     securityTools: [
       {
