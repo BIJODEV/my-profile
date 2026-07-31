@@ -8,10 +8,17 @@ const Experience = () => {
       company: "IBM, Bengaluru",
       period: "Jan 2023 - Present",
       achievements: [
-        "Scaled edge security for 90+ mission-critical applications by migrating infrastructure to Cloudflare, ensuring 100% compliance with PCI-DSS and HIPAA standards for high-stakes traffic.",
-        "Reduced false-positive WAF blocks by 25% by engineering an Adaptive Profiling system using Cloudflare Workers, D1, and KV namespaces to baseline traffic via research-backed entropy scoring.",
-        "Developed CRS Rule Intelligence to deconstruct OWASP signatures and correlate them with blocked payloads, providing instant regex transparency and significantly decreasing MTTU for developers.",
-        "Optimized security operational costs by building a custom API gateway in Cloudflare Workers to bypass WAF rules for verified partner traffic, reducing unnecessary compute overhead."
+        "Awarded the IBM Outstanding Technical Achievement Award (OTAA) for developing CRS Rule Intelligence, a diagnostic engine that correlates OWASP signatures with blocked payloads, improving WAF transparency and decreasing MTTU for global developer teams.",
+        "Recognized by the IBM Innovation Center for the research and publication of Adaptive Profiling, a distributed edge-learning system that utilizes entropy-based heuristics to reduce false-positive WAF blocks by 25%.",
+        {
+          text: "Architected a suite of Interactive SPAs (React/React Flow) to transform static security documentation into high-fidelity visual roadmaps:",
+          subItems: [
+            "Cloudflare Onboarding Engine: A ”Visual Journey” tool guiding stakeholders through multi-phase infrastructure migrations for 90+ applications.",
+            "Adaptive Profiling Blueprint: A self-explaining architectural demo used to secure internal buy-in for custom edge-security tooling.",
+            "Global Resiliency & DR Plan: An interactive failover roadmap developed post-2025 Cloudflare outages, mapping current strategy vs. optimized DR flows to mitigate future downtime."
+          ]
+        },
+        "Scaled edge protection for mission-critical enterprise traffic, ensuring 100% compliance with PCI-DSS, HIPAA, and SOC 2 standards through automated Cloudflare/CIS orchestrations."
       ]
     },
     {
@@ -75,7 +82,16 @@ const Experience = () => {
                 <ul className="list-disc list-inside text-gray-300 space-y-1"> {/* Reduced spacing between bullets */}
                   {exp.achievements.map((achievement, achievementIndex) => (
                     <li key={achievementIndex} className="text-sm leading-relaxed">
-                      {achievement}
+                      {typeof achievement === 'string' ? achievement : achievement.text}
+                      {typeof achievement === 'object' && achievement.subItems && (
+                        <ul className="list-disc list-inside ml-5 mt-1 space-y-1">
+                          {achievement.subItems.map((subItem, subIndex) => (
+                            <li key={subIndex} className="text-sm leading-relaxed text-gray-400">
+                              {subItem}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
