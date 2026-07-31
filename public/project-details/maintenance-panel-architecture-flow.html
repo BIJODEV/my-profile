@@ -1,0 +1,636 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Maintenance Control Panel — Architecture Flow</title>
+<style>
+  :root {
+    --bg:            #faf8f4;
+    --bg-raised:     #ffffff;
+    --bg-sunken:     #f1ede4;
+    --border:        #e4ddcd;
+    --text:          #1f1b14;
+    --text-dim:      #6b6355;
+    --text-faint:    #9a9280;
+    --accent:        #8f5e0c;
+    --accent-bg:     #fbf1de;
+    --accent-border: #eed9b0;
+    --ok:            #15803d;
+    --ok-bg:         #f0fdf4;
+    --ok-border:     #bbf7d0;
+    --sched:         #1d4ed8;
+    --sched-bg:      #eff6ff;
+    --sched-border:  #bfdbfe;
+    --critical:      #b91c1c;
+    --critical-bg:   #fef2f2;
+    --critical-border: #fecaca;
+    --purple:        #6b21a8;
+    --purple-bg:     #faf5ff;
+    --purple-border: #e9d5ff;
+    --shadow:        0 1px 2px rgba(31,27,20,0.04), 0 1px 8px rgba(31,27,20,0.03);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:            #14120d;
+      --bg-raised:     #1c1912;
+      --bg-sunken:     #0d0b08;
+      --border:        #332c1f;
+      --text:          #f3efe4;
+      --text-dim:      #ab9f89;
+      --text-faint:    #756c5a;
+      --accent:        #e0a542;
+      --accent-bg:     rgba(224,165,66,0.10);
+      --accent-border: rgba(224,165,66,0.28);
+      --ok:            #4ade80;
+      --ok-bg:         #052e16;
+      --ok-border:     #166534;
+      --sched:         #60a5fa;
+      --sched-bg:      #0b1a33;
+      --sched-border:  #1e3a6e;
+      --critical:      #f87171;
+      --critical-bg:   #450a0a;
+      --critical-border: #991b1b;
+      --purple:        #c084fc;
+      --purple-bg:     rgba(192,132,252,0.10);
+      --purple-border: rgba(192,132,252,0.28);
+      --shadow:        0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14120d; --bg-raised: #1c1912; --bg-sunken: #0d0b08; --border: #332c1f;
+    --text: #f3efe4; --text-dim: #ab9f89; --text-faint: #756c5a;
+    --accent: #e0a542; --accent-bg: rgba(224,165,66,0.10); --accent-border: rgba(224,165,66,0.28);
+    --ok: #4ade80; --ok-bg: #052e16; --ok-border: #166534;
+    --sched: #60a5fa; --sched-bg: #0b1a33; --sched-border: #1e3a6e;
+    --critical: #f87171; --critical-bg: #450a0a; --critical-border: #991b1b;
+    --purple: #c084fc; --purple-bg: rgba(192,132,252,0.10); --purple-border: rgba(192,132,252,0.28);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.25);
+  }
+  :root[data-theme="light"] {
+    --bg: #faf8f4; --bg-raised: #ffffff; --bg-sunken: #f1ede4; --border: #e4ddcd;
+    --text: #1f1b14; --text-dim: #6b6355; --text-faint: #9a9280;
+    --accent: #8f5e0c; --accent-bg: #fbf1de; --accent-border: #eed9b0;
+    --ok: #15803d; --ok-bg: #f0fdf4; --ok-border: #bbf7d0;
+    --sched: #1d4ed8; --sched-bg: #eff6ff; --sched-border: #bfdbfe;
+    --critical: #b91c1c; --critical-bg: #fef2f2; --critical-border: #fecaca;
+    --purple: #6b21a8; --purple-bg: #faf5ff; --purple-border: #e9d5ff;
+    --shadow: 0 1px 2px rgba(31,27,20,0.04), 0 1px 8px rgba(31,27,20,0.03);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 40px 20px 60px;
+  }
+  .page { max-width: 1160px; margin: 0 auto; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace; }
+
+  .masthead {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
+    padding-bottom: 22px; border-bottom: 1px solid var(--border); margin-bottom: 26px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 700; font-size: 25px; letter-spacing: -0.01em; text-wrap: balance; margin: 0 0 6px;
+  }
+  .masthead p { color: var(--text-dim); font-size: 13.5px; max-width: 56ch; margin: 0; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    color: var(--accent); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    padding: 7px 12px; border: 1px solid var(--accent-border); background: var(--accent-bg); border-radius: 8px;
+  }
+  .back-link:hover { filter: brightness(0.96); }
+
+  /* ── Layout: diagram left, info panel right ─────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+  }
+
+  /* ── Diagram canvas ──────────────────────────────────────────────────── */
+  .diagram-panel { padding: 4px; position: relative; overflow: hidden; }
+  .diagram-scroll { overflow-x: auto; }
+  .canvas-wrap {
+    position: relative;
+    width: 1040px;
+    height: 470px;
+    margin: 0 auto;
+    transform-origin: center center;
+    transition: transform 0.18s ease;
+  }
+  .canvas-bg {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(var(--border) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.5;
+    border-radius: 10px;
+  }
+  svg.flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+  .flow-edge { fill: none; stroke-width: 1.8; opacity: 0.55; stroke-dasharray: 5 6; }
+  .flow-edge.hl { stroke-width: 2.6; opacity: 1; }
+  .flow-edge.dim { opacity: 0.12; }
+  @media (prefers-reduced-motion: no-preference) {
+    .flow-edge { animation: dashmove 1.4s linear infinite; }
+  }
+  @keyframes dashmove { to { stroke-dashoffset: -22; } }
+
+  .edge-label {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .edge-label.dim { opacity: 0.18; }
+  .edge-label.hl { opacity: 1; font-weight: 700; }
+
+  .node {
+    position: absolute;
+    background: var(--bg-raised);
+    border: 1.5px solid var(--border);
+    border-radius: 11px;
+    box-shadow: var(--shadow);
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+    user-select: none;
+  }
+  .node:hover { transform: translateY(-1px); }
+  .node:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .node.dim { opacity: 0.35; }
+  .node.selected { box-shadow: 0 0 0 3px var(--node-ring, var(--accent-border)), var(--shadow); }
+  .node-icon {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--node-bg, var(--accent-bg)); color: var(--node-fg, var(--accent));
+    border: 1px solid var(--node-border, var(--accent-border));
+  }
+  .node-icon svg { width: 15px; height: 15px; }
+  .node-row { display: flex; align-items: center; gap: 9px; }
+  .node-title { font-weight: 700; font-size: 12.5px; line-height: 1.2; }
+  .node-sub { font-size: 10.5px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; }
+  .node-anchor {
+    position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint);
+  }
+
+  .zoom-controls {
+    position: absolute; bottom: 12px; right: 12px; z-index: 5;
+    display: flex; flex-direction: column; background: var(--bg-raised);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);
+  }
+  .zoom-controls button {
+    width: 30px; height: 28px; border: none; background: transparent; color: var(--text-dim);
+    font-size: 15px; cursor: pointer; border-bottom: 1px solid var(--border);
+  }
+  .zoom-controls button:last-child { border-bottom: none; }
+  .zoom-controls button:hover { background: var(--bg-sunken); color: var(--text); }
+  .canvas-credit {
+    position: absolute; bottom: 10px; left: 14px; font-size: 10px; color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Node popup ──────────────────────────────────────────────────────── */
+  .node-popup {
+    position: absolute;
+    width: 240px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.16), var(--shadow);
+    padding: 14px 16px;
+    z-index: 20;
+    display: none;
+  }
+  .node-popup.open { display: block; }
+  .node-popup-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .node-popup-head h3 { font-size: 14px; font-weight: 700; margin: 0; }
+  .node-popup-close {
+    border: none; background: var(--bg-sunken); color: var(--text-dim); width: 20px; height: 20px;
+    border-radius: 6px; cursor: pointer; font-size: 12px; line-height: 1; flex-shrink: 0;
+  }
+  .node-popup-close:hover { background: var(--border); }
+  .node-popup p.desc { font-size: 12px; color: var(--text-dim); margin: 0 0 10px; }
+  .node-popup .feat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 5px; }
+  .node-popup ul { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-direction: column; gap: 4px; }
+  .node-popup li { font-size: 11.5px; color: var(--text); display: flex; gap: 6px; align-items: flex-start; }
+  .node-popup li::before { content: "✓"; color: var(--ok); font-weight: 700; flex-shrink: 0; }
+  .tech-badges { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tech-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 99px; background: var(--sched-bg); color: var(--sched); border: 1px solid var(--sched-border);
+  }
+
+  /* ── Info panel (right) ──────────────────────────────────────────────── */
+  .info-panel { padding: 22px 22px 20px; }
+  .info-panel h2 { font-size: 16px; font-weight: 700; margin: 0 0 10px; font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', sans-serif; }
+  .info-panel p { font-size: 13px; color: var(--text-dim); margin: 0 0 10px; }
+  .hint { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 14px; }
+
+  .selected-banner {
+    display: none;
+    background: var(--sched-bg); border: 1px solid var(--sched-border); color: var(--sched);
+    border-radius: 9px; padding: 10px 13px; margin-bottom: 14px; font-size: 12.5px;
+  }
+  .selected-banner.show { display: block; }
+  .selected-banner strong { display: block; font-size: 13.5px; margin-bottom: 1px; }
+  .selected-banner .sb-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.85; }
+  .selected-banner .sb-hint { display: block; margin-top: 4px; font-size: 11px; color: var(--text-dim); }
+
+  .kc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 16px 0 8px; }
+  .kc-list { list-style: none; padding: 0; margin: 0 0 6px; display: flex; flex-direction: column; gap: 7px; }
+  .kc-list li { font-size: 13px; }
+  .kc-list b { font-weight: 700; }
+
+  .focus-box {
+    margin-top: 16px; background: var(--bg-sunken); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .focus-box .fb-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 4px; }
+  .focus-box p { margin: 0; font-size: 12.5px; color: var(--text); }
+
+  @media (max-width: 560px) {
+    .masthead { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div>
+      <div class="eyebrow">// internal tooling · charteredaccountantsanz.com</div>
+      <h1>Live Architecture Flow</h1>
+      <p>Click any component below to see its role, key behaviors, and technology — this is the presentation-friendly companion to the full project overview.</p>
+    </div>
+    <a class="back-link" href="./maintenance-panel-project-overview.html">← Project overview</a>
+  </div>
+
+  <div class="grid">
+
+    <div class="panel diagram-panel">
+      <div class="diagram-scroll">
+        <div class="canvas-wrap" id="canvasWrap">
+          <div class="canvas-bg"></div>
+          <svg class="flow-svg" id="flowSvg"></svg>
+          <div id="edgeLabels"></div>
+          <div id="nodesLayer"></div>
+        </div>
+      </div>
+      <div class="canvas-credit">click a node · scroll to see more</div>
+      <div class="zoom-controls">
+        <button type="button" id="zoomIn" title="Zoom in">+</button>
+        <button type="button" id="zoomOut" title="Zoom out">−</button>
+        <button type="button" id="zoomReset" title="Reset zoom">⤾</button>
+      </div>
+      <div class="node-popup" id="nodePopup">
+        <div class="node-popup-head">
+          <h3 id="popupTitle"></h3>
+          <button type="button" class="node-popup-close" id="popupClose" aria-label="Close">✕</button>
+        </div>
+        <p class="desc" id="popupDesc"></p>
+        <div class="feat-label">Key behaviors</div>
+        <ul id="popupFeatures"></ul>
+        <div class="feat-label">Technology</div>
+        <div class="tech-badges" id="popupTech"></div>
+      </div>
+    </div>
+
+    <div class="panel info-panel">
+      <h2>Backend Architecture Overview</h2>
+      <div class="selected-banner" id="selectedBanner">
+        <strong id="sbTitle"></strong>
+        <span class="sb-sub" id="sbSub"></span>
+        <span class="sb-hint">Click a different node, or the same node again, to change selection.</span>
+      </div>
+      <p>This diagram traces one request and one scheduling action through the maintenance panel — built on a single Cloudflare Worker, a D1 database, the Cloudflare Rulesets API, and a Cron Trigger.</p>
+      <p class="hint">💡 Interactive diagram: click any component on the left to learn its role.</p>
+
+      <div class="kc-label">Key components</div>
+      <ul class="kc-list">
+        <li><b>React UI:</b> Command Center, Fleet, and Calendar views, served as static assets</li>
+        <li><b>Cloudflare Worker:</b> serves the UI, the REST API, and the Cron handler — one deploy</li>
+        <li><b>D1 Database:</b> durable state — active windows and the append-only audit log</li>
+        <li><b>Rulesets API:</b> the per-domain Snippet Rule that intercepts traffic at the edge</li>
+        <li><b>Cron Trigger:</b> sweeps every minute to activate and retract windows automatically</li>
+      </ul>
+
+      <div class="kc-label">Data flow</div>
+      <p>Visitors are matched against the Snippet Rule at the edge — if a window is active, they get an instant 503, before ever reaching origin. Meanwhile the Browser talks to the Worker over a REST API to schedule windows, which the Worker persists in D1 and mirrors to the Rulesets API. Every minute, the Cron Trigger sweeps D1 and flips rules on or off automatically.</p>
+
+      <div class="focus-box">
+        <div class="fb-label">Architecture focus</div>
+        <p>Fully edge-native maintenance orchestration — zero origin servers, self-scheduling, self-expiring, fully audited.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ── Node + edge model ────────────────────────────────────────────────
+  var NODES = {
+    visitor: {
+      x: 30, y: 26, w: 150, h: 62,
+      title: "Visitor Request", sub: "Edge Traffic",
+      colorVar: "--critical", bgVar: "--critical-bg", borderVar: "--critical-border",
+      icon: '<path d="M3 12h18M3 6h18M3 18h18"/>',
+      desc: "The end-user request that gets evaluated at Cloudflare's edge, before it ever reaches origin.",
+      features: ["Matched by hostname against the Snippet Rule expression", "Gets a branded 503 instantly if a window is active", "Origin can be fully down or mid-deploy — visitor never notices"],
+      tech: ["Cloudflare Edge Network"],
+    },
+    browser: {
+      x: 30, y: 320, w: 150, h: 62,
+      title: "React UI", sub: "Browser",
+      colorVar: "--accent", bgVar: "--accent-bg", borderVar: "--accent-border",
+      icon: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/>',
+      desc: "Single-page app rendering the Command Center, Fleet, and Calendar views — served as static assets by the Worker.",
+      features: ["Rehydrates from live edge + D1 state on every load", "Live countdowns to activation and auto-retract", "Dark/light theme persisted to localStorage", "Audit Trail and Preview-503 modals"],
+      tech: ["React 18", "Vite 5", "Tailwind CSS 3"],
+    },
+    worker: {
+      x: 380, y: 174, w: 200, h: 96,
+      title: "Cloudflare Worker", sub: "src/worker.ts",
+      colorVar: "--sched", bgVar: "--sched-bg", borderVar: "--sched-border",
+      icon: '<path d="M13 2 3 14h7v8l10-12h-7z"/>',
+      desc: "One Worker doing triple duty — serves the UI, exposes 10 REST routes under /api/*, and runs the Cron scheduled() handler.",
+      features: ["Reads Cf-Access-Authenticated-User-Email for attribution", "Every route is a single deployable artifact via wrangler deploy", "No JWT verification of the Access header — a deliberate trade-off"],
+      tech: ["Cloudflare Workers", "TypeScript"],
+    },
+    d1: {
+      x: 760, y: 26, w: 170, h: 62,
+      title: "D1 Database", sub: "Persistent Storage",
+      colorVar: "--ok", bgVar: "--ok-bg", borderVar: "--ok-border",
+      icon: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+      desc: "SQLite at the edge — the durable source of truth for scheduling state and audit history.",
+      features: ["active_interventions: current window state, idempotent upserts via unique rule_id", "audit_logs: append-only ledger of every lifecycle transition", "3 additive migrations applied without losing in-flight rows"],
+      tech: ["Cloudflare D1", "SQL migrations"],
+    },
+    rulesets: {
+      x: 760, y: 174, w: 170, h: 78,
+      title: "Rulesets API", sub: "Snippet + Rule",
+      colorVar: "--purple", bgVar: "--purple-bg", borderVar: "--purple-border",
+      icon: '<path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/>',
+      desc: "A per-domain Snippet plus Snippet Rule that intercepts matching traffic and returns a branded 503, before origin.",
+      features: ["Read-modify-write on the full rule list — never clobbers other teams' rules", "Enable/disable is just flipping enabled — content is pre-deployed", "Matched by stable snippet_name, not the unreliable rule id"],
+      tech: ["Cloudflare Rulesets API", "Edge JS Snippets"],
+    },
+    cron: {
+      x: 380, y: 356, w: 190, h: 62,
+      title: "Cron Trigger", sub: "Every Minute",
+      colorVar: "--critical", bgVar: "--critical-bg", borderVar: "--critical-border",
+      icon: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+      desc: "Fires the Worker's scheduled() handler every minute to sweep for windows that need to start or end.",
+      features: ["Sweep 1: activates any scheduled row whose start_time has arrived", "Sweep 2: retracts any active row past its expiration_time", "Fully unattended — a window scheduled for 2am needs no one online"],
+      tech: ["Cloudflare Cron Triggers", "* * * * *"],
+    },
+  };
+
+  var EDGES = [
+    { from: "visitor",  to: "rulesets", label: "checks http.host at the edge",              color: "--critical", curve: -60 },
+    { from: "rulesets", to: "visitor",  label: "503 + Retry-After (before origin)",          color: "--critical", curve: 60 },
+    { from: "browser",  to: "worker",   label: "GET / POST /api/*",                          color: "--accent",   curve: -34 },
+    { from: "worker",   to: "browser",  label: "static UI + live state",                     color: "--accent",   curve: 34 },
+    { from: "worker",   to: "d1",       label: "read / write intervention + audit state",    color: "--ok",       curve: -30 },
+    { from: "worker",   to: "rulesets", label: "create / enable / disable Snippet Rule",     color: "--purple",   curve: 30 },
+    { from: "cron",     to: "worker",   label: "fires scheduled() every 60s",                color: "--critical", curve: -26 },
+  ];
+
+  var svg = document.getElementById("flowSvg");
+  var nodesLayer = document.getElementById("nodesLayer");
+  var edgeLabelsLayer = document.getElementById("edgeLabels");
+  var canvasWrap = document.getElementById("canvasWrap");
+  var popup = document.getElementById("nodePopup");
+  var selectedBanner = document.getElementById("selectedBanner");
+  var svgNS = "http://www.w3.org/2000/svg";
+  var selected = null;
+  var edgeEls = [];
+
+  function center(n) { return { x: n.x + n.w / 2, y: n.y + n.h / 2 }; }
+
+  function anchorPoint(n, towardX, towardY) {
+    // pick the node edge point closest to the direction of the other node
+    var c = center(n);
+    var dx = towardX - c.x, dy = towardY - c.y;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      return { x: c.x + Math.sign(dx) * (n.w / 2), y: c.y };
+    }
+    return { x: c.x, y: c.y + Math.sign(dy) * (n.h / 2) };
+  }
+
+  function buildIcon(pathInner) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + pathInner + '</svg>';
+  }
+
+  function renderNodes() {
+    Object.keys(NODES).forEach(function (id) {
+      var n = NODES[id];
+      var el = document.createElement("div");
+      el.className = "node";
+      el.id = "node-" + id;
+      el.tabIndex = 0;
+      el.style.left = n.x + "px";
+      el.style.top = n.y + "px";
+      el.style.width = n.w + "px";
+      el.style.height = n.h + "px";
+      el.style.setProperty("--node-ring", "var(" + n.borderVar + ")");
+      el.innerHTML =
+        '<div class="node-row">' +
+          '<div class="node-icon" style="--node-bg:var(' + n.bgVar + ');--node-fg:var(' + n.colorVar + ');--node-border:var(' + n.borderVar + ')">' + buildIcon(n.icon) + '</div>' +
+          '<div><div class="node-title">' + n.title + '</div><div class="node-sub">' + n.sub + '</div></div>' +
+        '</div>' +
+        '<div class="node-anchor"></div>';
+      el.addEventListener("click", function () { selectNode(id); });
+      el.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectNode(id); }
+      });
+      nodesLayer.appendChild(el);
+    });
+  }
+
+  function renderEdges() {
+    EDGES.forEach(function (e, i) {
+      var a = NODES[e.from], b = NODES[e.to];
+      var ca = center(a), cb = center(b);
+      var pa = anchorPoint(a, cb.x, cb.y);
+      var pb = anchorPoint(b, ca.x, ca.y);
+
+      // quadratic control point, offset perpendicular to the line for a visible arc
+      var mx = (pa.x + pb.x) / 2, my = (pa.y + pb.y) / 2;
+      var dx = pb.x - pa.x, dy = pb.y - pa.y;
+      var len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var nx = -dy / len, ny = dx / len;
+      var cx = mx + nx * e.curve, cy = my + ny * e.curve;
+
+      var path = document.createElementNS(svgNS, "path");
+      var d = "M " + pa.x + " " + pa.y + " Q " + cx + " " + cy + " " + pb.x + " " + pb.y;
+      path.setAttribute("d", d);
+      path.setAttribute("class", "flow-edge");
+      path.setAttribute("marker-end", "url(#arrow-" + i + ")");
+      path.style.stroke = "var(" + e.color + ")";
+      svg.appendChild(path);
+      edgeEls.push({ path: path, from: e.from, to: e.to });
+
+      // arrowhead marker (per-edge id so each can carry its own color)
+      var marker = document.createElementNS(svgNS, "marker");
+      marker.setAttribute("id", "arrow-" + i);
+      marker.setAttribute("viewBox", "0 0 10 10");
+      marker.setAttribute("refX", "8");
+      marker.setAttribute("refY", "5");
+      marker.setAttribute("markerWidth", "7");
+      marker.setAttribute("markerHeight", "7");
+      marker.setAttribute("orient", "auto-start-reverse");
+      var mpath = document.createElementNS(svgNS, "path");
+      mpath.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
+      mpath.style.fill = "var(" + e.color + ")";
+      marker.appendChild(mpath);
+      var defs = svg.querySelector("defs") || svg.insertBefore(document.createElementNS(svgNS, "defs"), svg.firstChild);
+      defs.appendChild(marker);
+
+      // label at curve midpoint (quadratic bezier at t=0.5)
+      var lx = 0.25 * pa.x + 0.5 * cx + 0.25 * pb.x;
+      var ly = 0.25 * pa.y + 0.5 * cy + 0.25 * pb.y;
+      var label = document.createElement("div");
+      label.className = "edge-label";
+      label.textContent = e.label;
+      label.style.left = lx + "px";
+      label.style.top = ly + "px";
+      label.dataset.from = e.from;
+      label.dataset.to = e.to;
+      edgeLabelsLayer.appendChild(label);
+    });
+  }
+
+  function clearHighlight() {
+    document.querySelectorAll(".node").forEach(function (el) { el.classList.remove("dim", "selected"); });
+    edgeEls.forEach(function (e) { e.path.classList.remove("hl", "dim"); });
+    document.querySelectorAll(".edge-label").forEach(function (el) { el.classList.remove("hl", "dim"); });
+  }
+
+  function selectNode(id) {
+    if (selected === id) { deselect(); return; }
+    selected = id;
+    clearHighlight();
+
+    document.querySelectorAll(".node").forEach(function (el) {
+      var nid = el.id.replace("node-", "");
+      if (nid === id) { el.classList.add("selected"); }
+      else if (!isConnected(nid, id)) { el.classList.add("dim"); }
+    });
+    edgeEls.forEach(function (e) {
+      var involved = e.from === id || e.to === id;
+      e.path.classList.add(involved ? "hl" : "dim");
+    });
+    document.querySelectorAll(".edge-label").forEach(function (el) {
+      var involved = el.dataset.from === id || el.dataset.to === id;
+      el.classList.add(involved ? "hl" : "dim");
+    });
+
+    showPopup(id);
+    showBanner(id);
+  }
+
+  function isConnected(a, b) {
+    return EDGES.some(function (e) { return (e.from === a && e.to === b) || (e.from === b && e.to === a); });
+  }
+
+  function deselect() {
+    selected = null;
+    clearHighlight();
+    popup.classList.remove("open");
+    selectedBanner.classList.remove("show");
+  }
+
+  function showPopup(id) {
+    var n = NODES[id];
+    document.getElementById("popupTitle").textContent = n.title;
+    document.getElementById("popupDesc").textContent = n.desc;
+    var ul = document.getElementById("popupFeatures");
+    ul.innerHTML = "";
+    n.features.forEach(function (f) {
+      var li = document.createElement("li");
+      li.textContent = f;
+      ul.appendChild(li);
+    });
+    var techWrap = document.getElementById("popupTech");
+    techWrap.innerHTML = "";
+    n.tech.forEach(function (t) {
+      var span = document.createElement("span");
+      span.className = "tech-badge";
+      span.textContent = t;
+      techWrap.appendChild(span);
+    });
+
+    // position popup near the node, flipping to the left if it would overflow
+    var canvasW = 1040;
+    var popupW = 240;
+    var left = n.x + n.w + 14;
+    if (left + popupW > canvasW - 10) left = n.x - popupW - 14;
+    if (left < 4) left = 4;
+    popup.style.left = left + "px";
+    popup.style.top = Math.max(4, n.y - 6) + "px";
+    popup.classList.add("open");
+  }
+
+  function showBanner(id) {
+    var n = NODES[id];
+    document.getElementById("sbTitle").textContent = "Selected: " + n.title;
+    document.getElementById("sbSub").textContent = n.sub;
+    selectedBanner.classList.add("show");
+  }
+
+  document.getElementById("popupClose").addEventListener("click", deselect);
+  canvasWrap.addEventListener("click", function (e) {
+    if (e.target === canvasWrap) deselect();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") deselect();
+  });
+
+  // ── Zoom ────────────────────────────────────────────────────────────────
+  var scale = 1;
+  function applyScale() { canvasWrap.style.transform = "scale(" + scale + ")"; }
+  document.getElementById("zoomIn").addEventListener("click", function () { scale = Math.min(1.3, scale + 0.1); applyScale(); });
+  document.getElementById("zoomOut").addEventListener("click", function () { scale = Math.max(0.6, scale - 0.1); applyScale(); });
+  document.getElementById("zoomReset").addEventListener("click", function () { scale = 1; applyScale(); });
+
+  renderNodes();
+  renderEdges();
+})();
+</script>
+</body>
+</html>

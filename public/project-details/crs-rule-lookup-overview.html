@@ -1,0 +1,529 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CRS Rule Lookup — Project Overview</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 32px 16px 48px;
+  }
+  .page { max-width: 760px; margin: 0 auto; }
+
+  /* Hero */
+  .hero {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 28px 28px 22px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .hero h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #1f2328; }
+  .hero .subtitle { color: #57606a; font-size: 14px; }
+  .badge-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .badge-blue  { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .badge-green { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+  .badge-purple{ background: #faf5ff; color: #6b21a8; border-color: #e9d5ff; }
+  .badge-orange{ background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+
+  /* Section */
+  section { margin-bottom: 30px; }
+  h2 {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #57606a;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* Cards */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card .card-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+  .card .card-meta { font-size: 12px; color: #57606a; margin-bottom: 6px; }
+  .card p { font-size: 13px; }
+
+  /* Architecture diagram */
+  .arch {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+  }
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    justify-content: center;
+  }
+  .flow-box {
+    background: #ffffff;
+    border: 1.5px solid #d1d5db;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 12px;
+    text-align: center;
+    min-width: 110px;
+  }
+  .flow-box strong { display: block; font-size: 13px; margin-bottom: 2px; }
+  .flow-box.accent { border-color: #3b82d4; background: #eff6ff; }
+  .flow-box.purple { border-color: #7c5cd8; background: #faf5ff; }
+  .flow-box.green  { border-color: #22c55e; background: #f0fdf4; }
+  .arrow { font-size: 20px; color: #9ca3af; padding: 0 8px; }
+
+  /* Data pipeline */
+  .pipeline { display: flex; flex-direction: column; gap: 10px; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    background: #3b82d4;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .step-body .step-title { font-weight: 700; font-size: 13px; }
+  .step-body p { font-size: 13px; color: #57606a; }
+
+  /* Feature list */
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feat {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+  }
+  .feat-icon { font-size: 18px; flex-shrink: 0; }
+  .feat-title { font-weight: 600; font-size: 13px; }
+  .feat-desc  { font-size: 12px; color: #57606a; }
+
+  /* Stats row */
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; }
+  .stat-box {
+    flex: 1;
+    min-width: 100px;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-num { font-size: 26px; font-weight: 800; color: #3b82d4; }
+  .stat-label { font-size: 12px; color: #57606a; margin-top: 2px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f7f8fa; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; font-weight: 600; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafafa; }
+
+  code {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+    color: #d73a49;
+  }
+
+  .note {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #92400e;
+    margin-top: 12px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  
+  <div class="hero">
+    <h1>🔍 CRS Rule Lookup Tool</h1>
+    <p class="subtitle">
+      A security analyst's workbench for decoding Cloudflare WAF firewall events against
+      the OWASP Core Rule Set — bridging rule IDs to human-readable context, live regex
+      highlighting, and encrypted payload decryption.
+    </p>
+    <div class="badge-row">
+      <span class="badge badge-blue">React + Vite</span>
+      <span class="badge badge-green">OWASP CRS</span>
+      <span class="badge badge-purple">FastAPI / Python</span>
+      <span class="badge badge-orange">Cloudflare WAF</span>
+      <span class="badge badge-blue">Google OAuth</span>
+    </div>
+  </div>
+
+  
+  <section>
+    <h2>What Is This?</h2>
+    <p style="margin-bottom:10px">
+      When Cloudflare's WAF blocks a web request, it logs an opaque internal UUID and a numeric CRS ID.
+      Out-of-the-box these identifiers give you very little actionable information — you can't tell
+      <em>which</em> attack pattern triggered the block, <em>what</em> part of the request matched, or
+      <em>why</em> a legitimate request might have been flagged.
+    </p>
+    <p>
+      This project solves that problem end-to-end: it parses the entire OWASP Core Rule Set source
+      into a structured database, maps every Cloudflare UUID back to its CRS counterpart, then
+      provides a browser-based UI where a security analyst can paste rule IDs (or upload a raw
+      Cloudflare security event JSON), immediately see the rule details, and — when an
+      AES-GCM "Payload Log Key" is provided — decrypt and display the exact matched request fragment
+      with the triggering regex highlighted inline.
+    </p>
+  </section>
+
+  
+  <section>
+    <h2>Scale at a Glance</h2>
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-num">48</div>
+        <div class="stat-label">CRS <code>.conf</code> rule files parsed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">343</div>
+        <div class="stat-label">CRS rules extracted (rules_v1)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">179</div>
+        <div class="stat-label">Cloudflare ↔ CRS ID mappings</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Sub-projects / components</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>System Architecture</h2>
+    <div class="arch">
+      <div class="flow">
+        <div class="flow-box green">
+          <strong>OWASP CRS</strong>
+          48 .conf rule files<br />ModSecurity regex rules
+        </div>
+        <span class="arrow">→</span>
+        <div class="flow-box">
+          <strong>Parse Scripts</strong>
+          <code>parse_crs.py</code><br /><code>parse-crs.js</code>
+        </div>
+        <span class="arrow">→</span>
+        <div class="flow-box">
+          <strong>rules.json</strong>
+          343 rules with pattern + msg
+        </div>
+        <span class="arrow">→</span>
+        <div class="flow-box">
+          <strong>mergeRules.js</strong>
+          Joins CRS rules with CF UUIDs
+        </div>
+        <span class="arrow">→</span>
+        <div class="flow-box accent">
+          <strong>updatedRules.json</strong>
+          179 merged entries
+        </div>
+      </div>
+      <div style="text-align:center;margin:16px 0 6px;color:#57606a;font-size:13px">↓ bundled into the React app at build time ↓</div>
+      <div class="flow">
+        <div class="flow-box accent">
+          <strong>React UI</strong>
+          crs-rule-lookup/<br />Vite + Tailwind
+        </div>
+        <span class="arrow">↔</span>
+        <div class="flow-box purple">
+          <strong>FastAPI Backend</strong>
+          cloudflare-decrypt-api/<br />/decrypt endpoint
+        </div>
+        <span class="arrow">↔</span>
+        <div class="flow-box">
+          <strong>matched-data-cli</strong>
+          Cloudflare CLI binary<br />HPKE decryption
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>Three Sub-Projects</h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">1 · coreruleset/</div>
+        <div class="card-meta">OWASP CRS v4 (upstream clone) + custom parse scripts</div>
+        <p>
+          The full OWASP Core Rule Set source tree. Two custom scripts were added on top:
+          <code>parse-crs.js</code> (Node) and <code>parse_crs.py</code> (Python root-level)
+          walk every <code>.conf</code> file, normalise line continuations, extract rule ID,
+          message, pattern, phase, severity, tags, and paranoia level, and emit a structured
+          JSON database.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">2 · crs-rule-lookup/</div>
+        <div class="card-meta">React 19 · Vite 7 · Tailwind CSS 4 · pcre-to-regexp</div>
+        <p>
+          The analyst-facing single-page app. Accepts manual CRS/CF ID searches or
+          a full Cloudflare security event JSON upload. Decodes, maps, and renders rule
+          details with live PCRE regex highlighting over the matched payload.
+          Protected by Google Sign-In OAuth with an allow-list of authorised emails.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">3 · cloudflare-decrypt-api/</div>
+        <div class="card-meta">Python 3.9 · FastAPI · uvicorn · pyhpke · cryptography</div>
+        <p>
+          A lightweight local microservice that wraps Cloudflare's
+          <code>matched-data-cli</code> binary. The React UI posts the encrypted payload blob
+          and the analyst's private key; the API decrypts it via HPKE and returns plaintext.
+          Deployed to Render.com for remote access.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>Data Pipeline — How the Knowledge Base Is Built</h2>
+    <div class="pipeline">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Parse the OWASP Core Rule Set</div>
+          <p><code>parse_crs.py</code> reads all 48 <code>.conf</code> files under <code>coreruleset/rules/</code>.
+          It merges line continuations, extracts every <code>SecRule</code> directive, and serialises
+          id, message, pattern, operator type, file name, phase, severity, tags, and paranoia level
+          into a structured JSON array.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Map Cloudflare UUIDs to CRS IDs</div>
+          <p><code>cfrules.json</code> is a hand-curated (or separately sourced) list of 179
+          Cloudflare-internal UUID → CRS numeric ID mappings with human messages.
+          <code>mergeRules.js</code> joins this list against the parsed CRS data to produce
+          <code>updatedRules.json</code>, the single source of truth bundled into the UI.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Bundle into the React App</div>
+          <p>Vite inlines <code>updatedRules.json</code> at build time. No backend is needed
+          for lookups — the entire 179-rule map ships with the JS bundle. Only decryption
+          requires the FastAPI microservice.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Decrypt Encrypted Matched Data (optional)</div>
+          <p>Cloudflare's "Payload Logging" feature encrypts matched request fragments using
+          HPKE (Hybrid Public Key Encryption). When the analyst provides their private key,
+          the React UI calls the FastAPI <code>/decrypt</code> endpoint, which shells out to
+          Cloudflare's <code>matched-data-cli</code> binary and returns the plaintext JSON.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>UI Features</h2>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon">🔎</div>
+        <div>
+          <div class="feat-title">Dual ID Search</div>
+          <div class="feat-desc">Search by numeric CRS ID (e.g. <code>942100</code>) or Cloudflare UUID — both resolve to the same rule record. Comma-separated batch input supported.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📂</div>
+        <div>
+          <div class="feat-title">Security Event JSON Upload</div>
+          <div class="feat-desc">Upload a raw Cloudflare Firewall Event JSON export. The app auto-extracts triggered rule IDs from the <code>score_rules</code> metadata field.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔐</div>
+        <div>
+          <div class="feat-title">HPKE Payload Decryption</div>
+          <div class="feat-desc">If <code>encrypted_matched_data</code> is present in the event, enter the AES-GCM private key and the app decrypts + displays the exact matched request fragments per variable location.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🌈</div>
+        <div>
+          <div class="feat-title">Live Regex Highlighting</div>
+          <div class="feat-desc">The CRS PCRE pattern for each triggered rule is compiled (with fallback via <code>pcre-to-regexp</code>) and run against the decrypted payload. Matches are highlighted yellow inline.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📋</div>
+        <div>
+          <div class="feat-title">One-Click Pattern Copy</div>
+          <div class="feat-desc">Each result row shows the full ModSecurity regex pattern with a clipboard copy button — useful for reproducing the detection in test tools.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">⬇</div>
+        <div>
+          <div class="feat-title">Download Results as JSON</div>
+          <div class="feat-desc">Any search result set can be exported as a structured JSON file for sharing or further processing in pipelines.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔒</div>
+        <div>
+          <div class="feat-title">Google OAuth Access Gate</div>
+          <div class="feat-desc">The app renders a blurred preview behind a sign-in overlay. Only email addresses on a hard-coded allow-list can authenticate and use the tool.</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">⚠️</div>
+        <div>
+          <div class="feat-title">Graceful Fallback Highlighting</div>
+          <div class="feat-desc">When a CRS PCRE pattern cannot be fully transpiled to JavaScript regex, the tool falls back to keyword-based highlighting and marks the row with a warning icon.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>Rule Categories Covered (OWASP CRS)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Range</th>
+          <th>Category</th>
+          <th>Examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>911xxx</td><td>Method Enforcement</td><td>HTTP method policy</td></tr>
+        <tr><td>913xxx</td><td>Scanner Detection</td><td>Known scanners, bots, crawlers</td></tr>
+        <tr><td>920xxx</td><td>Protocol Enforcement</td><td>Malformed headers, invalid requests</td></tr>
+        <tr><td>921xxx</td><td>Protocol Attack</td><td>HTTP Request Smuggling / Splitting</td></tr>
+        <tr><td>922xxx</td><td>Multipart Attack</td><td>Multipart boundary abuse</td></tr>
+        <tr><td>930xxx</td><td>LFI — Local File Inclusion</td><td>Path traversal, directory listing</td></tr>
+        <tr><td>931xxx</td><td>RFI — Remote File Inclusion</td><td>Remote URL inclusion</td></tr>
+        <tr><td>932xxx</td><td>RCE — Remote Code Execution</td><td>Shell injection, OS commands</td></tr>
+        <tr><td>933xxx</td><td>PHP Attack</td><td>PHP injection patterns</td></tr>
+        <tr><td>934xxx</td><td>Generic Attack</td><td>SSRF, Node.js, Ruby injection</td></tr>
+        <tr><td>941xxx</td><td>XSS — Cross-Site Scripting</td><td>Script tags, event handlers</td></tr>
+        <tr><td>942xxx</td><td>SQLi — SQL Injection</td><td>UNION, SELECT, libinjection</td></tr>
+        <tr><td>943xxx</td><td>Session Fixation</td><td>Set-Cookie injection</td></tr>
+        <tr><td>944xxx</td><td>Java Attack</td><td>Log4Shell, Java deserialization</td></tr>
+        <tr><td>949 / 950+</td><td>Scoring / Response</td><td>Anomaly score blocking + data leakage response rules</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  
+  <section>
+    <h2>Technology Stack</h2>
+    <table>
+      <thead>
+        <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Frontend</td><td>React 19, Vite 7, Tailwind CSS 4</td><td>SPA UI, fast builds, utility CSS</td></tr>
+        <tr><td>Regex Engine</td><td>pcre-to-regexp (npm)</td><td>Transpile CRS PCRE patterns to JS RegExp</td></tr>
+        <tr><td>Icons</td><td>lucide-react</td><td>Copy / UI icons</td></tr>
+        <tr><td>Auth</td><td>Google Identity Services (GSI)</td><td>OAuth sign-in with email allow-list</td></tr>
+        <tr><td>Backend API</td><td>FastAPI + uvicorn (Python 3.9)</td><td>CORS-enabled REST service for decryption</td></tr>
+        <tr><td>Crypto</td><td>pyhpke + cryptography</td><td>HPKE envelope decryption</td></tr>
+        <tr><td>CLI Bridge</td><td>Cloudflare matched-data-cli</td><td>Decrypts Cloudflare payload blobs</td></tr>
+        <tr><td>Data Scripts</td><td>Python 3 + Node.js</td><td>Parse CRS source → JSON; merge rule maps</td></tr>
+        <tr><td>Hosting</td><td>Render.com</td><td>FastAPI backend deployed at render URL</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  
+  <section>
+    <h2>Who Is This For &amp; Typical Workflow</h2>
+    <p style="margin-bottom:10px">
+      This tool targets <strong>security engineers and WAF operators</strong> who work with
+      Cloudflare's Managed Ruleset (which is built on the OWASP CRS) and need to triage
+      WAF block events quickly.
+    </p>
+    <p style="margin-bottom:10px"><strong>Typical workflow:</strong></p>
+    <ol style="padding-left:20px;font-size:13px;color:#1f2328">
+      <li style="margin-bottom:6px">A Cloudflare security event fires — you receive a JSON export with Cloudflare UUIDs and an encrypted payload blob.</li>
+      <li style="margin-bottom:6px">Upload the JSON to the tool.</li>
+      <li style="margin-bottom:6px">The tool resolves all triggered UUIDs → CRS rule IDs → rule messages + patterns.</li>
+      <li style="margin-bottom:6px">Enter your Payload Log private key → the exact matched request fragments are decrypted and displayed.</li>
+      <li style="margin-bottom:6px">The triggering PCRE regex is compiled and run over the decrypted text — matching portions are highlighted.</li>
+      <li style="margin-bottom:6px">You can now see exactly <em>which part</em> of the request triggered <em>which rule</em> and <em>why</em> — enabling fast triage between true positives and false positives.</li>
+    </ol>
+    <div class="note">
+      ⚠️ The tool is intentionally gated behind Google OAuth because it handles sensitive payload data.
+      Only a small team of trusted emails can access it. Decryption happens server-side on Render.com
+      and the private key is never persisted.
+    </div>
+  </section>
+
+  
+</div>
+</body>
+</html>
