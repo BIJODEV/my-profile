@@ -8,6 +8,7 @@ import Projects from './components/Projects';
 import Certifications from './components/Certifications';
 import Education from './components/Education';
 import Hobbies from './components/Hobbies';
+import FAQ from './components/FAQ';
 import SEO from './components/SEO';
 import './index.css';
 
@@ -24,6 +25,7 @@ function App() {
             <About />
             <Experience />
             <Projects />
+            <FAQ />
           </div>
           
           {/* Right Column */}
