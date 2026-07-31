@@ -32,18 +32,20 @@ const Projects = () => {
         // year: "2025",
         description: "An architecturally sophisticated edge engine built on Cloudflare Workers, D1, and KV. It leverages a three-tier distributed model (Data Plane, High-Speed Buffer, and Asynchronous Reconciler) to perform low-latency traffic baselining and self-healing WAF rule adjustment.",
         githubUrl: "https://github.com/BIJODEV/Cloudflare-Dynamic-Profiling",
-        liveUrl: "https://github.com/BIJODEV/Adaptive-Profiler-Demo", 
+        liveUrl: "https://github.com/BIJODEV/Adaptive-Profiler-Demo",
         mediumUrl: "https://medium.com/@bijodev1/cloudflare-workers-kv-d1-and-a-curious-idea-that-became-adaptive-profiling-49d1dbbf0534",
+        overviewUrl: `${process.env.PUBLIC_URL}/project-details/adaptive-profiling-overview.html`,
         tags: ["Cloudflare Workers", "D1 Database", "KV Namespaces", "WAF Tuning", "Behavioral Analysis"],
         borderColor: "border-purple-500"
       },
       {
         title: "CRS Logic Intelligence: Signature-to-Payload Correlation",
-        // year: "2025", 
+        // year: "2025",
         description: "High-impact diagnostic tool designed to deconstruct OWASP CRS regex logic and correlate it with blocked payloads. Significantly improves Developer Experience (DevEx) by decreasing Mean Time to Understand (MTTU) for complex WAF events",
         githubUrl: "https://github.com/BIJODEV/crs-rule-lookup-project",
         liveUrl: "https://crs-rule-lookup.onrender.com/",
         mediumUrl: "https://medium.com/@bijodev1/diagnosing-cloudflare-security-events-with-crs-rule-intelligence-a-developers-journey-e61b583b56b0",
+        overviewUrl: `${process.env.PUBLIC_URL}/project-details/crs-rule-lookup-overview.html`,
         tags: ["OWASP CRS", "Regex Analysis", "WAF Diagnostics", "Cloudflare", "Security Analytics"],
         borderColor: "border-orange-500"
       }
