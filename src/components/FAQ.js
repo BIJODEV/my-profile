@@ -4,7 +4,7 @@ import React from 'react';
 const faqs = [
   {
     question: "Who is Bijo Dev?",
-    answer: "Bijo Dev is a Cloud Security Engineer with 10+ years of experience in security architecture, Web Application Firewall deployment, and full-stack development, currently working as a Senior Cloud Security Engineer at IBM in Bengaluru, India."
+    answer: "Bijo Dev is a Cloud Security Engineer with 12+ years of experience in security architecture, Web Application Firewall deployment, and full-stack development, currently working as a Senior Cloud Security Engineer at IBM in Bengaluru, India."
   },
   {
     question: "What is Bijo Dev's experience with Cloudflare and Web Application Firewalls (WAF)?",

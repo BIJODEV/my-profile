@@ -1,6 +1,6 @@
 # Bijo Dev
 
-> Cloud Security Engineer with 10+ years of experience in security engineering, Web Application Firewall (WAF) deployment, and full-stack development.
+> Cloud Security Engineer with 12+ years of experience in security engineering, Web Application Firewall (WAF) deployment, and full-stack development.
 
 Bijo Dev is a Senior Cloud Security Engineer at IBM (Bengaluru, India), specializing in Cloudflare, Akamai, F5 ASM, and Imperva Web Application Firewall deployment, bot mitigation, DDoS protection, and security compliance (PCI DSS, HIPAA, SOC 2). Also builds full-stack applications in React, Node.js, and Python, bridging security and software development.
 

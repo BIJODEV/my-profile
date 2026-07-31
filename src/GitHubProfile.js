@@ -52,7 +52,7 @@ const GitHubProfile = () => {
             <section className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold text-white mb-4">Professional Summary</h2>
               <p className="text-gray-300">
-                Cloud Security Engineer with 10+ years of experience in WAF deployment, bot mitigation, and web application security
+                Cloud Security Engineer with 12+ years of experience in WAF deployment, bot mitigation, and web application security
                 across enterprise environments. Specialized in edge protection using Cloudflare, Akamai, F5 ASM, and Imperva. Known
                 for applying logical, user-focused thinking to build tools like Adaptive Profiling and CRS Rule Intelligence, enhancing threat
                 visibility and diagnostics. Skilled in automation with Python, PowerShell, and JavaScript, with a proven track record of

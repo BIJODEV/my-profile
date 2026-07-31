@@ -1,16 +1,13 @@
 // src/components/SEO.js
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
 const SEO = () => {
   const title = "Cloudflare Security Engineer | Web Application Firewall (WAF) & Security Engineering Expert | Bijo Dev";
-  const description = "Bijo Dev is a Cloud Security Engineer with 10+ years of experience in security engineering, Cloudflare, and Web Application Firewall (WAF) deployment across Cloudflare, Akamai, F5 ASM, and Imperva. Specializes in bot mitigation, DDoS protection, and full-stack development.";
+  const description = "Bijo Dev is a Cloud Security Engineer with 12+ years of experience in security engineering, Cloudflare, and Web Application Firewall (WAF) deployment across Cloudflare, Akamai, F5 ASM, and Imperva. Specializes in bot mitigation, DDoS protection, and full-stack development.";
   const keywords = "Cloudflare, Cloudflare Expert, Security Engineering, Security Engineer, Web Application Firewall, WAF, WAF Expert, Cloud Security Engineer, Akamai, F5 ASM, Imperva, Bot Mitigation, DDoS Protection, OWASP Top 10, WAF Tuning, Cybersecurity Consultant, WAF Deployment, Security Hardening";
 
   return (
-    <Helmet>
-      <html lang="en" />
-
+    <>
       {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta name="title" content={title} />
@@ -78,7 +75,7 @@ const SEO = () => {
           "hasCredential": [
             "Cloudflare Certified",
             "Akamai Certified",
-            "10+ Years Experience"
+            "12+ Years Experience"
           ],
           "sameAs": [
             "https://github.com/BIJODEV",
@@ -100,7 +97,7 @@ const SEO = () => {
               "name": "Who is Bijo Dev?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Bijo Dev is a Cloud Security Engineer with 10+ years of experience in security architecture, Web Application Firewall deployment, and full-stack development, currently working as a Senior Cloud Security Engineer at IBM in Bengaluru, India."
+                "text": "Bijo Dev is a Cloud Security Engineer with 12+ years of experience in security architecture, Web Application Firewall deployment, and full-stack development, currently working as a Senior Cloud Security Engineer at IBM in Bengaluru, India."
               }
             },
             {
@@ -152,7 +149,7 @@ const SEO = () => {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#1a202c" />
       <link rel="icon" href="/favicon.ico" />
-    </Helmet>
+    </>
   );
 };
 
