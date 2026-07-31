@@ -1,14 +1,22 @@
 // src/components/Header.js
 import React from 'react';
+import profilePic from './profilePic/profilePic.png';
 
 const Header = () => {
   return (
     <header className="bg-gray-800 border-b border-gray-700">
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white">Bijo Dev</h1>
-            <p className="text-lg text-gray-400 mt-1">Cloud Security Engineer</p>
+          <div className="flex items-center gap-4">
+            <img
+              src={profilePic}
+              alt="Bijo Dev"
+              className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-gray-600"
+            />
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-white">Bijo Dev</h1>
+              <p className="text-lg text-gray-400 mt-1">Cloud Security Engineer</p>
+            </div>
           </div>
           <div className="mt-4 md:mt-0 flex flex-wrap gap-4">
             <a href="mailto:bijodev1@gmail.com" className="flex items-center text-blue-400 hover:text-blue-300">
