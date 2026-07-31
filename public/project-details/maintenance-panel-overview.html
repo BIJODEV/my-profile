@@ -395,7 +395,7 @@
 
   <div class="masthead">
     <div>
-      <div class="eyebrow">// internal tooling · charteredaccountantsanz.com</div>
+      <div class="eyebrow">// internal tooling · edge architecture</div>
       <h1>Maintenance Control Panel</h1>
       <p>A one-click, self-scheduling, self-expiring, fully audited replacement for hand-editing Cloudflare Snippet Rules to take a storefront offline.</p>
     </div>
@@ -403,6 +403,7 @@
       <span class="pill pill-accent"><span class="dot"></span>Cloudflare Worker</span>
       <span class="pill pill-ok"><span class="dot"></span>React 18 + Vite</span>
       <span class="pill pill-sched"><span class="dot"></span>D1 + Cron</span>
+      <a href="./maintenance-panel-architecture-flow.html" class="pill pill-off" style="text-decoration:none;margin-top:4px">↗ Live architecture flow</a>
     </div>
   </div>
 
@@ -437,21 +438,25 @@
       <div class="flow">
         <div class="flow-box accent"><strong>Browser</strong>React UI<br />served via ASSETS</div>
         <span class="arrow">→</span>
-        <div class="flow-box"><strong>src/worker.ts</strong>UI · REST API<br />· Cron handler</div>
+        <div class="flow-box"><strong>src/worker.ts</strong>REST API ·<br />configures the edge rule</div>
         <span class="arrow">→</span>
-        <div class="flow-box"><strong>Rulesets API</strong>Snippet + Snippet<br />Rule per domain</div>
+        <div class="flow-box"><strong>Snippet Rule</strong>Cloudflare edge ·<br />via Rulesets API</div>
       </div>
-      <div class="flow-caption">↓ durable state ↓</div>
+      <div class="flow-caption">↓ same Worker, fired automatically ↓</div>
       <div class="flow">
+        <div class="flow-box sched"><strong>Cron Trigger</strong>every minute ·<br />fires scheduled()</div>
+        <span class="arrow">→</span>
+        <div class="flow-box"><strong>src/worker.ts</strong>scheduled()<br />handler</div>
+        <span class="arrow">→</span>
         <div class="flow-box ok"><strong>D1 database</strong>active_interventions<br />audit_logs</div>
-        <span class="arrow">←</span>
-        <div class="flow-box sched"><strong>Cron Trigger</strong>every minute ·<br />activate / retract</div>
       </div>
-      <div class="flow-caption">↓ served at the edge, before origin ↓</div>
+      <div class="flow-caption">↓ served at the edge, before origin — only while a window is active ↓</div>
       <div class="flow">
         <div class="flow-box"><strong>Visitor request</strong>http.host eq domain</div>
         <span class="arrow">→</span>
-        <div class="flow-box accent"><strong>Snippet</strong>503 + Retry-After,<br />branded HTML</div>
+        <div class="flow-box accent"><strong>Snippet Rule</strong>503 + Retry-After,<br />if a window is active</div>
+        <span class="arrow">→</span>
+        <div class="flow-box"><strong>Origin</strong>otherwise, forwarded<br />through unmodified</div>
       </div>
     </div>
   </section>
@@ -466,8 +471,8 @@
       </div>
       <div class="card">
         <div class="card-title">Snippets + Snippet Rules</div>
-        <div class="card-meta">Cloudflare Rulesets API</div>
-        <p>Per domain, deploys a Snippet named <code>maint_&lt;domain&gt;</code> that returns a branded 503. A Snippet Rule routes matching traffic to it — enable/disable is just flipping <code>enabled</code>, content is pre-deployed so activation is instant.</p>
+        <div class="card-meta">Cloudflare edge · configured via Rulesets API</div>
+        <p>Per domain, deploys a Snippet named <code>maint_&lt;domain&gt;</code> that returns a branded 503. A Snippet Rule routes matching traffic to it — enable/disable is just flipping <code>enabled</code>, content is pre-deployed so activation is instant. When disabled, matching traffic simply passes through to origin, unmodified.</p>
       </div>
       <div class="card">
         <div class="card-title">D1 database</div>
@@ -575,7 +580,7 @@
           <tr><td>Frontend</td><td class="mono">React 18 · Vite 5 · Tailwind 3</td><td>SPA UI, fast builds, utility CSS</td></tr>
           <tr><td>Runtime</td><td class="mono">Cloudflare Workers</td><td>Serves UI + API + Cron from one edge deploy</td></tr>
           <tr><td>Database</td><td class="mono">Cloudflare D1</td><td>SQLite at the edge — scheduling state + audit ledger</td></tr>
-          <tr><td>Edge rules</td><td class="mono">Snippets + Rulesets API</td><td>Per-domain 503 interception before origin</td></tr>
+          <tr><td>Edge rules</td><td class="mono">Snippets + Rulesets API</td><td>Per-domain 503 interception before origin, only while active</td></tr>
           <tr><td>Scheduling</td><td class="mono">Cron Triggers (* * * * *)</td><td>Every-minute activate / retract sweep</td></tr>
           <tr><td>Auth</td><td class="mono">Cloudflare Access</td><td>Injects actor email header for attribution</td></tr>
           <tr><td>Tooling</td><td class="mono">Wrangler 4 · TypeScript 5</td><td>Local dev, build, deploy CLI</td></tr>

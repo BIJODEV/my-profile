@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Maintenance Control Panel — Architecture Flow</title>
+<title>Edge-Native Maintenance Orchestration — Architecture Flow</title>
 <style>
   :root {
     --bg:            #faf8f4;
@@ -27,6 +27,9 @@
     --purple:        #6b21a8;
     --purple-bg:     #faf5ff;
     --purple-border: #e9d5ff;
+    --neutral:       #475569;
+    --neutral-bg:    #f1f5f9;
+    --neutral-border: #e2e8f0;
     --shadow:        0 1px 2px rgba(31,27,20,0.04), 0 1px 8px rgba(31,27,20,0.03);
   }
   @media (prefers-color-scheme: dark) {
@@ -53,6 +56,9 @@
       --purple:        #c084fc;
       --purple-bg:     rgba(192,132,252,0.10);
       --purple-border: rgba(192,132,252,0.28);
+      --neutral:       #94a3b8;
+      --neutral-bg:    rgba(148,163,184,0.10);
+      --neutral-border: rgba(148,163,184,0.28);
       --shadow:        0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.25);
     }
   }
@@ -64,6 +70,7 @@
     --sched: #60a5fa; --sched-bg: #0b1a33; --sched-border: #1e3a6e;
     --critical: #f87171; --critical-bg: #450a0a; --critical-border: #991b1b;
     --purple: #c084fc; --purple-bg: rgba(192,132,252,0.10); --purple-border: rgba(192,132,252,0.28);
+    --neutral: #94a3b8; --neutral-bg: rgba(148,163,184,0.10); --neutral-border: rgba(148,163,184,0.28);
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.25);
   }
   :root[data-theme="light"] {
@@ -74,10 +81,12 @@
     --sched: #1d4ed8; --sched-bg: #eff6ff; --sched-border: #bfdbfe;
     --critical: #b91c1c; --critical-bg: #fef2f2; --critical-border: #fecaca;
     --purple: #6b21a8; --purple-bg: #faf5ff; --purple-border: #e9d5ff;
+    --neutral: #475569; --neutral-bg: #f1f5f9; --neutral-border: #e2e8f0;
     --shadow: 0 1px 2px rgba(31,27,20,0.04), 0 1px 8px rgba(31,27,20,0.03);
   }
 
   * { box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     margin: 0;
     background: var(--bg);
@@ -85,24 +94,33 @@
     font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
     font-size: 15px;
     line-height: 1.6;
-    padding: 40px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(14px, 2vh, 28px) clamp(14px, 2.4vw, 34px);
   }
-  .page { max-width: 1160px; margin: 0 auto; }
   .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace; }
 
-  .masthead {
-    display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
-    padding-bottom: 22px; border-bottom: 1px solid var(--border); margin-bottom: 26px;
+  .page {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-width: 2000px;
+    width: 100%;
+    margin: 0 auto;
   }
-  .eyebrow {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+
+  .masthead {
+    flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding-bottom: clamp(6px, 1vh, 10px);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: clamp(8px, 1.2vh, 14px);
   }
   h1 {
     font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', system-ui, sans-serif;
-    font-weight: 700; font-size: 25px; letter-spacing: -0.01em; text-wrap: balance; margin: 0 0 6px;
+    font-weight: 700; font-size: clamp(17px, 1.8vw, 21px); letter-spacing: -0.01em; text-wrap: balance; margin: 0;
   }
-  .masthead p { color: var(--text-dim); font-size: 13.5px; max-width: 56ch; margin: 0; }
   .back-link {
     display: inline-flex; align-items: center; gap: 5px;
     font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
@@ -111,15 +129,13 @@
   }
   .back-link:hover { filter: brightness(0.96); }
 
-  /* ── Layout: diagram left, info panel right ─────────────────────────── */
-  .grid {
-    display: grid;
-    grid-template-columns: 1.55fr 1fr;
-    gap: 18px;
-    align-items: start;
-  }
-  @media (max-width: 880px) {
-    .grid { grid-template-columns: 1fr; }
+  /* ── Stage: diagram on top, info panel below, sharing the viewport ────── */
+  .stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.6vh, 16px);
   }
 
   .panel {
@@ -129,25 +145,29 @@
     box-shadow: var(--shadow);
   }
 
-  /* ── Diagram canvas ──────────────────────────────────────────────────── */
-  .diagram-panel { padding: 4px; position: relative; overflow: hidden; }
-  .diagram-scroll { overflow-x: auto; }
-  .canvas-wrap {
+  /* ── Diagram ─────────────────────────────────────────────────────────── */
+  .diagram-panel {
+    flex: 1 1 58%;
+    min-height: 260px;
     position: relative;
+    overflow: hidden;
+  }
+  .diagram-viewport { position: absolute; inset: 0; overflow: hidden; }
+  .canvas-wrap {
+    position: absolute;
+    top: 50%; left: 50%;
     width: 1040px;
-    height: 470px;
-    margin: 0 auto;
+    height: 460px;
+    transform: translate(-50%, -50%) scale(1);
     transform-origin: center center;
-    transition: transform 0.18s ease;
   }
   .canvas-bg {
-    position: absolute; inset: 0;
+    position: absolute; inset: -40px;
     background-image: radial-gradient(var(--border) 1px, transparent 1px);
     background-size: 22px 22px;
     opacity: 0.5;
-    border-radius: 10px;
   }
-  svg.flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  svg.flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; z-index: 1; }
 
   .flow-edge { fill: none; stroke-width: 1.8; opacity: 0.55; stroke-dasharray: 5 6; }
   .flow-edge.hl { stroke-width: 2.6; opacity: 1; }
@@ -159,6 +179,7 @@
 
   .edge-label {
     position: absolute;
+    z-index: 3;
     font-family: 'JetBrains Mono', monospace;
     font-size: 10.5px;
     font-weight: 600;
@@ -177,6 +198,7 @@
 
   .node {
     position: absolute;
+    z-index: 2;
     background: var(--bg-raised);
     border: 1.5px solid var(--border);
     border-radius: 11px;
@@ -217,20 +239,22 @@
   .zoom-controls button:last-child { border-bottom: none; }
   .zoom-controls button:hover { background: var(--bg-sunken); color: var(--text); }
   .canvas-credit {
-    position: absolute; bottom: 10px; left: 14px; font-size: 10px; color: var(--text-faint);
-    font-family: 'JetBrains Mono', monospace;
+    position: absolute; bottom: 12px; left: 14px; font-size: 10px; color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace; z-index: 5;
   }
 
-  /* ── Node popup ──────────────────────────────────────────────────────── */
+  /* ── Node popup — fixed to viewport, position computed from the real
+       rendered node position, so it always stays on-screen regardless of
+       the diagram's current auto-fit scale or window size ────────────── */
   .node-popup {
-    position: absolute;
-    width: 240px;
+    position: fixed;
+    width: 250px;
     background: var(--bg-raised);
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: 0 8px 28px rgba(0,0,0,0.16), var(--shadow);
     padding: 14px 16px;
-    z-index: 20;
+    z-index: 50;
     display: none;
   }
   .node-popup.open { display: block; }
@@ -252,36 +276,49 @@
     padding: 2px 8px; border-radius: 99px; background: var(--sched-bg); color: var(--sched); border: 1px solid var(--sched-border);
   }
 
-  /* ── Info panel (right) ──────────────────────────────────────────────── */
-  .info-panel { padding: 22px 22px 20px; }
-  .info-panel h2 { font-size: 16px; font-weight: 700; margin: 0 0 10px; font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', sans-serif; }
-  .info-panel p { font-size: 13px; color: var(--text-dim); margin: 0 0 10px; }
-  .hint { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 14px; }
+  /* ── Info panel ──────────────────────────────────────────────────────── */
+  .info-panel {
+    flex: 1 1 42%;
+    min-height: 140px;
+    overflow-y: auto;
+    padding: clamp(14px, 2vh, 22px) clamp(16px, 2vw, 24px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0 28px;
+    align-content: start;
+  }
+  .info-col-1 { grid-column: 1 / -1; }
+  .info-panel h2 { font-size: 16px; font-weight: 700; margin: 0 0 8px; font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', sans-serif; }
+  .info-panel p { font-size: 13px; color: var(--text-dim); margin: 0 0 8px; }
+  .hint { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
 
   .selected-banner {
     display: none;
+    grid-column: 1 / -1;
     background: var(--sched-bg); border: 1px solid var(--sched-border); color: var(--sched);
-    border-radius: 9px; padding: 10px 13px; margin-bottom: 14px; font-size: 12.5px;
+    border-radius: 9px; padding: 9px 13px; margin-bottom: 10px; font-size: 12.5px;
   }
   .selected-banner.show { display: block; }
   .selected-banner strong { display: block; font-size: 13.5px; margin-bottom: 1px; }
   .selected-banner .sb-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.85; }
-  .selected-banner .sb-hint { display: block; margin-top: 4px; font-size: 11px; color: var(--text-dim); }
+  .selected-banner .sb-hint { display: block; margin-top: 3px; font-size: 11px; color: var(--text-dim); }
 
-  .kc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 16px 0 8px; }
-  .kc-list { list-style: none; padding: 0; margin: 0 0 6px; display: flex; flex-direction: column; gap: 7px; }
-  .kc-list li { font-size: 13px; }
+  .kc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 6px 0 8px; }
+  .kc-list { list-style: none; padding: 0; margin: 0 0 6px; display: flex; flex-direction: column; gap: 6px; }
+  .kc-list li { font-size: 12.5px; }
   .kc-list b { font-weight: 700; }
 
   .focus-box {
-    margin-top: 16px; background: var(--bg-sunken); border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px 14px;
+    grid-column: 1 / -1;
+    margin-top: 10px; background: var(--bg-sunken); border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 14px;
   }
   .focus-box .fb-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 4px; }
   .focus-box p { margin: 0; font-size: 12.5px; color: var(--text); }
 
-  @media (max-width: 560px) {
+  @media (max-width: 700px) {
     .masthead { flex-direction: column; }
+    .info-panel { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -290,17 +327,15 @@
 
   <div class="masthead">
     <div>
-      <div class="eyebrow">// internal tooling · charteredaccountantsanz.com</div>
-      <h1>Live Architecture Flow</h1>
-      <p>Click any component below to see its role, key behaviors, and technology — this is the presentation-friendly companion to the full project overview.</p>
+      <h1>Edge-Native Maintenance Orchestration</h1>
     </div>
-    <a class="back-link" href="./maintenance-panel-project-overview.html">← Project overview</a>
+    <a class="back-link" href="./maintenance-panel-overview.html">← Full write-up</a>
   </div>
 
-  <div class="grid">
+  <div class="stage">
 
     <div class="panel diagram-panel">
-      <div class="diagram-scroll">
+      <div class="diagram-viewport" id="diagramViewport">
         <div class="canvas-wrap" id="canvasWrap">
           <div class="canvas-bg"></div>
           <svg class="flow-svg" id="flowSvg"></svg>
@@ -308,142 +343,173 @@
           <div id="nodesLayer"></div>
         </div>
       </div>
-      <div class="canvas-credit">click a node · scroll to see more</div>
+      <div class="canvas-credit">click a node</div>
       <div class="zoom-controls">
         <button type="button" id="zoomIn" title="Zoom in">+</button>
         <button type="button" id="zoomOut" title="Zoom out">−</button>
         <button type="button" id="zoomReset" title="Reset zoom">⤾</button>
       </div>
-      <div class="node-popup" id="nodePopup">
-        <div class="node-popup-head">
-          <h3 id="popupTitle"></h3>
-          <button type="button" class="node-popup-close" id="popupClose" aria-label="Close">✕</button>
-        </div>
-        <p class="desc" id="popupDesc"></p>
-        <div class="feat-label">Key behaviors</div>
-        <ul id="popupFeatures"></ul>
-        <div class="feat-label">Technology</div>
-        <div class="tech-badges" id="popupTech"></div>
-      </div>
     </div>
 
     <div class="panel info-panel">
-      <h2>Backend Architecture Overview</h2>
       <div class="selected-banner" id="selectedBanner">
         <strong id="sbTitle"></strong>
         <span class="sb-sub" id="sbSub"></span>
         <span class="sb-hint">Click a different node, or the same node again, to change selection.</span>
       </div>
-      <p>This diagram traces one request and one scheduling action through the maintenance panel — built on a single Cloudflare Worker, a D1 database, the Cloudflare Rulesets API, and a Cron Trigger.</p>
-      <p class="hint">💡 Interactive diagram: click any component on the left to learn its role.</p>
 
-      <div class="kc-label">Key components</div>
-      <ul class="kc-list">
-        <li><b>React UI:</b> Command Center, Fleet, and Calendar views, served as static assets</li>
-        <li><b>Cloudflare Worker:</b> serves the UI, the REST API, and the Cron handler — one deploy</li>
-        <li><b>D1 Database:</b> durable state — active windows and the append-only audit log</li>
-        <li><b>Rulesets API:</b> the per-domain Snippet Rule that intercepts traffic at the edge</li>
-        <li><b>Cron Trigger:</b> sweeps every minute to activate and retract windows automatically</li>
-      </ul>
+      <div class="info-col-1">
+        <h2>Backend Architecture Overview</h2>
+        <p>This diagram traces two independent paths: a visitor's live request, and an operator's scheduling action — sharing one Worker, one D1 database, and one edge rule, but never crossing each other directly.</p>
+        <p class="hint">💡 Click any node above to learn its role.</p>
+      </div>
 
-      <div class="kc-label">Data flow</div>
-      <p>Visitors are matched against the Snippet Rule at the edge — if a window is active, they get an instant 503, before ever reaching origin. Meanwhile the Browser talks to the Worker over a REST API to schedule windows, which the Worker persists in D1 and mirrors to the Rulesets API. Every minute, the Cron Trigger sweeps D1 and flips rules on or off automatically.</p>
+      <div>
+        <div class="kc-label">Key components</div>
+        <ul class="kc-list">
+          <li><b>Edge UI:</b> a status/scheduling dashboard, served as static assets</li>
+          <li><b>Edge Worker:</b> serves the UI and REST API, and configures the rule below — never sits in the visitor's request path</li>
+          <li><b>D1 Database:</b> durable state — active windows and the append-only audit log</li>
+        </ul>
+      </div>
+      <div>
+        <div class="kc-label">&nbsp;</div>
+        <ul class="kc-list">
+          <li><b>Snippet Rule:</b> the deployed edge rule a visitor's request actually hits, configured ahead of time via the Rulesets API</li>
+          <li><b>Origin / Storefront:</b> the customer's real site — what visitors reach whenever no window is active</li>
+          <li><b>Cron Trigger:</b> sweeps every minute to activate and retract windows automatically</li>
+        </ul>
+      </div>
 
       <div class="focus-box">
-        <div class="fb-label">Architecture focus</div>
-        <p>Fully edge-native maintenance orchestration — zero origin servers, self-scheduling, self-expiring, fully audited.</p>
+        <div class="fb-label">Data flow</div>
+        <p>A visitor's request is matched against the Snippet Rule at the edge — if a window is active, they get an instant 503, before ever reaching origin; otherwise it's forwarded through, unmodified. Separately, the operator's UI talks to the Worker over a REST API to schedule windows, which the Worker persists in D1 and mirrors to the edge rule via the Rulesets API. Every minute, the Cron Trigger sweeps D1 and flips that same rule on or off automatically — no new infrastructure to run, self-scheduling and self-expiring.</p>
       </div>
     </div>
 
   </div>
 </div>
 
+<div class="node-popup" id="nodePopup">
+  <div class="node-popup-head">
+    <h3 id="popupTitle"></h3>
+    <button type="button" class="node-popup-close" id="popupClose" aria-label="Close">✕</button>
+  </div>
+  <p class="desc" id="popupDesc"></p>
+  <div class="feat-label">Key behaviors</div>
+  <ul id="popupFeatures"></ul>
+  <div class="feat-label">Technology</div>
+  <div class="tech-badges" id="popupTech"></div>
+</div>
+
 <script>
 (function () {
   "use strict";
 
-  // ── Node + edge model ────────────────────────────────────────────────
+  // ── Node + edge model (logical coordinate space: 1040 x 460) ──────────
   var NODES = {
     visitor: {
-      x: 30, y: 26, w: 150, h: 62,
+      x: 30, y: 20, w: 150, h: 62,
       title: "Visitor Request", sub: "Edge Traffic",
       colorVar: "--critical", bgVar: "--critical-bg", borderVar: "--critical-border",
       icon: '<path d="M3 12h18M3 6h18M3 18h18"/>',
-      desc: "The end-user request that gets evaluated at Cloudflare's edge, before it ever reaches origin.",
-      features: ["Matched by hostname against the Snippet Rule expression", "Gets a branded 503 instantly if a window is active", "Origin can be fully down or mid-deploy — visitor never notices"],
+      desc: "Every request is evaluated against the deployed Snippet Rule — but only requests to a domain currently under maintenance ever get intercepted.",
+      features: ["Matched by hostname against the Snippet Rule expression", "Gets a branded 503 instantly only if a window is active", "Otherwise passes straight through, unmodified, to the real origin"],
       tech: ["Cloudflare Edge Network"],
     },
     browser: {
-      x: 30, y: 320, w: 150, h: 62,
-      title: "React UI", sub: "Browser",
+      x: 30, y: 310, w: 150, h: 62,
+      title: "Edge UI", sub: "Browser",
       colorVar: "--accent", bgVar: "--accent-bg", borderVar: "--accent-border",
       icon: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/>',
-      desc: "Single-page app rendering the Command Center, Fleet, and Calendar views — served as static assets by the Worker.",
-      features: ["Rehydrates from live edge + D1 state on every load", "Live countdowns to activation and auto-retract", "Dark/light theme persisted to localStorage", "Audit Trail and Preview-503 modals"],
-      tech: ["React 18", "Vite 5", "Tailwind CSS 3"],
+      desc: "Single-page app rendering the status dashboard and scheduling controls — served as static assets by the Worker.",
+      features: ["Rehydrates from live edge + D1 state on every load", "Live countdowns to activation and auto-retract", "Theme persisted to localStorage", "Audit trail and 503-preview views"],
+      tech: ["React", "Vite", "Tailwind CSS"],
     },
     worker: {
-      x: 380, y: 174, w: 200, h: 96,
-      title: "Cloudflare Worker", sub: "src/worker.ts",
+      x: 300, y: 168, w: 200, h: 96,
+      title: "Edge Worker", sub: "worker.ts",
       colorVar: "--sched", bgVar: "--sched-bg", borderVar: "--sched-border",
       icon: '<path d="M13 2 3 14h7v8l10-12h-7z"/>',
-      desc: "One Worker doing triple duty — serves the UI, exposes 10 REST routes under /api/*, and runs the Cron scheduled() handler.",
-      features: ["Reads Cf-Access-Authenticated-User-Email for attribution", "Every route is a single deployable artifact via wrangler deploy", "No JWT verification of the Access header — a deliberate trade-off"],
+      desc: "One Worker doing triple duty — serves the UI, exposes the REST API, and runs the Cron scheduled() handler. It configures the edge rule below; it does not sit in the visitor's request path.",
+      features: ["Reads an Access-injected identity header for attribution", "Deploys the Snippet's code, then separately flips its rule on/off", "Always reads current state before writing it back (list, then update)", "Header trust, not JWT verification — a deliberate trade-off at this scale"],
       tech: ["Cloudflare Workers", "TypeScript"],
     },
     d1: {
-      x: 760, y: 26, w: 170, h: 62,
+      x: 760, y: 20, w: 170, h: 62,
       title: "D1 Database", sub: "Persistent Storage",
       colorVar: "--ok", bgVar: "--ok-bg", borderVar: "--ok-border",
       icon: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
       desc: "SQLite at the edge — the durable source of truth for scheduling state and audit history.",
-      features: ["active_interventions: current window state, idempotent upserts via unique rule_id", "audit_logs: append-only ledger of every lifecycle transition", "3 additive migrations applied without losing in-flight rows"],
+      features: ["Current window state, idempotent upserts via a unique rule id", "An append-only ledger of every lifecycle transition", "Additive migrations applied without losing in-flight rows"],
       tech: ["Cloudflare D1", "SQL migrations"],
     },
     rulesets: {
-      x: 760, y: 174, w: 170, h: 78,
-      title: "Rulesets API", sub: "Snippet + Rule",
+      x: 760, y: 168, w: 170, h: 78,
+      title: "Snippet Rule", sub: "Cloudflare Edge",
       colorVar: "--purple", bgVar: "--purple-bg", borderVar: "--purple-border",
       icon: '<path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/>',
-      desc: "A per-domain Snippet plus Snippet Rule that intercepts matching traffic and returns a branded 503, before origin.",
-      features: ["Read-modify-write on the full rule list — never clobbers other teams' rules", "Enable/disable is just flipping enabled — content is pre-deployed", "Matched by stable snippet_name, not the unreliable rule id"],
+      desc: "The deployed edge rule + Snippet that a visitor's request actually hits — configured ahead of time by the Worker through Cloudflare's Rulesets API, but evaluated independently of it on every request.",
+      features: ["Read-modify-write on the full rule list — never clobbers other teams' rules", "Enable/disable is just flipping enabled — content is pre-deployed", "When disabled, matching traffic passes straight through to origin", "Matched by a stable rule name, not the unreliable rule id"],
       tech: ["Cloudflare Rulesets API", "Edge JS Snippets"],
     },
+    origin: {
+      x: 760, y: 300, w: 170, h: 78,
+      title: "Origin", sub: "Customer's Storefront",
+      colorVar: "--neutral", bgVar: "--neutral-bg", borderVar: "--neutral-border",
+      icon: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+      desc: "The actual site behind the managed domain — what visitors reach the rest of the time, when no maintenance window is active.",
+      features: ["Untouched by this system outside of active windows", "Can be fully down or mid-deploy while a window is active — visitor never sees it", "Not a Cloudflare product — this is the customer's own backend"],
+      tech: ["Customer origin infrastructure"],
+    },
     cron: {
-      x: 380, y: 356, w: 190, h: 62,
+      x: 380, y: 348, w: 190, h: 62,
       title: "Cron Trigger", sub: "Every Minute",
       colorVar: "--critical", bgVar: "--critical-bg", borderVar: "--critical-border",
       icon: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
-      desc: "Fires the Worker's scheduled() handler every minute to sweep for windows that need to start or end.",
-      features: ["Sweep 1: activates any scheduled row whose start_time has arrived", "Sweep 2: retracts any active row past its expiration_time", "Fully unattended — a window scheduled for 2am needs no one online"],
+      desc: "Fires the Worker's scheduled() handler every minute to sweep for windows that need to start or end — reusing the exact same D1 and Snippet-Rule paths a manual action would.",
+      features: ["Sweep 1: activates any scheduled row whose start time has arrived", "Sweep 2: retracts any active row past its expiration time", "Fully unattended — a 2am window needs no one online"],
       tech: ["Cloudflare Cron Triggers", "* * * * *"],
     },
   };
 
+  // labelDx / labelDy nudge ONLY the text tag, independent of the line's arc:
+  //   labelDx: negative = left,  positive = right
+  //   labelDy: negative = up,    positive = down   (y grows downward in screen space)
+  // Leave them at 0 (or omit) to keep the label at the curve's natural midpoint.
   var EDGES = [
-    { from: "visitor",  to: "rulesets", label: "checks http.host at the edge",              color: "--critical", curve: -60 },
-    { from: "rulesets", to: "visitor",  label: "503 + Retry-After (before origin)",          color: "--critical", curve: 60 },
-    { from: "browser",  to: "worker",   label: "GET / POST /api/*",                          color: "--accent",   curve: -34 },
-    { from: "worker",   to: "browser",  label: "static UI + live state",                     color: "--accent",   curve: 34 },
-    { from: "worker",   to: "d1",       label: "read / write intervention + audit state",    color: "--ok",       curve: -30 },
-    { from: "worker",   to: "rulesets", label: "create / enable / disable Snippet Rule",     color: "--purple",   curve: 30 },
-    { from: "cron",     to: "worker",   label: "fires scheduled() every 60s",                color: "--critical", curve: -26 },
+    { from: "visitor",  to: "rulesets", label: "checks hostname at the edge",                color: "--critical", curve: -78, labelDx: 0,  labelDy: 0 },
+    { from: "rulesets", to: "visitor",  label: "if active: 503 + Retry-After",               color: "--critical", curve: 78,  labelDx: -20,  labelDy: 0 },
+    { from: "rulesets", to: "origin",   label: "if not: forwarded through, unmodified",      color: "--neutral",  curve: -22, labelDx: 0,  labelDy: 0 },
+    { from: "origin",   to: "visitor",  label: "normal response",                            color: "--neutral",  curve: -270, labelDx: 0,  labelDy: 8 },
+    { from: "browser",  to: "worker",   label: "GET / POST /api/*",                          color: "--accent",   curve: -54, labelDx: 0,  labelDy: 0 },
+    { from: "worker",   to: "browser",  label: "static UI + live state",                     color: "--accent",   curve: 54,  labelDx: 0,  labelDy: 0 },
+    { from: "worker",   to: "d1",       label: "write intervention + audit state",           color: "--ok",       curve: -52, labelDx: 0,  labelDy: 0 },
+    { from: "d1",       to: "worker",   label: "returns current window state",               color: "--ok",       curve: 20,  labelDx: 0,  labelDy: 0 },
+    { from: "worker",   to: "rulesets", label: "enable / disable Snippet Rule",              color: "--purple",   curve: 52,  labelDx: 50,  labelDy: 20 },
+    { from: "rulesets", to: "worker",   label: "returns current rule list",                  color: "--purple",   curve: -18, labelDx: 0,  labelDy: 0 },
+    { from: "cron",     to: "worker",   label: "fires scheduled() every 60s",                color: "--critical", curve: -46, labelDx: 0,  labelDy: 0 },
   ];
+
+  var LOGICAL_W = 1040, LOGICAL_H = 460;
 
   var svg = document.getElementById("flowSvg");
   var nodesLayer = document.getElementById("nodesLayer");
   var edgeLabelsLayer = document.getElementById("edgeLabels");
   var canvasWrap = document.getElementById("canvasWrap");
+  var viewport = document.getElementById("diagramViewport");
   var popup = document.getElementById("nodePopup");
   var selectedBanner = document.getElementById("selectedBanner");
   var svgNS = "http://www.w3.org/2000/svg";
   var selected = null;
   var edgeEls = [];
+  var nodeEls = {};
+  var userZoom = 1;
+  var baseScale = 1;
 
   function center(n) { return { x: n.x + n.w / 2, y: n.y + n.h / 2 }; }
 
   function anchorPoint(n, towardX, towardY) {
-    // pick the node edge point closest to the direction of the other node
     var c = center(n);
     var dx = towardX - c.x, dy = towardY - c.y;
     if (Math.abs(dx) > Math.abs(dy)) {
@@ -479,6 +545,7 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectNode(id); }
       });
       nodesLayer.appendChild(el);
+      nodeEls[id] = el;
     });
   }
 
@@ -489,7 +556,6 @@
       var pa = anchorPoint(a, cb.x, cb.y);
       var pb = anchorPoint(b, ca.x, ca.y);
 
-      // quadratic control point, offset perpendicular to the line for a visible arc
       var mx = (pa.x + pb.x) / 2, my = (pa.y + pb.y) / 2;
       var dx = pb.x - pa.x, dy = pb.y - pa.y;
       var len = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -505,7 +571,6 @@
       svg.appendChild(path);
       edgeEls.push({ path: path, from: e.from, to: e.to });
 
-      // arrowhead marker (per-edge id so each can carry its own color)
       var marker = document.createElementNS(svgNS, "marker");
       marker.setAttribute("id", "arrow-" + i);
       marker.setAttribute("viewBox", "0 0 10 10");
@@ -521,9 +586,8 @@
       var defs = svg.querySelector("defs") || svg.insertBefore(document.createElementNS(svgNS, "defs"), svg.firstChild);
       defs.appendChild(marker);
 
-      // label at curve midpoint (quadratic bezier at t=0.5)
-      var lx = 0.25 * pa.x + 0.5 * cx + 0.25 * pb.x;
-      var ly = 0.25 * pa.y + 0.5 * cy + 0.25 * pb.y;
+      var lx = 0.25 * pa.x + 0.5 * cx + 0.25 * pb.x + (e.labelDx || 0);
+      var ly = 0.25 * pa.y + 0.5 * cy + 0.25 * pb.y + (e.labelDy || 0);
       var label = document.createElement("div");
       label.className = "edge-label";
       label.textContent = e.label;
@@ -539,6 +603,10 @@
     document.querySelectorAll(".node").forEach(function (el) { el.classList.remove("dim", "selected"); });
     edgeEls.forEach(function (e) { e.path.classList.remove("hl", "dim"); });
     document.querySelectorAll(".edge-label").forEach(function (el) { el.classList.remove("hl", "dim"); });
+  }
+
+  function isConnected(a, b) {
+    return EDGES.some(function (e) { return (e.from === a && e.to === b) || (e.from === b && e.to === a); });
   }
 
   function selectNode(id) {
@@ -562,10 +630,6 @@
 
     showPopup(id);
     showBanner(id);
-  }
-
-  function isConnected(a, b) {
-    return EDGES.some(function (e) { return (e.from === a && e.to === b) || (e.from === b && e.to === a); });
   }
 
   function deselect() {
@@ -595,14 +659,21 @@
       techWrap.appendChild(span);
     });
 
-    // position popup near the node, flipping to the left if it would overflow
-    var canvasW = 1040;
-    var popupW = 240;
-    var left = n.x + n.w + 14;
-    if (left + popupW > canvasW - 10) left = n.x - popupW - 14;
-    if (left < 4) left = 4;
+    // Position from the node's REAL rendered rect (post auto-fit-scale), then
+    // clamp to the actual window — never depends on the logical coordinate
+    // space, so it can never get clipped by the diagram panel's own bounds.
+    var rect = nodeEls[id].getBoundingClientRect();
+    var popupW = 250;
+    var margin = 12;
+    var left = rect.right + margin;
+    if (left + popupW > window.innerWidth - margin) left = rect.left - popupW - margin;
+    if (left < margin) left = margin;
+    var top = rect.top;
+    var popupH = popup.offsetHeight || 220;
+    if (top + popupH > window.innerHeight - margin) top = Math.max(margin, window.innerHeight - popupH - margin);
+
     popup.style.left = left + "px";
-    popup.style.top = Math.max(4, n.y - 6) + "px";
+    popup.style.top = top + "px";
     popup.classList.add("open");
   }
 
@@ -614,22 +685,43 @@
   }
 
   document.getElementById("popupClose").addEventListener("click", deselect);
-  canvasWrap.addEventListener("click", function (e) {
-    if (e.target === canvasWrap) deselect();
+  viewport.addEventListener("click", function (e) {
+    if (e.target === viewport || e.target.classList.contains("canvas-bg")) deselect();
   });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") deselect();
   });
+  window.addEventListener("scroll", function () { if (selected) showPopup(selected); }, true);
 
-  // ── Zoom ────────────────────────────────────────────────────────────────
-  var scale = 1;
-  function applyScale() { canvasWrap.style.transform = "scale(" + scale + ")"; }
-  document.getElementById("zoomIn").addEventListener("click", function () { scale = Math.min(1.3, scale + 0.1); applyScale(); });
-  document.getElementById("zoomOut").addEventListener("click", function () { scale = Math.max(0.6, scale - 0.1); applyScale(); });
-  document.getElementById("zoomReset").addEventListener("click", function () { scale = 1; applyScale(); });
+  // ── Auto-fit: scale the logical 1040x460 canvas to "contain" within the
+  //    diagram panel's current rendered size, so it always fills the
+  //    available space on any screen without manual resizing. ────────────
+  function fitCanvas() {
+    var vw = viewport.clientWidth, vh = viewport.clientHeight;
+    if (!vw || !vh) return;
+    var s = Math.min(vw / LOGICAL_W, vh / LOGICAL_H);
+    baseScale = Math.min(s, 1.6); // cap so it doesn't balloon absurdly on huge displays
+    applyScale();
+    if (selected) showPopup(selected);
+  }
+
+  function applyScale() {
+    var s = baseScale * userZoom;
+    canvasWrap.style.transform = "translate(-50%, -50%) scale(" + s + ")";
+  }
+
+  document.getElementById("zoomIn").addEventListener("click", function () { userZoom = Math.min(1.6, userZoom + 0.1); applyScale(); if (selected) showPopup(selected); });
+  document.getElementById("zoomOut").addEventListener("click", function () { userZoom = Math.max(0.6, userZoom - 0.1); applyScale(); if (selected) showPopup(selected); });
+  document.getElementById("zoomReset").addEventListener("click", function () { userZoom = 1; applyScale(); if (selected) showPopup(selected); });
+
+  window.addEventListener("resize", fitCanvas);
+  if (window.ResizeObserver) {
+    new ResizeObserver(fitCanvas).observe(viewport);
+  }
 
   renderNodes();
   renderEdges();
+  fitCanvas();
 })();
 </script>
 </body>
