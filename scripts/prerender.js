@@ -23,7 +23,14 @@ const MIME_TYPES = {
 };
 
 function serveStatic(req, res) {
-  let urlPath = decodeURIComponent(req.url.split('?')[0]);
+  let urlPath;
+  try {
+    urlPath = decodeURIComponent(req.url.split('?')[0]);
+  } catch (error) {
+    res.writeHead(400);
+    res.end('Bad Request');
+    return;
+  }
   if (urlPath.startsWith(BASE_PATH)) {
     urlPath = urlPath.slice(BASE_PATH.length);
   }
@@ -31,7 +38,7 @@ function serveStatic(req, res) {
     urlPath = '/index.html';
   }
   const filePath = path.join(BUILD_DIR, urlPath);
-  if (!filePath.startsWith(BUILD_DIR)) {
+  if (filePath !== BUILD_DIR && !filePath.startsWith(BUILD_DIR + path.sep)) {
     res.writeHead(403);
     res.end('Forbidden');
     return;
@@ -58,6 +65,12 @@ async function main() {
   });
   const page = await browser.newPage();
   await page.goto(`http://localhost:${PORT}${BASE_PATH}/`, { waitUntil: 'networkidle0' });
+
+  await page.evaluate(() => {
+    document.querySelectorAll('script[type="application/ld+json"]').forEach((script) => {
+      document.head.appendChild(script);
+    });
+  });
 
   const html = await page.content();
   const outputPath = path.join(BUILD_DIR, 'index.html');
