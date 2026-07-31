@@ -29,6 +29,7 @@ const faqs = [
 ];
 
 const FAQ = () => {
+  const [sectionOpen, setSectionOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggle = (index) => {
@@ -37,38 +38,57 @@ const FAQ = () => {
 
   return (
     <section className="bg-gray-800 rounded-lg p-6">
-      <h2 className="text-xl font-bold text-white mb-6">Frequently Asked Questions</h2>
-      <div className="space-y-3">
-        {faqs.map((faq, index) => {
-          const isOpen = openIndex === index;
-          return (
-            <div key={index} className="bg-gray-700 rounded-lg overflow-hidden">
-              <button
-                type="button"
-                onClick={() => toggle(index)}
-                aria-expanded={isOpen}
-                className="w-full flex items-center justify-between gap-3 text-left px-4 py-3 text-blue-400 font-semibold hover:text-blue-300"
-              >
-                <span>{faq.question}</span>
-                <svg
-                  className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {/* Answer stays in the DOM at all times (for search/AI crawlers and structured-data
-                  parity) and is only visually collapsed via CSS, never conditionally rendered. */}
-              <div className={`grid transition-all duration-200 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
-                <div className="overflow-hidden">
-                  <p className="text-gray-300 text-sm px-4 pb-3">{faq.answer}</p>
+      <button
+        type="button"
+        onClick={() => setSectionOpen(!sectionOpen)}
+        aria-expanded={sectionOpen}
+        className="w-full flex items-center justify-between gap-3 text-left"
+      >
+        <h2 className="text-xl font-bold text-white">Frequently Asked Questions</h2>
+        <svg
+          className={`w-5 h-5 flex-shrink-0 text-white transition-transform duration-200 ${sectionOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {/* The entire question list stays in the DOM at all times (for search/AI crawlers and
+          structured-data parity) and is only visually collapsed via CSS, never conditionally rendered. */}
+      <div className={`grid transition-all duration-200 ease-in-out ${sectionOpen ? 'grid-rows-[1fr] mt-6' : 'grid-rows-[0fr] mt-0'}`}>
+        <div className="overflow-hidden">
+          <div className="space-y-3">
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div key={index} className="bg-gray-700 rounded-lg overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => toggle(index)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center justify-between gap-3 text-left px-4 py-3 text-blue-400 font-semibold hover:text-blue-300"
+                  >
+                    <span>{faq.question}</span>
+                    <svg
+                      className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div className={`grid transition-all duration-200 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                    <div className="overflow-hidden">
+                      <p className="text-gray-300 text-sm px-4 pb-3">{faq.answer}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );
