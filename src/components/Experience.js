@@ -15,7 +15,8 @@ const Experience = () => {
           subItems: [
             "Cloudflare Onboarding Engine: A ”Visual Journey” tool guiding stakeholders through multi-phase infrastructure migrations for 90+ applications.",
             "Adaptive Profiling Blueprint: A self-explaining architectural demo used to secure internal buy-in for custom edge-security tooling.",
-            "Global Resiliency & DR Plan: An interactive failover roadmap developed post-2025 Cloudflare outages, mapping current strategy vs. optimized DR flows to mitigate future downtime."
+            "Global Resiliency & DR Plan: An interactive failover roadmap developed post-2025 Cloudflare outages, mapping current strategy vs. optimized DR flows to mitigate future downtime.",
+            "FlareSight Analytics: An enterprise edge-intelligence dashboard unifying real-time WAF/CDN telemetry across Cloudflare and IBM CIS for security leadership."
           ]
         },
         "Scaled edge protection for mission-critical enterprise traffic, ensuring 100% compliance with PCI-DSS, HIPAA, and SOC 2 standards through automated Cloudflare/CIS orchestrations."
