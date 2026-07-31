@@ -28,6 +28,21 @@ const Projects = () => {
     ],
     securityTools: [
       {
+        title: "FlareSight Analytics",
+        description: "Enterprise edge intelligence and telemetry command center giving security teams unified, real-time visibility across multi-provider WAF/CDN traffic (Cloudflare and IBM CIS) in a single executive dashboard.",
+        overviewUrl: `${process.env.PUBLIC_URL}/project-details/flaresight-executive-briefing.html`,
+        tags: ["React 19", "Vite", "Cloudflare", "IBM CIS", "Edge Telemetry"],
+        borderColor: "border-red-500"
+      },
+      {
+        title: "Maintenance Control Panel",
+        description: "A one-click, self-scheduling, self-expiring, fully audited replacement for hand-editing Cloudflare Snippet Rules to take a storefront offline for maintenance.",
+        overviewUrl: `${process.env.PUBLIC_URL}/project-details/maintenance-panel-overview.html`,
+        architectureUrl: `${process.env.PUBLIC_URL}/project-details/maintenance-panel-architecture-flow.html`,
+        tags: ["Cloudflare Snippet Rules", "Automation", "Audit Logging", "Self-Service Ops"],
+        borderColor: "border-amber-500"
+      },
+      {
         title: "Adaptive Profiling with Cloudflare Workers",
         // year: "2025",
         description: "An architecturally sophisticated edge engine built on Cloudflare Workers, D1, and KV. It leverages a three-tier distributed model (Data Plane, High-Speed Buffer, and Asynchronous Reconciler) to perform low-latency traffic baselining and self-healing WAF rule adjustment.",
@@ -48,21 +63,6 @@ const Projects = () => {
         overviewUrl: `${process.env.PUBLIC_URL}/project-details/crs-rule-lookup-overview.html`,
         tags: ["OWASP CRS", "Regex Analysis", "WAF Diagnostics", "Cloudflare", "Security Analytics"],
         borderColor: "border-orange-500"
-      },
-      {
-        title: "FlareSight Analytics",
-        description: "Enterprise edge intelligence and telemetry command center giving security teams unified, real-time visibility across multi-provider WAF/CDN traffic (Cloudflare and IBM CIS) in a single executive dashboard.",
-        overviewUrl: `${process.env.PUBLIC_URL}/project-details/flaresight-executive-briefing.html`,
-        tags: ["React 19", "Vite", "Cloudflare", "IBM CIS", "Edge Telemetry"],
-        borderColor: "border-red-500"
-      },
-      {
-        title: "Maintenance Control Panel",
-        description: "A one-click, self-scheduling, self-expiring, fully audited replacement for hand-editing Cloudflare Snippet Rules to take a storefront offline for maintenance.",
-        overviewUrl: `${process.env.PUBLIC_URL}/project-details/maintenance-panel-overview.html`,
-        architectureUrl: `${process.env.PUBLIC_URL}/project-details/maintenance-panel-architecture-flow.html`,
-        tags: ["Cloudflare Snippet Rules", "Automation", "Audit Logging", "Self-Service Ops"],
-        borderColor: "border-amber-500"
       }
     ],
     fullstack: [
