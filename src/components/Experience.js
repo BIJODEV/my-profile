@@ -13,10 +13,10 @@ const Experience = () => {
         {
           text: "Architected a suite of Interactive SPAs (React/React Flow) to transform static security documentation into high-fidelity visual roadmaps:",
           subItems: [
-            "Cloudflare Onboarding Engine: A ”Visual Journey” tool guiding stakeholders through multi-phase infrastructure migrations for 90+ applications.",
+            "FlareSight Analytics: An enterprise edge-intelligence dashboard unifying real-time WAF/CDN telemetry across Cloudflare and IBM CIS for security leadership.",
             "Adaptive Profiling Blueprint: A self-explaining architectural demo used to secure internal buy-in for custom edge-security tooling.",
-            "Global Resiliency & DR Plan: An interactive failover roadmap developed post-2025 Cloudflare outages, mapping current strategy vs. optimized DR flows to mitigate future downtime.",
-            "FlareSight Analytics: An enterprise edge-intelligence dashboard unifying real-time WAF/CDN telemetry across Cloudflare and IBM CIS for security leadership."
+            "Cloudflare Onboarding Engine: A ”Visual Journey” tool guiding stakeholders through multi-phase infrastructure migrations for 90+ applications.",
+            "Global Resiliency & DR Plan: An interactive failover roadmap developed post-2025 Cloudflare outages, mapping current strategy vs. optimized DR flows to mitigate future downtime."
           ]
         },
         "Scaled edge protection for mission-critical enterprise traffic, ensuring 100% compliance with PCI-DSS, HIPAA, and SOC 2 standards through automated Cloudflare/CIS orchestrations."
