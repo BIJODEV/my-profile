@@ -1,0 +1,647 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cloudflare Dynamic Profiling — Project Overview</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 32px 16px 64px;
+  }
+
+  .page { max-width: 760px; margin: 0 auto; }
+
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  h2 { font-size: 16px; font-weight: 700; margin: 32px 0 10px; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+  h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: #1f2328; }
+  h4 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; color: #57606a; }
+  p { margin-bottom: 10px; }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; }
+  code {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    margin: 2px;
+    color: #57606a;
+  }
+  .tag.blue { background: #eff6ff; border-color: #bfdbfe; color: #3b82d4; }
+  .tag.purple { background: #f5f3ff; border-color: #ddd6fe; color: #7c5cd8; }
+  .tag.green { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+  .tag.red { background: #fff1f2; border-color: #fecdd3; color: #e11d48; }
+  .tag.orange { background: #fff7ed; border-color: #fed7aa; color: #ea580c; }
+
+  /* Banner */
+  .hero {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #3b82d4;
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+  }
+  .hero p { margin: 0; color: #57606a; font-size: 13.5px; }
+
+  /* Architecture diagram */
+  .arch {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0 24px;
+    font-size: 13px;
+  }
+  .arch-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .arch-row:last-child { border-bottom: none; }
+  .arch-label {
+    background: #f7f8fa;
+    padding: 10px 14px;
+    font-weight: 600;
+    color: #57606a;
+    min-width: 140px;
+    border-right: 1px solid #e5e7eb;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+  }
+  .arch-content {
+    padding: 10px 14px;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .arch-arrow {
+    text-align: center;
+    padding: 6px;
+    color: #9ca3af;
+    font-size: 18px;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* Component cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+  @media (max-width: 560px) { .card-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .card h4 { margin-top: 0; color: #1f2328; font-size: 13px; }
+  .card p { font-size: 13px; color: #57606a; margin-bottom: 6px; }
+  .card ul { font-size: 12px; color: #57606a; }
+
+  /* Data flow */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 16px 0 24px;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px dashed #e5e7eb;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-num {
+    background: #3b82d4;
+    color: #fff;
+    border-radius: 50%;
+    min-width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .flow-body h4 { margin: 0 0 4px; font-size: 13px; }
+  .flow-body p { font-size: 13px; color: #57606a; margin: 0; }
+
+  /* DB table */
+  .db-table-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 12px 0 20px;
+  }
+  @media (max-width: 560px) { .db-table-grid { grid-template-columns: 1fr; } }
+  .db-entry {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .db-entry strong { font-size: 12.5px; display: block; margin-bottom: 4px; }
+  .db-entry p { font-size: 12px; color: #57606a; margin: 0; }
+
+  /* Comparison table */
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 24px;
+    font-size: 13px;
+  }
+  table.compare th {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #57606a;
+  }
+  table.compare td {
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;
+    vertical-align: top;
+  }
+  table.compare tr:hover td { background: #fafbfc; }
+
+  /* Score */
+  .score-bar {
+    display: inline-block;
+    height: 8px;
+    border-radius: 4px;
+    background: #3b82d4;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  /* Highlight box */
+  .callout {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 13px;
+    color: #1d4ed8;
+  }
+  .callout.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+  .callout.green { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 11px;
+    color: #9ca3af;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  
+  <h1>Cloudflare Dynamic Profiling</h1>
+  <p style="color:#57606a;margin-bottom:6px">A serverless, edge-native clone of Imperva's Dynamic Profiling — built entirely on Cloudflare Workers, D1, and KV.</p>
+  <div style="margin-bottom:24px">
+    <span class="tag blue">Cloudflare Workers</span>
+    <span class="tag blue">D1 (SQLite)</span>
+    <span class="tag blue">KV Namespaces</span>
+    <span class="tag purple">React + Vite</span>
+    <span class="tag green">Scheduled Reconciler</span>
+    <span class="tag orange">Anomaly Detection</span>
+  </div>
+
+  <div class="hero">
+    <p><strong>What is this?</strong> Imperva's Dynamic Profiling learns the normal "shape" of every API endpoint — its parameters, field types, lengths, entropy, and behavioural patterns — and flags deviations as anomalies. This project replicates that capability at the Cloudflare edge: a zero-infrastructure, globally distributed system that automatically profiles every HTTP request, builds a trust-weighted statistical model of each endpoint's fields, and surfaces anomalies in a React dashboard — all without any application changes.</p>
+  </div>
+
+  
+  <h2>System Architecture</h2>
+
+  <div class="arch">
+    <div class="arch-row">
+      <div class="arch-label">Client Traffic</div>
+      <div class="arch-content">
+        <span class="tag blue">Browser / API client</span>
+        <span style="color:#9ca3af">→ any HTTP request hits the origin</span>
+      </div>
+    </div>
+    <div class="arch-arrow">↓ all traffic passes through</div>
+    <div class="arch-row">
+      <div class="arch-label">Layer 1 · Data Collector</div>
+      <div class="arch-content">
+        <span class="tag blue">Cloudflare Worker</span>
+        <span class="tag green">Transparent proxy</span>
+        <span class="tag">Intercepts &amp; forwards</span>
+        <span class="tag">Writes D1 + KV</span>
+      </div>
+    </div>
+    <div class="arch-arrow">↓ async · ctx.waitUntil()</div>
+    <div class="arch-row">
+      <div class="arch-label">Storage</div>
+      <div class="arch-content">
+        <span class="tag blue">D1 (SQLite) — relational profile data</span>
+        <span class="tag purple">KV — rolling observation buckets (TTL 1h)</span>
+      </div>
+    </div>
+    <div class="arch-arrow">↓ Cron trigger (scheduled)</div>
+    <div class="arch-row">
+      <div class="arch-label">Layer 2 · Reconciler</div>
+      <div class="arch-content">
+        <span class="tag green">Scheduled Worker</span>
+        <span class="tag">Promotes KV → D1</span>
+        <span class="tag orange">Stability scoring</span>
+        <span class="tag red">Anomaly logging</span>
+        <span class="tag purple">Auto-locking</span>
+      </div>
+    </div>
+    <div class="arch-arrow">↓ REST API</div>
+    <div class="arch-row">
+      <div class="arch-label">Layer 3 · Control Plane</div>
+      <div class="arch-content">
+        <span class="tag blue">Cloudflare Worker (API gateway)</span>
+        <span class="tag">CORS + API-key auth</span>
+        <span class="tag"><code>/internal-api/*</code> routes</span>
+      </div>
+    </div>
+    <div class="arch-arrow">↓ HTTP fetch</div>
+    <div class="arch-row">
+      <div class="arch-label">Layer 4 · Dashboard</div>
+      <div class="arch-content">
+        <span class="tag purple">React + Vite SPA</span>
+        <span class="tag">Endpoint browser</span>
+        <span class="tag">Score history charts</span>
+        <span class="tag orange">Anomaly viewer</span>
+      </div>
+    </div>
+  </div>
+
+  
+  <h2>The Three Cloudflare Workers</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h4>① data-collector</h4>
+      <p>The transparent proxy. Sits in front of the origin. Every request passes through it — zero latency impact because profiling runs in <code>ctx.waitUntil()</code>.</p>
+      <ul>
+        <li>Normalises paths (UUIDs → <code>:uuid</code>, IDs → <code>:id</code>)</li>
+        <li>Parses JSON / form / multipart bodies</li>
+        <li>Extracts query params, flattened body fields, headers</li>
+        <li>Computes Shannon entropy per field value</li>
+        <li>Writes to D1: <code>endpoints</code>, <code>request_context</code>, <code>request_metrics</code>, <code>parameters</code>, <code>responses</code></li>
+        <li>Writes per-field rolling buckets to KV (<code>obs:endpoint:{id}:field:{src}:{name}</code>)</li>
+        <li>Trust-weights each observation (bot / ASN / TLS signals)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>② data-collector-reconciler</h4>
+      <p>A Cron-triggered worker that sweeps KV and promotes observations into D1 field profiles.</p>
+      <ul>
+        <li>Iterates all <code>obs:endpoint:*</code> KV keys</li>
+        <li>Computes composite Stability Score (0–4) from field, request, response, &amp; trust signals</li>
+        <li>Promotes field to <code>field_metadata</code> when score ≥ 3</li>
+        <li>Auto-locks field when score = 4 &amp; endpoint hits ≥ 50</li>
+        <li>Detects anomalies on locked fields: out-of-range lengths, entropy spikes, score drops</li>
+        <li>Writes hourly snapshots to <code>field_score_history</code> and <code>field_score_explain</code></li>
+        <li>Tracks schema changes in <code>field_evolution</code></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>③ data-collector-control-plane</h4>
+      <p>A REST API gateway that the React dashboard queries. Enforces API-key auth and CORS.</p>
+      <ul>
+        <li><code>GET /internal-api/endpoints</code> — list all endpoints</li>
+        <li><code>GET /internal-api/endpoints/:id/parameters</code></li>
+        <li><code>GET /internal-api/endpoints/:id/field-metadata</code></li>
+        <li><code>GET /internal-api/endpoints/:id/request-context</code></li>
+        <li><code>GET /internal-api/endpoints/:id/request-metrics</code></li>
+        <li><code>GET /internal-api/endpoints/:id/responses</code></li>
+        <li><code>GET /internal-api/endpoints/:id/anomalies</code></li>
+        <li><code>GET /internal-api/endpoints/:id/score-history</code></li>
+        <li><code>GET /internal-api/endpoints/:id/reconciler-scores</code></li>
+        <li><code>POST /internal-api/categories/add</code> — custom file categorisation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>④ React Dashboard (CFFrontEnd)</h4>
+      <p>A React + Vite SPA that queries the control-plane and visualises the collected profile data.</p>
+      <ul>
+        <li><strong>EndpointProfiler</strong> — top-level layout: sidebar + detail panel</li>
+        <li><strong>EndpointBrowser</strong> — searchable/filterable list of all discovered endpoints</li>
+        <li><strong>EndpointDetailsPanel</strong> — tabbed view: parameters, field metadata, context, metrics, responses, anomalies</li>
+        <li><strong>ScoreHistoryChart</strong> — Recharts line chart of stability score over time</li>
+        <li><strong>FieldPromotionInsights</strong> — table: score, reason, trust weight, diagnostics per field</li>
+        <li><strong>ParameterTable</strong> — reusable sortable data table</li>
+      </ul>
+    </div>
+  </div>
+
+  
+  <h2>End-to-End Data Flow</h2>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <h4>Request Arrives</h4>
+        <p>Any HTTP request hits the data-collector Worker. Static assets (<code>.js</code>, <code>.css</code>, fonts, images) are forwarded immediately with no profiling.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <h4>Forward &amp; Profile (async)</h4>
+        <p>Request is forwarded to the origin; the response is returned to the client. All profiling runs in <code>ctx.waitUntil()</code> — no added latency to the user.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <h4>Endpoint Upsert (D1)</h4>
+        <p>Path is normalised and the endpoint row is upserted into D1 with incrementing hit counts, auth ratio, and error rate — all computed in O(1) with online averaging.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <h4>Context + Metrics (D1)</h4>
+        <p>IP, geo, user-agent, intent classification, TLS version, cipher, ASN, referrer, protocol, cookie count, body size, burst count, header size are written to <code>request_context</code> and <code>request_metrics</code>.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-body">
+        <h4>Field Observation → KV</h4>
+        <p>Each query param, header, and body field is bumped into a KV bucket keyed <code>obs:endpoint:{id}:field:{source}:{name}</code>. The bucket accumulates value frequencies, type histogram, min/max/avg length, and online Shannon entropy — trust-weighted by the request's bot / ASN / TLS signals. TTL = 1 hour.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div class="flow-body">
+        <h4>Reconciler Sweep (Cron)</h4>
+        <p>The scheduled reconciler pages through all KV keys. For each field it computes a <strong>Stability Score (0–4)</strong> combining field entropy, request burstiness, response error ratio, and trust modifiers.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">7</div>
+      <div class="flow-body">
+        <h4>Promotion to field_metadata</h4>
+        <p>Fields with score ≥ 3 are promoted to D1's <code>field_metadata</code> table with inferred type, example value, length bounds, and entropy. Fields with score = 4 on endpoints with ≥ 50 hits are <strong>locked</strong>.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">8</div>
+      <div class="flow-body">
+        <h4>Anomaly Detection</h4>
+        <p>On locked fields, the reconciler checks for: <span class="tag red">out_of_range</span> (observed length outside learned bounds), <span class="tag red">entropy_spike</span> (entropy &gt; 1.6× baseline), <span class="tag red">score_drop</span> (stability declined). Anomalies are stored in the <code>anomalies</code> table with occurrence counts.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">9</div>
+      <div class="flow-body">
+        <h4>Score History + Evolution</h4>
+        <p>Hourly snapshots are written to <code>field_score_history</code> (score + delta), <code>field_score_explain</code> (full diagnostics: entropy, diversity, length variance, trust weight), and <code>field_evolution</code> (value/type count trends).</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">10</div>
+      <div class="flow-body">
+        <h4>Dashboard Visualisation</h4>
+        <p>The React dashboard polls the control-plane API and renders the full field profile: parameters, field metadata, anomaly badges, score-history line charts, and field promotion diagnostics with colour-coded trust scores.</p>
+      </div>
+    </div>
+  </div>
+
+  
+  <h2>Stability Score — How It Works</h2>
+  <div class="callout">
+    The score (0–4) is the core differentiator. It determines whether a field is trustworthy enough to be locked into the profile. Once locked, any deviation triggers an anomaly.
+  </div>
+  <table class="compare">
+    <tr>
+      <th>Component</th>
+      <th>Weight</th>
+      <th>What penalises the score</th>
+    </tr>
+    <tr>
+      <td><strong>Field Score</strong></td>
+      <td>40 %</td>
+      <td>Entropy &gt; 4.0; avg length outside [min, max]; observed values &gt; 50 distinct</td>
+    </tr>
+    <tr>
+      <td><strong>Request Score</strong></td>
+      <td>30 %</td>
+      <td>Burst count &gt; 10 req/10 s; body size &gt; 5 KB; query params &gt; 20 or headers &gt; 50</td>
+    </tr>
+    <tr>
+      <td><strong>Response Score</strong></td>
+      <td>30 %</td>
+      <td>Error ratio &gt; 20 %; response body size variance &gt; 3 KB; avg latency &gt; 1 s</td>
+    </tr>
+    <tr>
+      <td><strong>Trust Modifier</strong></td>
+      <td>× 0.5–1.0</td>
+      <td>Bot UA → ×0.5; known bad ASN → ×0.6; outdated TLS (1.0/1.1) → ×0.7</td>
+    </tr>
+  </table>
+  <div class="callout green">
+    <strong>Lock lifecycle:</strong> Score ≥ 3 → promoted to <code>field_metadata</code>. Score = 4 &amp; endpoint hits ≥ 50 → field is <strong>locked</strong>. Any future deviation on a locked field → anomaly logged.
+  </div>
+
+  
+  <h2>Database Schema (D1 / SQLite)</h2>
+  <div class="db-table-grid">
+    <div class="db-entry">
+      <strong>endpoints</strong>
+      <p>One row per (scope, path, method). Tracks hit_count, total_hits, auth_required_ratio, error_rate, content_type, first/last seen.</p>
+    </div>
+    <div class="db-entry">
+      <strong>parameters</strong>
+      <p>Aggregated per (endpoint, name, location). Stores type, min/max/avg length, entropy, observed &amp; allowed value lists, anomaly count, lock status.</p>
+    </div>
+    <div class="db-entry">
+      <strong>field_metadata</strong>
+      <p>Promoted field profiles. Adds is_required/is_readonly/format inference, required_ratio, stability_score, is_locked flag, value_count, type_count.</p>
+    </div>
+    <div class="db-entry">
+      <strong>request_context</strong>
+      <p>One row per (endpoint, method, IP). Records geo, user-agent, intent, auth_status, TLS version/cipher, ASN, referrer, accept header.</p>
+    </div>
+    <div class="db-entry">
+      <strong>request_metrics</strong>
+      <p>Per-request: body size, query count, body field count, header count, cookie count/bucket, burst count, header size, query length, request hash (dedup).</p>
+    </div>
+    <div class="db-entry">
+      <strong>responses</strong>
+      <p>Per (endpoint, status_code): avg/last latency, hit count, body size min/max, content-type, error ratio — all updated incrementally.</p>
+    </div>
+    <div class="db-entry">
+      <strong>anomalies</strong>
+      <p>Per (endpoint, field, source, reason). Reasons: out_of_range, entropy_spike, score_drop. Stores observed type/value, score delta, occurrence count.</p>
+    </div>
+    <div class="db-entry">
+      <strong>field_score_history</strong>
+      <p>Hourly time-series of stability_score + score_delta per field. Powers the score trend chart in the dashboard.</p>
+    </div>
+    <div class="db-entry">
+      <strong>field_score_explain</strong>
+      <p>Hourly diagnostic rows: entropy, diversity, length_variance, trust_weight, trust_score_avg, reason text. Feeds the Field Promotion Insights panel.</p>
+    </div>
+    <div class="db-entry">
+      <strong>field_evolution</strong>
+      <p>Hourly: value_count, type_count, entropy_avg per field. Tracks schema drift over time.</p>
+    </div>
+    <div class="db-entry">
+      <strong>logical_context</strong>
+      <p>Maps domain + region + environment (dev/stage/prod/preprod). Enables stricter profiling rules for non-prod scopes.</p>
+    </div>
+  </div>
+
+  
+  <h2>KV Observation Design</h2>
+  <div class="callout">
+    KV acts as a high-throughput write buffer. Every request writes a tiny JSON bucket per field. The reconciler batches these into D1. This avoids D1 write storms while keeping the edge fast.
+  </div>
+  <p><strong>Key format:</strong> <code>obs:endpoint:{endpointId}:field:{source}:{fieldName}</code></p>
+  <p><strong>Bucket structure (per field, TTL 1 h):</strong></p>
+  <ul>
+    <li><code>total</code> — weighted observation count (trust-adjusted)</li>
+    <li><code>types</code> — map of JS type → frequency</li>
+    <li><code>values</code> — top 8 distinct values by frequency</li>
+    <li><code>minLen / maxLen / avgLen</code> — rolling length stats (online average)</li>
+    <li><code>entropyAvg</code> — rolling average Shannon entropy</li>
+    <li><code>lastObserved</code> — epoch ms timestamp</li>
+  </ul>
+
+  
+  <h2>Cloudflare vs Imperva Dynamic Profiling</h2>
+  <table class="compare">
+    <tr>
+      <th>Capability</th>
+      <th>Imperva</th>
+      <th>This project</th>
+    </tr>
+    <tr>
+      <td>Deployment model</td>
+      <td>Cloud WAF / reverse proxy</td>
+      <td>Cloudflare Workers (edge, serverless)</td>
+    </tr>
+    <tr>
+      <td>Auto endpoint discovery</td>
+      <td>✅</td>
+      <td>✅ path normalisation + upsert</td>
+    </tr>
+    <tr>
+      <td>Field type learning</td>
+      <td>✅</td>
+      <td>✅ KV buckets + reconciler promotion</td>
+    </tr>
+    <tr>
+      <td>Field locking</td>
+      <td>✅</td>
+      <td>✅ score = 4 &amp; hits ≥ 50</td>
+    </tr>
+    <tr>
+      <td>Anomaly detection</td>
+      <td>✅ (type mismatch, out-of-range, new fields)</td>
+      <td>✅ out_of_range, entropy_spike, score_drop</td>
+    </tr>
+    <tr>
+      <td>Trust / reputation scoring</td>
+      <td>✅ IP reputation, bot score</td>
+      <td>✅ user-agent, ASN, TLS version signals</td>
+    </tr>
+    <tr>
+      <td>Latency overhead</td>
+      <td>Cloud proxying latency</td>
+      <td>Zero — all writes via ctx.waitUntil()</td>
+    </tr>
+    <tr>
+      <td>Storage</td>
+      <td>Proprietary</td>
+      <td>Cloudflare D1 (SQLite) + KV</td>
+    </tr>
+    <tr>
+      <td>Observability UI</td>
+      <td>Imperva dashboard</td>
+      <td>React + Recharts self-hosted dashboard</td>
+    </tr>
+    <tr>
+      <td>Cost model</td>
+      <td>Enterprise licensing</td>
+      <td>Cloudflare Workers free tier / pay-as-you-go</td>
+    </tr>
+    <tr>
+      <td>Environment-aware profiling</td>
+      <td>Partial</td>
+      <td>✅ scope = domain+env, stricter rules for dev/stage</td>
+    </tr>
+    <tr>
+      <td>Score history / audit trail</td>
+      <td>Limited</td>
+      <td>✅ hourly snapshots with delta + diagnostics</td>
+    </tr>
+  </table>
+
+  
+  <h2>Key Technical Innovations</h2>
+  <ul style="font-size:13.5px">
+    <li><strong>Zero-overhead profiling:</strong> <code>ctx.waitUntil()</code> decouples profiling from the request lifecycle — the origin response is returned immediately.</li>
+    <li><strong>Trust-weighted observations:</strong> Every KV bucket write is multiplied by a trust score derived from the request's bot likelihood, ASN reputation, and TLS version. Untrusted traffic contributes less to the learned profile.</li>
+    <li><strong>Incremental statistics:</strong> Auth ratio, error rate, and average latency are all computed in O(1) using online averaging formulas — no full-table scans.</li>
+    <li><strong>Two-phase write design:</strong> KV absorbs high-frequency writes (burst-friendly, low cost); the scheduled reconciler drains them into D1 in batches — a pattern analogous to a write-ahead log.</li>
+    <li><strong>Auto-locking lifecycle:</strong> Fields graduate through observed → promoted → locked automatically, mirroring Imperva's profile maturation without manual configuration.</li>
+    <li><strong>Multi-dimensional anomaly detection:</strong> Anomalies are not binary; they include entropy spikes (data randomness), length violations, and stability score regression — each with a cause label and occurrence counter.</li>
+    <li><strong>Scope-aware tenancy:</strong> The <code>scope</code> column on endpoints (derived from host parsing: domain + environment) allows different profiling strictness per tenant or deployment environment.</li>
+  </ul>
+
+  
+  <h2>Technology Stack</h2>
+  <div style="margin:10px 0 20px">
+    <span class="tag blue">Cloudflare Workers (ES Modules)</span>
+    <span class="tag blue">Cloudflare D1 (SQLite)</span>
+    <span class="tag blue">Cloudflare KV</span>
+    <span class="tag blue">Cloudflare Cron Triggers</span>
+    <span class="tag purple">React 18</span>
+    <span class="tag purple">Vite</span>
+    <span class="tag purple">Redux Toolkit</span>
+    <span class="tag purple">Recharts</span>
+    <span class="tag purple">Day.js</span>
+    <span class="tag green">Shannon Entropy</span>
+    <span class="tag green">Online Averaging</span>
+    <span class="tag green">Trust Score Modelling</span>
+    <span class="tag orange">Anomaly Detection</span>
+    <span class="tag">No external dependencies on Workers</span>
+  </div>
+
+ 
+</div>
+</body>
+</html>

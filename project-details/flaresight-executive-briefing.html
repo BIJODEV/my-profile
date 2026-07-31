@@ -1,0 +1,615 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FlareSight Analytics — Executive Briefing</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1f2328;
+    background: #ffffff;
+    padding: 40px 20px 60px;
+  }
+
+  .wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    border-bottom: 3px solid #3b82d4;
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+  .header-meta {
+    font-size: 11px;
+    color: #57606a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1f2328;
+    line-height: 1.25;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: #57606a;
+    margin-top: 6px;
+  }
+  .header .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: #f0f6ff;
+    color: #3b82d4;
+    border: 1px solid #c3dafe;
+  }
+  .badge.purple { background: #f5f3ff; color: #7c5cd8; border-color: #ddd6fe; }
+  .badge.green  { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+  .badge.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+
+  /* ── SECTION TITLES ── */
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #3b82d4;
+    border-left: 3px solid #3b82d4;
+    padding-left: 10px;
+    margin-bottom: 14px;
+  }
+  .section-body {
+    color: #1f2328;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ── PROBLEM / SOLUTION CARDS ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  @media (max-width: 560px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1f2328;
+  }
+  .card p, .card ul {
+    font-size: 13px;
+    color: #57606a;
+    line-height: 1.6;
+  }
+  .card ul {
+    padding-left: 18px;
+  }
+  .card ul li {
+    margin-bottom: 4px;
+  }
+  .card.accent-red { border-left: 3px solid #ef4444; }
+  .card.accent-blue { border-left: 3px solid #3b82d4; }
+  .card.accent-green { border-left: 3px solid #16a34a; }
+  .card.accent-purple { border-left: 3px solid #7c5cd8; }
+  .card.accent-orange { border-left: 3px solid #f97316; }
+  .card.accent-teal { border-left: 3px solid #14b8a6; }
+
+  /* ── CAPABILITY TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  thead th {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    color: #1f2328;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  tbody td {
+    border: 1px solid #e5e7eb;
+    padding: 9px 12px;
+    color: #1f2328;
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) td {
+    background: #fafafa;
+  }
+  .td-cap {
+    font-weight: 600;
+    color: #1f2328;
+    white-space: nowrap;
+  }
+  .td-icon {
+    width: 28px;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  /* ── METRICS ROW ── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+  @media (max-width: 560px) {
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+  }
+  .metric-box {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .metric-box .big {
+    font-size: 22px;
+    font-weight: 700;
+    color: #3b82d4;
+    line-height: 1.2;
+  }
+  .metric-box .label {
+    font-size: 11px;
+    color: #57606a;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    margin-top: 12px;
+  }
+  .timeline-item {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 20px;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 28px;
+    bottom: 0;
+    width: 2px;
+    background: #e5e7eb;
+  }
+  .timeline-item:last-child::before { display: none; }
+  .timeline-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #eff6ff;
+    border: 2px solid #3b82d4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .timeline-content h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2328;
+    margin-bottom: 3px;
+  }
+  .timeline-content p {
+    font-size: 13px;
+    color: #57606a;
+    line-height: 1.55;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 32px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 12px;
+    color: #57606a;
+  }
+
+  .highlight-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #1e40af;
+    line-height: 1.65;
+  }
+  .highlight-box strong { color: #1e3a8a; }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .tag {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 12px;
+    color: #57606a;
+    font-family: "SFMono-Regular", "Consolas", monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  
+  <div class="header">
+    <div class="header-meta">Confidential · Management Briefing · June 2025</div>
+    <h1>FlareSight Analytics</h1>
+    <p class="subtitle">Enterprise Edge Intelligence &amp; Telemetry Command Center — Executive Overview</p>
+    <div class="badge-row">
+      <span class="badge">Web Application</span>
+      <span class="badge purple">React 19 + Vite</span>
+      <span class="badge green">Multi-Provider (Cloudflare / IBM CIS)</span>
+      <span class="badge orange">Production Ready</span>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">01 — Executive Summary</div>
+    <div class="section-body">
+      <p>
+        <strong>FlareSight</strong> is a purpose-built, enterprise-grade analytics and command center that sits on top
+        of our CDN and WAF infrastructure — currently supporting both <strong>Cloudflare</strong> and
+        <strong>IBM Cloud Internet Services (CIS)</strong>. Rather than requiring engineers to manually comb through
+        raw API logs across hundreds of zones, FlareSight aggregates, processes, and visualises all traffic, security,
+        performance, and compliance data in a single, real-time dashboard.
+      </p>
+    </div>
+    <div class="highlight-box">
+      <strong>In one sentence:</strong> FlareSight turns raw CDN telemetry from 100+ internet-facing zones into
+      actionable executive intelligence — protecting revenue, reducing cost, and proving security posture to auditors,
+      all without writing a single API query.
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">02 — The Problem Being Solved</div>
+    <div class="section-body" style="margin-bottom:12px">
+      Managing a large portfolio of internet-facing zones without consolidated visibility creates four compounding risks:
+    </div>
+    <div class="two-col">
+      <div class="card accent-red">
+        <h4>🔴 Operational Blind Spots</h4>
+        <p>Engineers have no single view across all zones. Security incidents, configuration drift, or traffic anomalies
+        go undetected until they cause outages or breaches. Manual querying of the Cloudflare/CIS GraphQL API for even
+        one zone takes significant expertise and time.</p>
+      </div>
+      <div class="card accent-orange">
+        <h4>🟠 Compliance Drift</h4>
+        <p>With 100+ zones spanning production, staging, dev, and integration environments, keeping security settings
+        (TLS grade, HSTS, WAF, Bot Fight Mode) consistent and compliant is impossible to audit manually. A single
+        misconfigured zone is a compliance and audit liability.</p>
+      </div>
+      <div class="card accent-purple">
+        <h4>🟣 Hidden Infrastructure Costs</h4>
+        <p>Without visibility into per-zone cache hit rates, teams cannot identify which zones are driving up egress
+        bandwidth costs. Poorly tuned caching can silently cost tens of thousands of dollars per year in unnecessary
+        origin egress fees.</p>
+      </div>
+      <div class="card accent-red">
+        <h4>🔴 Threat Intelligence Gaps</h4>
+        <p>Raw WAF event logs expose thousands of cryptic rule IDs with no human-readable context. Security teams
+        cannot distinguish a coordinated SQL injection campaign from normal noise, making prioritisation and response
+        slow and error-prone.</p>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">03 — The Solution: What FlareSight Delivers</div>
+    <table>
+      <thead>
+        <tr>
+          <th class="td-icon"></th>
+          <th>Capability Module</th>
+          <th>What It Does</th>
+          <th>Business Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-icon">🌍</td>
+          <td class="td-cap">Global Footprint</td>
+          <td>Interactive world heatmap of request volume by region (NA, APAC, EMEA). Real-time latency per region. Top source countries and bandwidth breakdown.</td>
+          <td>Immediate situational awareness of where traffic is coming from and whether SLAs are met, in seconds.</td>
+        </tr>
+        <tr>
+          <td class="td-icon">📦</td>
+          <td class="td-cap">Zone Portfolio Health</td>
+          <td>Auto-grades every zone by cache hit ratio. Flags "zombie zones" (0 traffic &gt;30 days). Highlights cost-inefficient zones with low offload rates.</td>
+          <td>Reduces attack surface by identifying dormant zones. Drives direct cost savings by surfacing under-optimised zones.</td>
+        </tr>
+        <tr>
+          <td class="td-icon">⚡</td>
+          <td class="td-cap">Performance Intelligence</td>
+          <td>A–F grading against industry benchmarks per zone. 7-day cache &amp; bandwidth trend charts. Per-zone actionable recommendations ("Enable Argo", "Tune Browser TTL").</td>
+          <td>Enables engineering teams to prioritise exactly which zones to optimise for the highest performance ROI.</td>
+        </tr>
+        <tr>
+          <td class="td-icon">✅</td>
+          <td class="td-cap">Compliance &amp; Security Audit</td>
+          <td>0–100 security score per zone based on SSL/TLS grade, HSTS, WAF status, Bot Fight Mode. Gap analysis with per-zone fix recommendations. Filterable by environment (prod, stage, dev). CSV export.</td>
+          <td>Audit-ready compliance posture at all times. Identifies "at-risk" zones before an auditor or attacker does.</td>
+        </tr>
+        <tr>
+          <td class="td-icon">🛡️</td>
+          <td class="td-cap">Security Operations (WAF)</td>
+          <td>Live WAF event feed (Block, Challenge, Log). Mitigation breakdown charts. Rule effectiveness rankings. Zone-by-zone threat severity scoring.</td>
+          <td>SOC/SecOps teams get a live threat overview without logging into multiple portals. Reduces mean-time-to-detect.</td>
+        </tr>
+        <tr>
+          <td class="td-icon">🕵️</td>
+          <td class="td-cap">Threat Intelligence Deep Dive</td>
+          <td>Classifies WAF rule IDs into readable attack categories (SQLi, XSS, DDoS, Bot, Credential Stuffing). Attack timeline with spike detection. Top malicious IPs, ASNs, and target endpoints. Campaign history tracking.</td>
+          <td>Transforms raw log noise into named threat campaigns. Enables forensic investigation and proactive blocking without a dedicated threat-intel team.</td>
+        </tr>
+        <tr>
+          <td class="td-icon">💰</td>
+          <td class="td-cap">ROI &amp; Cost Intelligence</td>
+          <td>Calculates estimated annual egress savings based on cached bandwidth (at $85/TB). Displays cache hit rate, cached TB, and CPU offload savings.</td>
+          <td>Directly quantifies the financial value of the CDN investment. Makes infrastructure cost justification easy for finance and leadership.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">04 — Key Differentiator: Multi-Provider Architecture</div>
+    <div class="section-body" style="margin-bottom:12px">
+      A critical architectural decision distinguishes FlareSight from any off-the-shelf Cloudflare dashboard:
+      it supports <strong>both Cloudflare and IBM Cloud Internet Services (CIS)</strong> through a unified provider
+      abstraction layer.
+    </div>
+    <div class="two-col">
+      <div class="card accent-blue">
+        <h4>Single Dashboard, Two Providers</h4>
+        <p>All seven capability modules (traffic, portfolio, performance, compliance, security, threats, deep dive)
+        work identically regardless of whether the backend is Cloudflare or IBM CIS. Operators switch providers
+        from a single dropdown — no reconfiguration required.</p>
+      </div>
+      <div class="card accent-green">
+        <h4>Strategic Flexibility</h4>
+        <p>This means management can evaluate, compare, or migrate between CDN providers without losing
+        analytical continuity. No vendor lock-in on the visibility layer. IBM CIS instances (DEV, STAGE, PROD)
+        can each be independently monitored from the same UI.</p>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">05 — Value Added to the Business</div>
+    <div class="metrics-row">
+      <div class="metric-box">
+        <div class="big">100+</div>
+        <div class="label">Zones monitored in a single view</div>
+      </div>
+      <div class="metric-box">
+        <div class="big">$0</div>
+        <div class="label">Third-party tooling license cost (fully in-house)</div>
+      </div>
+      <div class="metric-box">
+        <div class="big">7</div>
+        <div class="label">Intelligence modules covering the full CDN lifecycle</div>
+      </div>
+      <div class="metric-box">
+        <div class="big">2</div>
+        <div class="label">CDN providers supported (Cloudflare + IBM CIS)</div>
+      </div>
+    </div>
+    <div style="margin-top:18px" class="two-col">
+      <div class="card accent-green">
+        <h4>Cost Reduction</h4>
+        <ul>
+          <li>Identifies misconfigured caching across zones, directly reducing egress bandwidth bills.</li>
+          <li>Detects zombie zones consuming management overhead and broadening the attack surface unnecessarily.</li>
+          <li>Eliminates the need for paid third-party observability tools (Datadog, Grafana Cloud, etc.).</li>
+        </ul>
+      </div>
+      <div class="card accent-blue">
+        <h4>Security Posture</h4>
+        <ul>
+          <li>Quantifies threats mitigated (volume + percentage of clean vs blocked traffic).</li>
+          <li>Surfaces human-readable attack campaigns instead of raw rule-ID noise.</li>
+          <li>Provides audit-ready compliance scores and per-zone fix recommendations.</li>
+        </ul>
+      </div>
+      <div class="card accent-purple">
+        <h4>Operational Efficiency</h4>
+        <ul>
+          <li>Consolidates visibility that previously required querying multiple APIs separately.</li>
+          <li>Provides a one-click CSV export for compliance audit reporting.</li>
+          <li>Enables non-technical stakeholders (management, auditors) to understand infrastructure health.</li>
+        </ul>
+      </div>
+      <div class="card accent-teal">
+        <h4>Strategic Intelligence</h4>
+        <ul>
+          <li>Executive Summary cards with trend sparklines deliver board-level KPIs at a glance.</li>
+          <li>ROI module quantifies the annual financial value of the CDN investment in dollars.</li>
+          <li>Campaign history tracks threat trends over time for executive risk reporting.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">06 — How It Works (Technical Architecture)</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">🔌</div>
+        <div class="timeline-content">
+          <h5>Data Ingestion — Cloudflare &amp; IBM CIS APIs</h5>
+          <p>FlareSight connects to the Cloudflare GraphQL Analytics API or IBM CIS REST API using a read-only
+          analytics token. It fetches zones, traffic, security events, settings, and performance data in parallel
+          batched queries — no data is stored server-side.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">⚙️</div>
+        <div class="timeline-content">
+          <h5>Processing Layer — Smart Data Processors</h5>
+          <p>Eight specialised processor modules (traffic, security, compliance, performance, ROI, threat classifier,
+          threat deep dive, zone traffic) transform raw API responses into structured, graded, and ranked datasets
+          ready for rendering.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">📊</div>
+        <div class="timeline-content">
+          <h5>Visualisation Layer — React + Recharts</h5>
+          <p>Seven navigation sections render live interactive charts (area charts, bar charts, pie charts, world
+          heatmaps) using Recharts and React Simple Maps. Dark/light mode is supported throughout. The entire UI
+          is responsive for desktop and mobile use.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">🔒</div>
+        <div class="timeline-content">
+          <h5>Security — Credentials Never Leave the Browser</h5>
+          <p>API tokens are stored in browser sessionStorage only. No tokens are sent to or stored on any
+          intermediate server. The backend (Node.js proxy) is only used to bypass CORS restrictions on the
+          CDN vendor APIs — it never logs or persists credentials.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">07 — Technology Stack</div>
+    <div class="section-body" style="margin-bottom:10px">All components are open-source with zero licensing cost.</div>
+    <div class="tag-row">
+      <span class="tag">React 19</span>
+      <span class="tag">Vite 7</span>
+      <span class="tag">Tailwind CSS 3</span>
+      <span class="tag">Recharts 3</span>
+      <span class="tag">React Simple Maps</span>
+      <span class="tag">Lucide Icons</span>
+      <span class="tag">Axios</span>
+      <span class="tag">Node.js (proxy backend)</span>
+      <span class="tag">Cloudflare GraphQL API</span>
+      <span class="tag">IBM CIS REST API</span>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">08 — Future Roadmap</div>
+    <div class="two-col">
+      <div class="card accent-blue">
+        <h4>Custom Alerting</h4>
+        <p>Slack / PagerDuty integration for anomaly detection (e.g. "Traffic dropped 50% in the last hour").
+        Enables proactive incident response without manual monitoring.</p>
+      </div>
+      <div class="card accent-green">
+        <h4>FinOps Module</h4>
+        <p>Estimated cost savings calculator tied to actual bandwidth usage and zone-level pricing, enabling
+        direct P&amp;L impact reporting for CDN spend justification.</p>
+      </div>
+      <div class="card accent-orange">
+        <h4>Shadow IT Discovery</h4>
+        <p>DNS record analysis to automatically find unproxied subdomains that bypass WAF and CDN protection —
+        a critical security gap in most large organisations.</p>
+      </div>
+      <div class="card accent-purple">
+        <h4>PDF Executive Reports</h4>
+        <p>Automated one-click PDF export (html2canvas + jsPDF) already in the dependency tree — enabling
+        scheduled executive report generation directly from the dashboard.</p>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">09 — Conclusion &amp; Recommendation</div>
+    <div class="section-body">
+      <p>
+        FlareSight represents a significant internal capability investment. It solves a real, costly, and growing
+        operational problem: the inability to monitor, audit, and optimise a large CDN estate in real time without
+        specialist engineering effort on every query.
+      </p>
+      <br />
+      <p>
+        By consolidating seven intelligence modules into a single, multi-provider dashboard, FlareSight
+        <strong>reduces operational cost</strong>, <strong>strengthens security posture</strong>, and
+        <strong>provides quantified financial ROI</strong> on CDN infrastructure spend — all without any
+        third-party vendor dependency.
+      </p>
+      <br />
+      <p>
+        Management is recommended to consider <strong>productising FlareSight</strong> as a formal internal
+        tooling platform, investing in the alerting and FinOps roadmap items, and exploring whether the
+        multi-provider architecture presents a potential external commercial opportunity.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <p>FlareSight Analytics — Confidential Management Briefing — Prepared June 2025</p>
+  </footer>
+
+</div>
+</body>
+</html>

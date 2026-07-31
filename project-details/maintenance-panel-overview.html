@@ -1,0 +1,765 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Maintenance Control Panel — Project Overview</title>
+<style>
+  :root {
+    --bg:            #faf8f4;
+    --bg-raised:     #ffffff;
+    --bg-sunken:     #f1ede4;
+    --border:        #e4ddcd;
+    --text:          #1f1b14;
+    --text-dim:      #6b6355;
+    --text-faint:    #9a9280;
+    --accent:        #8f5e0c;
+    --accent-bg:     #fbf1de;
+    --accent-border: #eed9b0;
+    --ok:            #15803d;
+    --ok-bg:         #f0fdf4;
+    --ok-border:     #bbf7d0;
+    --sched:         #1d4ed8;
+    --sched-bg:      #eff6ff;
+    --sched-border:  #bfdbfe;
+    --off:           #6b6355;
+    --off-bg:        #f1ede4;
+    --off-border:    #e4ddcd;
+    --critical:      #b91c1c;
+    --critical-bg:   #fef2f2;
+    --critical-border: #fecaca;
+    --shadow:        0 1px 2px rgba(31,27,20,0.04), 0 1px 8px rgba(31,27,20,0.03);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:            #14120d;
+      --bg-raised:     #1c1912;
+      --bg-sunken:     #0d0b08;
+      --border:        #332c1f;
+      --text:          #f3efe4;
+      --text-dim:      #ab9f89;
+      --text-faint:    #756c5a;
+      --accent:        #e0a542;
+      --accent-bg:     rgba(224,165,66,0.10);
+      --accent-border: rgba(224,165,66,0.28);
+      --ok:            #4ade80;
+      --ok-bg:         #052e16;
+      --ok-border:     #166534;
+      --sched:         #60a5fa;
+      --sched-bg:      #0b1a33;
+      --sched-border:  #1e3a6e;
+      --off:           #ab9f89;
+      --off-bg:        #211c14;
+      --off-border:    #332c1f;
+      --critical:      #f87171;
+      --critical-bg:   #450a0a;
+      --critical-border: #991b1b;
+      --shadow:        0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14120d; --bg-raised: #1c1912; --bg-sunken: #0d0b08; --border: #332c1f;
+    --text: #f3efe4; --text-dim: #ab9f89; --text-faint: #756c5a;
+    --accent: #e0a542; --accent-bg: rgba(224,165,66,0.10); --accent-border: rgba(224,165,66,0.28);
+    --ok: #4ade80; --ok-bg: #052e16; --ok-border: #166534;
+    --sched: #60a5fa; --sched-bg: #0b1a33; --sched-border: #1e3a6e;
+    --off: #ab9f89; --off-bg: #211c14; --off-border: #332c1f;
+    --critical: #f87171; --critical-bg: #450a0a; --critical-border: #991b1b;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.25);
+  }
+  :root[data-theme="light"] {
+    --bg: #faf8f4; --bg-raised: #ffffff; --bg-sunken: #f1ede4; --border: #e4ddcd;
+    --text: #1f1b14; --text-dim: #6b6355; --text-faint: #9a9280;
+    --accent: #8f5e0c; --accent-bg: #fbf1de; --accent-border: #eed9b0;
+    --ok: #15803d; --ok-bg: #f0fdf4; --ok-border: #bbf7d0;
+    --sched: #1d4ed8; --sched-bg: #eff6ff; --sched-border: #bfdbfe;
+    --off: #6b6355; --off-bg: #f1ede4; --off-border: #e4ddcd;
+    --critical: #b91c1c; --critical-bg: #fef2f2; --critical-border: #fecaca;
+    --shadow: 0 1px 2px rgba(31,27,20,0.04), 0 1px 8px rgba(31,27,20,0.03);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 48px 20px 72px;
+  }
+  .page { max-width: 800px; margin: 0 auto; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace; }
+
+  /* Masthead — modeled on the app's own header/topology-rail language */
+  .masthead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .masthead .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 27px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0 0 8px;
+  }
+  .masthead p { color: var(--text-dim); font-size: 14px; max-width: 52ch; margin: 0; }
+  .stack-badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex-shrink: 0; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 600;
+    border: 1px solid;
+    white-space: nowrap;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .pill-accent { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); }
+  .pill-ok     { background: var(--ok-bg); color: var(--ok); border-color: var(--ok-border); }
+  .pill-sched  { background: var(--sched-bg); color: var(--sched); border-color: var(--sched-border); }
+  .pill-off    { background: var(--off-bg); color: var(--off); border-color: var(--off-border); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  section { margin-bottom: 36px; }
+  h2 {
+    font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-dim);
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+  p { margin: 0 0 10px; }
+  .lede { color: var(--text-dim); font-size: 14px; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-sunken);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12.5px;
+    color: var(--accent);
+  }
+
+  /* Stat rail */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-num { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; font-size: 24px; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 11.5px; color: var(--text-dim); margin-top: 4px; }
+
+  /* Component cards */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .card-title { font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+  .card-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); margin-bottom: 8px; }
+  .card p { font-size: 13px; color: var(--text-dim); margin: 0; }
+
+  /* Architecture flow */
+  .arch {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; }
+  .flow-box {
+    background: var(--bg-sunken);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 15px;
+    font-size: 12px;
+    text-align: center;
+    min-width: 118px;
+  }
+  .flow-box strong { display: block; font-size: 13px; margin-bottom: 3px; font-family: 'Century Gothic', 'Avenir Next', 'Space Grotesk', sans-serif; }
+  .flow-box.accent { border-color: var(--accent-border); background: var(--accent-bg); }
+  .flow-box.ok     { border-color: var(--ok-border); background: var(--ok-bg); }
+  .flow-box.sched  { border-color: var(--sched-border); background: var(--sched-bg); }
+  .arrow { font-size: 18px; color: var(--text-faint); padding: 0 10px; }
+  .flow-caption { text-align: center; margin: 18px 0 8px; color: var(--text-faint); font-size: 12px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em; }
+
+  /* Lifecycle rail — real state machine, so a left rail with connecting line earns its keep */
+  .lifecycle { position: relative; padding-left: 30px; }
+  .lifecycle::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+  .life-step { position: relative; padding-bottom: 20px; }
+  .life-step:last-child { padding-bottom: 0; }
+  .life-dot {
+    position: absolute; left: -30px; top: 2px; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--bg-raised); border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .life-dot .dot { background: var(--accent); width: 7px; height: 7px; }
+  .life-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13.5px; color: var(--text); margin-bottom: 3px; }
+  .life-step p { font-size: 13px; color: var(--text-dim); margin: 0; }
+
+  /* Feature grid */
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feat {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 14px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    box-shadow: var(--shadow);
+  }
+  .feat-mark {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+    background: var(--accent-bg); border: 1px solid var(--accent-border); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+  }
+  .feat-title { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .feat-desc { font-size: 12.5px; color: var(--text-dim); }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-raised); }
+  th {
+    background: var(--bg-sunken); text-align: left; padding: 9px 12px;
+    font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  td.mono, .table-wrap code { font-family: 'JetBrains Mono', monospace; }
+
+  .method { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .method-get  { background: var(--sched-bg); color: var(--sched); }
+  .method-post { background: var(--ok-bg); color: var(--ok); }
+
+  .note {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 9px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 14px;
+  }
+  .note strong { color: var(--accent); }
+
+  ol.workflow { padding-left: 0; list-style: none; counter-reset: wf; margin: 0; }
+  ol.workflow li {
+    counter-increment: wf;
+    position: relative;
+    padding: 8px 0 8px 34px;
+    font-size: 13.5px;
+    border-bottom: 1px dashed var(--border);
+  }
+  ol.workflow li:last-child { border-bottom: none; }
+  ol.workflow li::before {
+    content: counter(wf);
+    position: absolute; left: 0; top: 7px;
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--bg-sunken); border: 1px solid var(--border); color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  footer {
+    margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border);
+    text-align: center; font-size: 11.5px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 560px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .features { grid-template-columns: 1fr; }
+    .masthead { flex-direction: column; }
+    .stack-badges { align-items: flex-start; }
+  }
+
+  /* ── Presenter whiteboard overlay ─────────────────────────────────────── */
+  #wb-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 900;
+    pointer-events: none;
+  }
+  #wb-canvas.wb-active { pointer-events: auto; cursor: crosshair; }
+
+  #wb-toolbar {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow), 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .wb-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: background-color 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .wb-btn:hover { background: var(--bg-sunken); color: var(--text); }
+  .wb-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .wb-btn svg { width: 18px; height: 18px; }
+  .wb-btn.wb-on {
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-color: var(--accent-border);
+  }
+  .wb-sep { width: 1px; align-self: stretch; margin: 4px 2px; background: var(--border); }
+
+  .wb-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wb-swatch::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--wb-dot);
+  }
+  .wb-swatch.wb-amber { --wb-dot: #e0a542; }
+  .wb-swatch.wb-red   { --wb-dot: #dc2626; }
+  .wb-swatch.wb-selected { border-color: var(--wb-dot); }
+  .wb-swatch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wb-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-faint);
+    padding: 0 4px 0 2px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 560px) {
+    .wb-hint { display: none; }
+    #wb-toolbar { right: 12px; bottom: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div>
+      <div class="eyebrow">// internal tooling · edge architecture</div>
+      <h1>Maintenance Control Panel</h1>
+      <p>A one-click, self-scheduling, self-expiring, fully audited replacement for hand-editing Cloudflare Snippet Rules to take a storefront offline.</p>
+    </div>
+    <div class="stack-badges">
+      <span class="pill pill-accent"><span class="dot"></span>Cloudflare Worker</span>
+      <span class="pill pill-ok"><span class="dot"></span>React 18 + Vite</span>
+      <span class="pill pill-sched"><span class="dot"></span>D1 + Cron</span>
+      <a href="./maintenance-panel-architecture-flow.html" class="pill pill-off" style="text-decoration:none;margin-top:4px">↗ Live architecture flow</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>What this replaces</h2>
+    <p class="lede">
+      Putting a site into maintenance mode used to mean logging into the Cloudflare dashboard,
+      hand-editing a Snippet Rule's WAF expression, and hoping someone remembered to flip it
+      back off. This panel turns that into a guided UI action: pick a domain, pick a window,
+      click one toggle — with automatic activation <em>and</em> retraction, and a full audit
+      trail of who did what and when.
+    </p>
+    <p class="lede">
+      Everything — the UI, the API, and the automation — runs on Cloudflare's edge. There is no
+      origin server to patch, scale, or keep online for this to work.
+    </p>
+  </section>
+
+  <section>
+    <h2>At a glance</h2>
+    <div class="stats">
+      <div class="stat-box"><div class="stat-num">10</div><div class="stat-label">API routes, one Worker</div></div>
+      <div class="stat-box"><div class="stat-num">16</div><div class="stat-label">React components</div></div>
+      <div class="stat-box"><div class="stat-num">2</div><div class="stat-label">D1 tables</div></div>
+      <div class="stat-box"><div class="stat-num">60s</div><div class="stat-label">Cron sweep interval</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>System architecture</h2>
+    <div class="arch">
+      <div class="flow">
+        <div class="flow-box accent"><strong>Browser</strong>React UI<br />served via ASSETS</div>
+        <span class="arrow">→</span>
+        <div class="flow-box"><strong>src/worker.ts</strong>REST API ·<br />configures the edge rule</div>
+        <span class="arrow">→</span>
+        <div class="flow-box"><strong>Snippet Rule</strong>Cloudflare edge ·<br />via Rulesets API</div>
+      </div>
+      <div class="flow-caption">↓ same Worker, fired automatically ↓</div>
+      <div class="flow">
+        <div class="flow-box sched"><strong>Cron Trigger</strong>every minute ·<br />fires scheduled()</div>
+        <span class="arrow">→</span>
+        <div class="flow-box"><strong>src/worker.ts</strong>scheduled()<br />handler</div>
+        <span class="arrow">→</span>
+        <div class="flow-box ok"><strong>D1 database</strong>active_interventions<br />audit_logs</div>
+      </div>
+      <div class="flow-caption">↓ served at the edge, before origin — only while a window is active ↓</div>
+      <div class="flow">
+        <div class="flow-box"><strong>Visitor request</strong>http.host eq domain</div>
+        <span class="arrow">→</span>
+        <div class="flow-box accent"><strong>Snippet Rule</strong>503 + Retry-After,<br />if a window is active</div>
+        <span class="arrow">→</span>
+        <div class="flow-box"><strong>Origin</strong>otherwise, forwarded<br />through unmodified</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Component breakdown</h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Cloudflare Worker</div>
+        <div class="card-meta">src/worker.ts · 693 lines</div>
+        <p>Triple duty: serves the static React build via the <code>ASSETS</code> binding, exposes the JSON API under <code>/api/*</code>, and runs the <code>scheduled()</code> Cron handler. One artifact, one <code>wrangler deploy</code>.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Snippets + Snippet Rules</div>
+        <div class="card-meta">Cloudflare edge · configured via Rulesets API</div>
+        <p>Per domain, deploys a Snippet named <code>maint_&lt;domain&gt;</code> that returns a branded 503. A Snippet Rule routes matching traffic to it — enable/disable is just flipping <code>enabled</code>, content is pre-deployed so activation is instant. When disabled, matching traffic simply passes through to origin, unmodified.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">D1 database</div>
+        <div class="card-meta">schema.sql + migrations/</div>
+        <p><code>active_interventions</code> holds current window state with a unique index on <code>rule_id</code> for idempotent upserts. <code>audit_logs</code> is a separate, append-only ledger.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">React UI</div>
+        <div class="card-meta">MaintenancePanel.tsx + components/</div>
+        <p>Command Center, Fleet, and Calendar tabs plus an Audit Log modal — all reading the same edge + D1 state so every tab and machine stays in sync.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Intervention lifecycle</h2>
+    <div class="lifecycle">
+      <div class="life-step">
+        <div class="life-dot"><span class="dot"></span></div>
+        <div class="life-title">scheduled</div>
+        <p>Snippet deployed and ready, but the rule is <strong>disabled</strong> at the edge. D1 row waits for <code>start_time</code>.</p>
+      </div>
+      <div class="life-step">
+        <div class="life-dot"><span class="dot"></span></div>
+        <div class="life-title">active</div>
+        <p>Rule <strong>enabled</strong> — the edge serves the branded 503 with <code>Retry-After</code>, before any request reaches origin.</p>
+      </div>
+      <div class="life-step">
+        <div class="life-dot"><span class="dot"></span></div>
+        <div class="life-title">completed</div>
+        <p>The Cron sweep disabled the rule automatically once <code>expiration_time</code> passed. No human had to be online.</p>
+      </div>
+      <div class="life-step">
+        <div class="life-dot"><span class="dot"></span></div>
+        <div class="life-title">cancelled</div>
+        <p>An operator manually cancelled the window, from either <code>scheduled</code> or <code>active</code>, via the UI.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>API surface — src/worker.ts</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Route</th><th>Method</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono"><code>/api/ruleset?domain=</code></td><td><span class="method method-get">GET</span></td><td>Single-domain edge + D1 state, rehydrates the UI on load</td></tr>
+          <tr><td class="mono"><code>/api/status</code></td><td><span class="method method-get">GET</span></td><td>Bulk edge + D1 state for every managed domain (Fleet view)</td></tr>
+          <tr><td class="mono"><code>/api/calendar/history?days=</code></td><td><span class="method method-get">GET</span></td><td>Past completed / cancelled windows, default 14 days</td></tr>
+          <tr><td class="mono"><code>/api/audit?domain=</code></td><td><span class="method method-get">GET</span></td><td>Paginated attribution ledger — who did what, when</td></tr>
+          <tr><td class="mono"><code>/api/me</code></td><td><span class="method method-get">GET</span></td><td>Current Cloudflare Access identity, for the header badge</td></tr>
+          <tr><td class="mono"><code>/api/rule</code></td><td><span class="method method-post">POST</span></td><td>Enable maintenance immediately</td></tr>
+          <tr><td class="mono"><code>/api/window</code></td><td><span class="method method-post">POST</span></td><td>Schedule a future maintenance window</td></tr>
+          <tr><td class="mono"><code>/api/postpone</code></td><td><span class="method method-post">POST</span></td><td>Reschedule or cancel a scheduled window</td></tr>
+          <tr><td class="mono"><code>/api/cancel</code></td><td><span class="method method-post">POST</span></td><td>Cancel an active window early</td></tr>
+          <tr><td class="mono"><code>/api/extend</code></td><td><span class="method method-post">POST</span></td><td>Push out the end time of an active window</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>UI features</h2>
+    <div class="features">
+      <div class="feat"><div class="feat-mark">CC</div><div><div class="feat-title">Command Center</div><div class="feat-desc">Pick a domain, choose "Enable now" or "Schedule window," watch live countdowns to activation and auto-retract.</div></div></div>
+      <div class="feat"><div class="feat-mark">FL</div><div><div class="feat-title">Fleet view</div><div class="feat-desc">Searchable, filterable inventory of every managed domain's live status, polling every 20s.</div></div></div>
+      <div class="feat"><div class="feat-mark">CA</div><div><div class="feat-title">Calendar view</div><div class="feat-desc">Upcoming and past windows by day, with overlap detection for conflicting windows on dependent services.</div></div></div>
+      <div class="feat"><div class="feat-mark">AU</div><div><div class="feat-title">Audit trail modal</div><div class="feat-desc">Searchable, paginated log of every CREATED / ACTIVATED / EXTENDED / RESCHEDULED / CANCELLED / RETRACTED event.</div></div></div>
+      <div class="feat"><div class="feat-mark">PV</div><div><div class="feat-title">"Preview 503" modal</div><div class="feat-desc">Operators see the exact branded maintenance page customers will get, before the window goes live.</div></div></div>
+      <div class="feat"><div class="feat-mark">+1h</div><div><div class="feat-title">Quick-extend</div><div class="feat-desc">One-click +15m / +30m / +1h / +2h buttons when a maintenance window runs long.</div></div></div>
+      <div class="feat"><div class="feat-mark">HP</div><div><div class="feat-title">Edge-health indicator</div><div class="feat-desc">Header badge reflects whether the last API call to the Worker succeeded.</div></div></div>
+      <div class="feat"><div class="feat-mark">☾</div><div><div class="feat-title">Dark / light theme</div><div class="feat-desc">Applied before first paint via an inline script, persisted to localStorage.</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Data model — D1</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Table</th><th>Column</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono" rowspan="8"><code>active_interventions</code><br><span style="font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:var(--text-faint)">current-state row</span></td><td class="mono">domain</td><td>Which site the window applies to</td></tr>
+          <tr><td class="mono">rule_id</td><td>Cloudflare rule/snippet id; unique index enables idempotent upserts</td></tr>
+          <tr><td class="mono">start_time / expiration_time</td><td>When the window activates / auto-retracts</td></tr>
+          <tr><td class="mono">status</td><td>scheduled → active → completed, or cancelled at any point</td></tr>
+          <tr><td class="mono">cancelled_at</td><td>Timestamp of manual cancellation, if any</td></tr>
+          <tr><td class="mono">custom_message</td><td>Override for default outage copy — migration 0001</td></tr>
+          <tr><td class="mono">change_ref</td><td>Change Request reference, e.g. CHG-10492 — migration 0002</td></tr>
+          <tr><td class="mono">created_by / updated_by</td><td>Actor email — migration 0003</td></tr>
+          <tr><td class="mono" rowspan="4"><code>audit_logs</code><br><span style="font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:var(--text-faint)">append-only</span></td><td class="mono">action</td><td>CREATED · ACTIVATED · EXTENDED · RESCHEDULED · CANCELLED · RETRACTED</td></tr>
+          <tr><td class="mono">actor</td><td>Cloudflare Access email, or literal <code>cron</code> for automated sweeps</td></tr>
+          <tr><td class="mono">change_ref / detail</td><td>Ticket reference and free-text description of the transition</td></tr>
+          <tr><td class="mono">created_at</td><td>Indexed on (domain, created_at DESC) for fast per-domain history</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Technology stack</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Frontend</td><td class="mono">React 18 · Vite 5 · Tailwind 3</td><td>SPA UI, fast builds, utility CSS</td></tr>
+          <tr><td>Runtime</td><td class="mono">Cloudflare Workers</td><td>Serves UI + API + Cron from one edge deploy</td></tr>
+          <tr><td>Database</td><td class="mono">Cloudflare D1</td><td>SQLite at the edge — scheduling state + audit ledger</td></tr>
+          <tr><td>Edge rules</td><td class="mono">Snippets + Rulesets API</td><td>Per-domain 503 interception before origin, only while active</td></tr>
+          <tr><td>Scheduling</td><td class="mono">Cron Triggers (* * * * *)</td><td>Every-minute activate / retract sweep</td></tr>
+          <tr><td>Auth</td><td class="mono">Cloudflare Access</td><td>Injects actor email header for attribution</td></tr>
+          <tr><td>Tooling</td><td class="mono">Wrangler 4 · TypeScript 5</td><td>Local dev, build, deploy CLI</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Design decisions worth knowing</h2>
+    <p class="lede" style="margin-bottom:14px">Trade-offs made deliberately, not overlooked — the reasoning is what a new maintainer needs, not just the fact of the choice.</p>
+    <div class="card-grid">
+      <div class="card"><div class="card-title">Read-modify-write on the full rule list</div><p>Snippet Rule updates always fetch the entire rule list and PUT it back, matched by stable <code>snippet_name</code> — so this tool can never clobber another team's rules, even though the Rulesets API only exposes a bulk PUT.</p></div>
+      <div class="card"><div class="card-title">Idempotent upserts via unique rule_id</div><p>A unique index on <code>rule_id</code> lets every write use <code>INSERT ... ON CONFLICT</code>, so retries and race conditions never produce duplicate rows.</p></div>
+      <div class="card"><div class="card-title">Access header read, not JWT-verified</div><p>Actor attribution trusts <code>Cf-Access-Authenticated-User-Email</code> directly — a deliberate trade-off for an internal tool at this scale, not an oversight.</p></div>
+      <div class="card"><div class="card-title">API token never reaches the browser</div><p>It's a Worker secret used only in server-side Cloudflare API calls — nothing sensitive ships to the client.</p></div>
+    </div>
+    <div class="note">
+      ⚠️ <strong>Access-header trust model:</strong> only sound if Cloudflare Access is the
+      <em>only</em> way to reach this Worker (no open <code>workers.dev</code> bypass route)
+      and the Access policy is a strict allow-list. If this ever needs to be defensible for
+      compliance, the upgrade path is validating <code>Cf-Access-Jwt-Assertion</code> against
+      Access's JWKS instead of trusting the plaintext header.
+    </div>
+  </section>
+
+  <section>
+    <h2>Typical workflow</h2>
+    <ol class="workflow">
+      <li>Open the Command Center, pick a preset domain or enter a custom one.</li>
+      <li>Choose "Enable now" or "Schedule window," set date/time, optionally add a custom outage message and Change Reference.</li>
+      <li>Preview the exact 503 page customers will see, then confirm.</li>
+      <li>The Worker pre-deploys the Snippet; the rule flips on immediately, or waits for the Cron sweep at <code>start_time</code>.</li>
+      <li>Watch live countdowns; extend, reschedule, or cancel instantly if plans change.</li>
+      <li>The Cron Trigger retracts the rule automatically at <code>expiration_time</code> — no one needs to be online.</li>
+      <li>Every step lands in <code>audit_logs</code>, reviewable in the Audit Trail modal by domain.</li>
+    </ol>
+  </section>
+
+  <footer>Bijo Dev</footer>
+</div>
+
+<canvas id="wb-canvas" aria-hidden="true"></canvas>
+
+<div id="wb-toolbar" role="toolbar" aria-label="Presenter annotation tools">
+  
+  <div class="wb-sep"></div>
+  <button type="button" id="wb-pencil" class="wb-btn" aria-pressed="false" title="Toggle pencil (P)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
+  </button>
+  <button type="button" id="wb-amber" class="wb-swatch wb-amber wb-selected" title="Highlight — important" aria-label="Amber highlighter"></button>
+  <button type="button" id="wb-red" class="wb-swatch wb-red" title="Mark — critical" aria-label="Red pen"></button>
+  <div class="wb-sep"></div>
+  <button type="button" id="wb-clear" class="wb-btn" title="Clear all annotations">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var canvas = document.getElementById("wb-canvas");
+  var ctx = canvas.getContext("2d");
+  var pencilBtn = document.getElementById("wb-pencil");
+  var clearBtn = document.getElementById("wb-clear");
+  var swatches = { amber: document.getElementById("wb-amber"), red: document.getElementById("wb-red") };
+
+  var PRESETS = {
+    amber: { stroke: "rgba(224,165,66,0.42)", width: 16, cap: "round" },  // highlighter — wide, translucent
+    red:   { stroke: "rgba(220,38,38,0.92)",  width: 4,  cap: "round" },  // pen — thin, opaque
+  };
+
+  var strokes = [];        // content-anchored: {color, width, points:[{x,y}]}
+  var currentColor = "amber";
+  var drawing = false;
+  var activeStroke = null;
+  var dpr = window.devicePixelRatio || 1;
+
+  function docHeight() {
+    return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+  }
+  function docWidth() {
+    return Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+  }
+
+  function resizeCanvas() {
+    dpr = window.devicePixelRatio || 1;
+    var w = docWidth(), h = docHeight();
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    redraw();
+  }
+
+  function drawStroke(s) {
+    if (s.points.length < 1) return;
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = s.width;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(s.points[0].x, s.points[0].y);
+    if (s.points.length === 1) {
+      // a tap/dot — draw a short dab so it's visible
+      ctx.lineTo(s.points[0].x + 0.1, s.points[0].y + 0.1);
+    }
+    for (var i = 1; i < s.points.length; i++) {
+      ctx.lineTo(s.points[i].x, s.points[i].y);
+    }
+    ctx.stroke();
+  }
+
+  function redraw() {
+    ctx.clearRect(0, 0, docWidth(), docHeight());
+    for (var i = 0; i < strokes.length; i++) drawStroke(strokes[i]);
+    if (activeStroke) drawStroke(activeStroke);
+  }
+
+  function setMode(on) {
+    drawing = on;
+    canvas.classList.toggle("wb-active", on);
+    pencilBtn.classList.toggle("wb-on", on);
+    pencilBtn.setAttribute("aria-pressed", on ? "true" : "false");
+  }
+
+  function selectColor(name) {
+    currentColor = name;
+    swatches.amber.classList.toggle("wb-selected", name === "amber");
+    swatches.red.classList.toggle("wb-selected", name === "red");
+  }
+
+  // ── Pointer input (mouse + touch + pen) ────────────────────────────────
+  canvas.addEventListener("pointerdown", function (e) {
+    if (!drawing) return;
+    canvas.setPointerCapture(e.pointerId);
+    var preset = PRESETS[currentColor];
+    activeStroke = { color: preset.stroke, width: preset.width, points: [{ x: e.pageX, y: e.pageY }] };
+    redraw();
+  });
+
+  canvas.addEventListener("pointermove", function (e) {
+    if (!drawing || !activeStroke) return;
+    activeStroke.points.push({ x: e.pageX, y: e.pageY });
+    redraw();
+  });
+
+  function endStroke(e) {
+    if (!activeStroke) return;
+    strokes.push(activeStroke);
+    activeStroke = null;
+    redraw();
+  }
+  canvas.addEventListener("pointerup", endStroke);
+  canvas.addEventListener("pointercancel", endStroke);
+
+  // ── Toolbar ─────────────────────────────────────────────────────────────
+  pencilBtn.addEventListener("click", function () { setMode(!drawing); });
+  clearBtn.addEventListener("click", function () { strokes = []; activeStroke = null; redraw(); });
+  swatches.amber.addEventListener("click", function () { selectColor("amber"); setMode(true); });
+  swatches.red.addEventListener("click", function () { selectColor("red"); setMode(true); });
+
+  // ── Keyboard shortcuts ──────────────────────────────────────────────────
+  window.addEventListener("keydown", function (e) {
+    if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+    if (e.key === "p" || e.key === "P") { setMode(!drawing); }
+    else if (e.key === "Escape") { setMode(false); }
+  });
+
+  // ── Sizing ──────────────────────────────────────────────────────────────
+  window.addEventListener("resize", resizeCanvas);
+  window.addEventListener("load", resizeCanvas);
+  if (window.ResizeObserver) {
+    new ResizeObserver(resizeCanvas).observe(document.body);
+  }
+  resizeCanvas();
+})();
+</script>
+</body>
+</html>
