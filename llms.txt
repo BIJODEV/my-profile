@@ -1,0 +1,27 @@
+# Bijo Dev
+
+> Cloud Security Engineer with 12+ years of experience in security engineering, Web Application Firewall (WAF) deployment, and full-stack development.
+
+Bijo Dev is a Senior Cloud Security Engineer at IBM (Bengaluru, India), specializing in Cloudflare, Akamai, F5 ASM, and Imperva Web Application Firewall deployment, bot mitigation, DDoS protection, and security compliance (PCI DSS, HIPAA, SOC 2). Also builds full-stack applications in React, Node.js, and Python, bridging security and software development.
+
+## Expertise
+
+- Cloud Security & WAF: Cloudflare, Akamai, F5 ASM, Imperva, Bot Mitigation, Edge Security, DDoS Protection
+- Full-Stack Development: React, JavaScript, Python, Node.js, REST APIs
+- Network & Infrastructure: F5 Load Balancers, Fortigate Firewalls, Checkpoint, Kubernetes, Docker, CI/CD
+- Security Operations: Splunk, QRadar SIEM, SOC Analysis, Incident Response, Threat Hunting, Vulnerability Management
+- Compliance & Governance: PCI DSS, SOC 2, HIPAA, Security Audits, Risk Assessment
+
+## Notable Projects
+
+- [Adaptive Profiling with Cloudflare Workers](https://bijodev.github.io/my-profile/project-details/adaptive-profiling-overview.html): Edge traffic-profiling engine built on Cloudflare Workers, D1, and KV, performing low-latency traffic baselining and self-healing WAF rule adjustment.
+- [CRS Logic Intelligence](https://bijodev.github.io/my-profile/project-details/crs-rule-lookup-overview.html): Diagnostic tool that deconstructs OWASP CRS regex logic and correlates it with blocked payloads.
+- [FlareSight Analytics](https://bijodev.github.io/my-profile/project-details/flaresight-executive-briefing.html): Enterprise edge intelligence and telemetry command center across Cloudflare and IBM CIS.
+- [Maintenance Control Panel](https://bijodev.github.io/my-profile/project-details/maintenance-panel-overview.html): Self-scheduling, self-expiring, fully audited replacement for hand-editing Cloudflare Snippet Rules.
+
+## Contact
+
+- Email: bijodev1@gmail.com
+- GitHub: https://github.com/BIJODEV
+- LinkedIn: https://linkedin.com/in/bijo-dev-84a618b7
+- Portfolio: https://bijodev.github.io/my-profile/
