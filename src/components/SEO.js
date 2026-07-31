@@ -70,8 +70,8 @@ const SEO = () => {
             "10+ Years Experience"
           ],
           "sameAs": [
-            "https://github.com/bijodev",
-            "https://linkedin.com/in/bijodev"
+            "https://github.com/BIJODEV",
+            "https://linkedin.com/in/bijo-dev-84a618b7"
           ]
         }
         `}
