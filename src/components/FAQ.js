@@ -1,5 +1,5 @@
 // src/components/FAQ.js
-import React from 'react';
+import React, { useState } from 'react';
 
 const faqs = [
   {
@@ -29,16 +29,46 @@ const faqs = [
 ];
 
 const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggle = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <section className="bg-gray-800 rounded-lg p-6">
       <h2 className="text-xl font-bold text-white mb-6">Frequently Asked Questions</h2>
-      <div className="space-y-6">
-        {faqs.map((faq, index) => (
-          <div key={index}>
-            <h3 className="text-lg font-semibold text-blue-400 mb-2">{faq.question}</h3>
-            <p className="text-gray-300 text-sm">{faq.answer}</p>
-          </div>
-        ))}
+      <div className="space-y-3">
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return (
+            <div key={index} className="bg-gray-700 rounded-lg overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggle(index)}
+                aria-expanded={isOpen}
+                className="w-full flex items-center justify-between gap-3 text-left px-4 py-3 text-blue-400 font-semibold hover:text-blue-300"
+              >
+                <span>{faq.question}</span>
+                <svg
+                  className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {/* Answer stays in the DOM at all times (for search/AI crawlers and structured-data
+                  parity) and is only visually collapsed via CSS, never conditionally rendered. */}
+              <div className={`grid transition-all duration-200 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                <div className="overflow-hidden">
+                  <p className="text-gray-300 text-sm px-4 pb-3">{faq.answer}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
