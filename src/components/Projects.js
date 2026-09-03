@@ -5,6 +5,13 @@ const Projects = () => {
   const projects = {
     production: [
       {
+        title: "OriginError",
+        description: "Free diagnostic toolkit for Cloudflare — domain/DNS/TLS scanning, WAF rule decoding, and migration readiness checks.",
+        url: "https://originerror.com",
+        tags: ["Cloudflare Workers", "D1 Database", "KV Namespaces", "Netlify Functions", "Node.js", "Tailwind CSS"],
+        borderColor: "border-teal-500"
+      },
+      {
         title: "Adaptive Profiler Demo",
         description: "Real-time traffic profiling system using Cloudflare Workers, D1 & KV namespaces. Demonstrates behavioral analysis and dynamic WAF rule tuning.",
         url: "https://bijodev.github.io/Adaptive-Profiler-Demo/",
@@ -24,13 +31,6 @@ const Projects = () => {
         url: "https://sysdesignmaster.web.app",
         tags: ["React", "Firebase", "Visualization Lab", "System Design", "Education"],
         borderColor: "border-indigo-500"
-      },
-      {
-        title: "OriginError",
-        description: "Free diagnostic toolkit for Cloudflare — domain/DNS/TLS scanning, WAF rule decoding, and migration readiness checks.",
-        url: "https://originerror.com",
-        tags: ["Cloudflare Workers", "D1 Database", "KV Namespaces", "Netlify Functions", "Node.js", "Tailwind CSS"],
-        borderColor: "border-teal-500"
       },
     ],
     securityTools: [
