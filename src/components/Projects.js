@@ -95,12 +95,14 @@ const Projects = () => {
       <h2 className="text-xl font-bold text-white mb-6">Projects & Applications</h2>
       
       <div className="space-y-8">
-        {/* Production Applications */}
+        {/* Production Applications - Horizontal Scroll */}
         <div>
           <h3 className="text-lg font-semibold text-blue-400 mb-4">Production Applications</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
             {projects.production.map((project, index) => (
-              <ProjectCard key={index} project={project} />
+              <div key={index} className="min-w-[300px] max-w-md flex-shrink-0">
+                <ProjectCard project={project} />
+              </div>
             ))}
           </div>
         </div>
