@@ -8,6 +8,7 @@ const Projects = () => {
         title: "OriginError",
         description: "Free diagnostic toolkit for Cloudflare — domain/DNS/TLS scanning, WAF rule decoding, and migration readiness checks.",
         url: "https://originerror.com",
+        mediumUrl: "https://medium.com/@bijodev1/i-kept-debugging-the-same-cloudflare-errors-over-and-over-so-i-built-a-tool-to-stop-131ca3f5c8e3",
         tags: ["Cloudflare Workers", "D1 Database", "KV Namespaces", "Netlify Functions", "Node.js", "Tailwind CSS"],
         borderColor: "border-teal-500"
       },
@@ -156,7 +157,7 @@ const ProjectCard = ({ project }) => {
       </div>
       <div className="flex space-x-4 mt-3">
         {project.url ? (
-          <a href={project.url} target="_blank" className="text-blue-400 hover:text-blue-300 flex items-center text-sm">
+          <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 flex items-center text-sm">
             <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
             </svg>
@@ -164,6 +165,15 @@ const ProjectCard = ({ project }) => {
           </a>
         ) : (
           <span className="text-yellow-400 text-sm">🚀 {project.status}</span>
+        )}
+        {project.mediumUrl && (
+          <a href={project.mediumUrl} target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:text-orange-300 flex items-center text-sm">
+            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+            </svg>
+            Medium
+          </a>
         )}
       </div>
     </div>
