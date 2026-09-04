@@ -21,6 +21,10 @@ const Certifications = () => {
     {
       name: "Automation Achievement",
       description: "Built PowerShell scripts to automate Active Directory user creation"
+    },
+    {
+      name: "Outstanding Technical Achievement Award at IBM",
+      description: "Recognized for building Adaptive Profiling, a self-healing WAF rule tuning engine on Cloudflare Workers"
     }
   ];
 
