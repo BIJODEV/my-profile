@@ -114,7 +114,9 @@ const Projects = () => {
           <div >
             <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
               {projects.securityTools.map((project, index) => (
+                <div key={index} className="min-w-[300px] max-w-md flex-shrink-0">
                 <SecurityToolCard key={index} project={project} />
+                </div>
               ))}
             </div>
             {/* Scroll indicator */}
