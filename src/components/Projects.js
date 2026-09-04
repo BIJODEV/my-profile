@@ -147,9 +147,9 @@ const Projects = () => {
 // Project Card Component for regular projects
 const ProjectCard = ({ project }) => {
   return (
-    <div className={`bg-gray-700 rounded-lg p-4 border-l-4 ${project.borderColor} h-full flex flex-col`}>
+    <div className={`bg-gray-700 rounded-lg p-4 border-l-4 ${project.borderColor} flex flex-col`}>
       <h4 className="text-lg font-semibold text-white">{project.title}</h4>
-      <p className="text-gray-300 my-2 text-sm flex-grow">{project.description}</p>
+      <p className="text-gray-300 my-2 text-sm">{project.description}</p>
       <div className="flex flex-wrap gap-2 mt-3">
         {project.tags.map((tag, tagIndex) => (
           <span key={tagIndex} className="bg-gray-600 text-gray-200 px-2 py-1 rounded text-xs">
