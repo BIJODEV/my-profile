@@ -15,16 +15,16 @@ const Certifications = () => {
 
   const awards = [
     {
+      name: "Outstanding Technical Achievement Award (OTAA) at IBM",
+      description: "Recognized for building Adaptive Profiling, a self-healing WAF rule tuning engine on Cloudflare Workers"
+    },
+    {
       name: "Excellence Award at Walmart",
       description: "Recognized for bot traffic isolation and improved security metrics"
     },
     {
       name: "Automation Achievement",
       description: "Built PowerShell scripts to automate Active Directory user creation"
-    },
-    {
-      name: "Outstanding Technical Achievement Award at IBM",
-      description: "Recognized for building Adaptive Profiling, a self-healing WAF rule tuning engine on Cloudflare Workers"
     }
   ];
 

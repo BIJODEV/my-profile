@@ -1,0 +1,366 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - img "Bijo Dev" [ref=e8]
+          - generic [ref=e9]:
+            - heading "Bijo Dev" [level=1] [ref=e10]
+            - paragraph [ref=e11]: Cloud Security Engineer
+        - generic [ref=e12]:
+          - link "bijodev1@gmail.com" [ref=e13] [cursor=pointer]:
+            - /url: mailto:bijodev1@gmail.com
+          - link "+91 8921873715" [ref=e17] [cursor=pointer]:
+            - /url: tel:+918921873715
+      - generic [ref=e20]:
+        - link "github.com/BIJODEV" [ref=e21] [cursor=pointer]:
+          - /url: https://github.com/BIJODEV
+        - link "linkedin.com/in/bijo-dev-84a618b7" [ref=e24] [cursor=pointer]:
+          - /url: https://linkedin.com/in/bijo-dev-84a618b7
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - heading "Professional Profile" [level=2] [ref=e31]
+          - generic [ref=e32]:
+            - paragraph [ref=e33]:
+              - strong [ref=e34]: Cloud Security Engineer
+              - text: with 12+ years of comprehensive experience spanning security architecture, application development, and infrastructure management.
+            - generic [ref=e35]:
+              - generic [ref=e36]:
+                - heading "Security Specialization" [level=4] [ref=e37]
+                - list [ref=e38]:
+                  - listitem [ref=e39]: Edge protection with Cloudflare, Akamai, F5 ASM
+                  - listitem [ref=e40]: Bot mitigation & threat intelligence
+                  - listitem [ref=e41]: WAF policy development & tuning
+                  - listitem [ref=e42]: Security compliance (PCI DSS, HIPAA, SOC 2)
+              - generic [ref=e43]:
+                - heading "Development Expertise" [level=4] [ref=e44]
+                - list [ref=e45]:
+                  - listitem [ref=e46]: Full-stack application development
+                  - listitem [ref=e47]: React-based frontend solutions
+                  - listitem [ref=e48]: Backend APIs & database design
+                  - listitem [ref=e49]: Cloud-native architecture
+            - paragraph [ref=e50]: Proven ability to bridge security and development domains, creating robust, secure applications while maintaining optimal user experience and compliance standards.
+        - generic [ref=e51]:
+          - heading "Work Experience" [level=2] [ref=e52]
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e57]:
+                - heading "Sr. Cloud Security Engineer" [level=3] [ref=e58]
+                - generic [ref=e59]: Jan 2023 - Present
+              - paragraph [ref=e60]: IBM, Bengaluru
+              - list [ref=e61]:
+                - listitem [ref=e62]: Awarded the IBM Outstanding Technical Achievement Award (OTAA) for developing CRS Rule Intelligence, a diagnostic engine that correlates OWASP signatures with blocked payloads, improving WAF transparency and decreasing MTTU for global developer teams.
+                - listitem [ref=e63]: Recognized by the IBM Innovation Center for the research and publication of Adaptive Profiling, a distributed edge-learning system that utilizes entropy-based heuristics to reduce false-positive WAF blocks by 25%.
+                - listitem [ref=e64]:
+                  - text: "Architected a suite of Interactive SPAs (React/React Flow) to transform static security documentation into high-fidelity visual roadmaps:"
+                  - list [ref=e65]:
+                    - listitem [ref=e66]: "FlareSight Analytics: An enterprise edge-intelligence dashboard unifying real-time WAF/CDN telemetry across Cloudflare and IBM CIS for security leadership."
+                    - listitem [ref=e67]: "Adaptive Profiling Blueprint: A self-explaining architectural demo used to secure internal buy-in for custom edge-security tooling."
+                    - listitem [ref=e68]: "Cloudflare Onboarding Engine: A ”Visual Journey” tool guiding stakeholders through multi-phase infrastructure migrations for 90+ applications."
+                    - listitem [ref=e69]: "Global Resiliency & DR Plan: An interactive failover roadmap developed post-2025 Cloudflare outages, mapping current strategy vs. optimized DR flows to mitigate future downtime."
+                - listitem [ref=e70]: Scaled edge protection for mission-critical enterprise traffic, ensuring 100% compliance with PCI-DSS, HIPAA, and SOC 2 standards through automated Cloudflare/CIS orchestrations.
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - heading "Cyber Security Engineer III" [level=3] [ref=e73]
+                - generic [ref=e74]: Apr 2021 - Jan 2023
+              - paragraph [ref=e75]: Walmart, Bengaluru
+              - list [ref=e76]:
+                - listitem [ref=e77]: Mitigated 30% of malicious bot traffic on high-volume GraphQL endpoints during peak retail sales by deploying sophisticated header-order hash detection and PerimeterX integration.
+                - listitem [ref=e78]: Awarded the ”Excellence Award” for innovating a custom traffic-filtering strategy that isolated advanced automated threats without impacting legitimate user conversion rates.
+                - listitem [ref=e79]: Improved detection accuracy by correlating bot patterns across Splunk and Akamai, leading to a measurable reduction in account takeover (ATO) attempts.
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - heading "Sr. Security Analyst" [level=3] [ref=e82]
+                - generic [ref=e83]: Jan 2020 - Apr 2021
+              - paragraph [ref=e84]: Tata Communications Ltd
+              - list [ref=e85]:
+                - listitem [ref=e86]: Architected rapid mitigation strategies for the Log4j vulnerability by leading F5 BOX upgrades and implementing custom WAF workarounds, ensuring zero exploitation.
+                - listitem [ref=e87]: Secured government infrastructure by deploying and fine-tuning F5 and Imperva WAFs, maintaining 100% adherence to PCI-DSS, SOC 2, and HIPAA standards.
+                - listitem [ref=e88]: Optimized traffic management efficiency by designing complex LTM policies and tailored rule sets for multi-client onboarding.
+                - listitem [ref=e89]: Established a culture of ”team education,” leading troubleshooting workshops for application teams to promote secure coding practices and reduce security debt.
+            - generic [ref=e90]:
+              - generic [ref=e91]:
+                - heading "Analyst" [level=3] [ref=e92]
+                - generic [ref=e93]: Jan 2018 - Dec 2019
+              - paragraph [ref=e94]: Allianz Technology
+              - list [ref=e95]:
+                - listitem [ref=e96]: Orchestrated global WAF administration for Imperva appliances (2530, 4530, 8530), strategically onboarding domains through advanced traffic analysis and signature tuning.
+                - listitem [ref=e97]: Eliminated manual overhead in procurement cycles by automating performance and capacity reporting using Power-Shell, providing data-driven insights for global resource allocation.
+                - listitem [ref=e98]: Applied global best practices in WAF architecture following intensive on-site training in Germany, specializing in highavailability policy customization.
+            - generic [ref=e99]:
+              - generic [ref=e100]:
+                - heading "Project Engineer" [level=3] [ref=e101]
+                - generic [ref=e102]: Jun 2015 - Jan 2018
+              - paragraph [ref=e103]: Wipro Technologies
+              - list [ref=e104]:
+                - listitem [ref=e105]: Secured high-compliance government banking data centers by managing Fortigate firewalls and QRadar SIEM, and successfully leading security responses during RBI Mock Drills.
+                - listitem [ref=e106]: Automated identity and access management (IAM) by developing PowerShell scripts for user provisioning across Active Directory and SAP, improving operational efficiency by reducing manual touchpoints.
+                - listitem [ref=e107]: Standardized endpoint security compliance for insurance clients by automating McAfee Antivirus DAT policy deployments alongside F5 ASM and Checkpoint firewall configurations.
+          - paragraph [ref=e109]:
+            - generic [ref=e112]: Scroll for more
+        - generic [ref=e113]:
+          - heading "Projects & Applications" [level=2] [ref=e114]
+          - generic [ref=e115]:
+            - generic [ref=e116]:
+              - heading "Production Applications" [level=3] [ref=e117]
+              - generic [ref=e118]:
+                - generic [ref=e120]:
+                  - heading "OriginError" [level=4] [ref=e121]
+                  - paragraph [ref=e122]: Free diagnostic toolkit for Cloudflare — domain/DNS/TLS scanning, WAF rule decoding, and migration readiness checks.
+                  - generic [ref=e123]:
+                    - generic [ref=e124]: Cloudflare Workers
+                    - generic [ref=e125]: D1 Database
+                    - generic [ref=e126]: KV Namespaces
+                    - generic [ref=e127]: Netlify Functions
+                    - generic [ref=e128]: Node.js
+                    - generic [ref=e129]: Tailwind CSS
+                  - link "Live" [ref=e131] [cursor=pointer]:
+                    - /url: https://originerror.com
+                - generic [ref=e135]:
+                  - heading "Adaptive Profiler Demo" [level=4] [ref=e136]
+                  - paragraph [ref=e137]: Real-time traffic profiling system using Cloudflare Workers, D1 & KV namespaces. Demonstrates behavioral analysis and dynamic WAF rule tuning.
+                  - generic [ref=e138]:
+                    - generic [ref=e139]: Cloudflare Workers
+                    - generic [ref=e140]: D1 Database
+                    - generic [ref=e141]: KV Namespaces
+                    - generic [ref=e142]: React
+                  - link "Live" [ref=e144] [cursor=pointer]:
+                    - /url: https://bijodev.github.io/Adaptive-Profiler-Demo/
+                - generic [ref=e148]:
+                  - heading "Cloudflare Onboarding Visualizer" [level=4] [ref=e149]
+                  - paragraph [ref=e150]: Interactive visualization tool for application migration to Cloudflare. Shows traffic flow, security layers, and integration points.
+                  - generic [ref=e151]:
+                    - generic [ref=e152]: Data Visualization
+                    - generic [ref=e153]: React
+                    - generic [ref=e154]: Reactflow
+                    - generic [ref=e155]: Cloudflare
+                  - link "Live" [ref=e157] [cursor=pointer]:
+                    - /url: https://bijodev.github.io/cloudflare-onboarding-visualizer/
+                - generic [ref=e161]:
+                  - heading "System Design Master" [level=4] [ref=e162]
+                  - paragraph [ref=e163]: Interactive platform for mastering system design interviews. Features real-time visualization labs (Load Balancing, Caching, Consistent Hashing), theory guides, and interview prep resources.
+                  - generic [ref=e164]:
+                    - generic [ref=e165]: React
+                    - generic [ref=e166]: Firebase
+                    - generic [ref=e167]: Visualization Lab
+                    - generic [ref=e168]: System Design
+                    - generic [ref=e169]: Education
+                  - link "Live" [ref=e171] [cursor=pointer]:
+                    - /url: https://sysdesignmaster.web.app
+            - generic [ref=e174]:
+              - heading "Security Tools & Innovations" [level=3] [ref=e175]
+              - generic [ref=e177]:
+                - generic [ref=e178]:
+                  - heading "FlareSight Analytics" [level=4] [ref=e180]
+                  - paragraph [ref=e181]: Enterprise edge intelligence and telemetry command center giving security teams unified, real-time visibility across multi-provider WAF/CDN traffic (Cloudflare and IBM CIS) in a single executive dashboard.
+                  - generic [ref=e182]:
+                    - generic [ref=e183]: React 19
+                    - generic [ref=e184]: Vite
+                    - generic [ref=e185]: Cloudflare
+                    - generic [ref=e186]: IBM CIS
+                    - generic [ref=e187]: Edge Telemetry
+                  - link "Overview" [ref=e189] [cursor=pointer]:
+                    - /url: /my-profile/project-details/flaresight-executive-briefing.html
+                - generic [ref=e192]:
+                  - heading "Maintenance Control Panel" [level=4] [ref=e194]
+                  - paragraph [ref=e195]: A one-click, self-scheduling, self-expiring, fully audited replacement for hand-editing Cloudflare Snippet Rules to take a storefront offline for maintenance.
+                  - generic [ref=e196]:
+                    - generic [ref=e197]: Cloudflare Snippet Rules
+                    - generic [ref=e198]: Automation
+                    - generic [ref=e199]: Audit Logging
+                    - generic [ref=e200]: Self-Service Ops
+                  - generic [ref=e201]:
+                    - link "Overview" [ref=e202] [cursor=pointer]:
+                      - /url: /my-profile/project-details/maintenance-panel-overview.html
+                    - link "Architecture" [ref=e205] [cursor=pointer]:
+                      - /url: /my-profile/project-details/maintenance-panel-architecture-flow.html
+                - generic [ref=e208]:
+                  - heading "Adaptive Profiling with Cloudflare Workers" [level=4] [ref=e210]
+                  - paragraph [ref=e211]: An architecturally sophisticated edge engine built on Cloudflare Workers, D1, and KV. It leverages a three-tier distributed model (Data Plane, High-Speed Buffer, and Asynchronous Reconciler) to perform low-latency traffic baselining and self-healing WAF rule adjustment.
+                  - generic [ref=e212]:
+                    - generic [ref=e213]: Cloudflare Workers
+                    - generic [ref=e214]: D1 Database
+                    - generic [ref=e215]: KV Namespaces
+                    - generic [ref=e216]: WAF Tuning
+                    - generic [ref=e217]: Behavioral Analysis
+                  - generic [ref=e218]:
+                    - link "GitHub" [ref=e219] [cursor=pointer]:
+                      - /url: https://github.com/BIJODEV/Cloudflare-Dynamic-Profiling
+                    - link "Live" [ref=e222] [cursor=pointer]:
+                      - /url: https://github.com/BIJODEV/Adaptive-Profiler-Demo
+                    - link "Medium" [ref=e225] [cursor=pointer]:
+                      - /url: https://medium.com/@bijodev1/cloudflare-workers-kv-d1-and-a-curious-idea-that-became-adaptive-profiling-49d1dbbf0534
+                    - link "Overview" [ref=e229] [cursor=pointer]:
+                      - /url: /my-profile/project-details/adaptive-profiling-overview.html
+                - generic [ref=e232]:
+                  - 'heading "CRS Logic Intelligence: Signature-to-Payload Correlation" [level=4] [ref=e234]'
+                  - paragraph [ref=e235]: High-impact diagnostic tool designed to deconstruct OWASP CRS regex logic and correlate it with blocked payloads. Significantly improves Developer Experience (DevEx) by decreasing Mean Time to Understand (MTTU) for complex WAF events
+                  - generic [ref=e236]:
+                    - generic [ref=e237]: OWASP CRS
+                    - generic [ref=e238]: Regex Analysis
+                    - generic [ref=e239]: WAF Diagnostics
+                    - generic [ref=e240]: Cloudflare
+                    - generic [ref=e241]: Security Analytics
+                  - generic [ref=e242]:
+                    - link "GitHub" [ref=e243] [cursor=pointer]:
+                      - /url: https://github.com/BIJODEV/crs-rule-lookup-project
+                    - link "Live" [ref=e246] [cursor=pointer]:
+                      - /url: https://crs-rule-lookup.onrender.com/
+                    - link "Medium" [ref=e249] [cursor=pointer]:
+                      - /url: https://medium.com/@bijodev1/diagnosing-cloudflare-security-events-with-crs-rule-intelligence-a-developers-journey-e61b583b56b0
+                    - link "Overview" [ref=e253] [cursor=pointer]:
+                      - /url: /my-profile/project-details/crs-rule-lookup-overview.html
+            - generic [ref=e256]:
+              - heading "Full-Stack Applications" [level=3] [ref=e257]
+              - generic [ref=e258]:
+                - generic [ref=e259]:
+                  - heading "KnowYourChurch" [level=4] [ref=e260]
+                  - paragraph [ref=e261]: Comprehensive church management platform with user authentication, media gallery, payments, and admin dashboard.
+                  - generic [ref=e262]:
+                    - generic [ref=e263]: React
+                    - generic [ref=e264]: Node.js
+                    - generic [ref=e265]: Supabase
+                    - generic [ref=e266]: Cloudinary
+                    - generic [ref=e267]: Razorpay
+                    - generic [ref=e268]: OAuth
+                  - link "Live" [ref=e270] [cursor=pointer]:
+                    - /url: https://knowurchurch.com/
+                - generic [ref=e273]:
+                  - heading "Bible Quiz App" [level=4] [ref=e274]
+                  - paragraph [ref=e275]: Interactive quiz application for biblical knowledge testing with scoring system and progress tracking.
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: React
+                    - generic [ref=e278]: JavaScript
+                    - generic [ref=e279]: Firebase
+                  - link "Live" [ref=e281] [cursor=pointer]:
+                    - /url: https://bibleqz.web.app
+        - generic [ref=e284]:
+          - button [ref=e285] [cursor=pointer]:
+            - heading "Frequently Asked Questions" [level=2] [ref=e286]
+          - generic [ref=e289]:
+            - generic [ref=e290]:
+              - button "Who is Bijo Dev?" [ref=e291] [cursor=pointer]
+              - paragraph [ref=e295]: Bijo Dev is a Cloud Security Engineer with 12+ years of experience in security architecture, Web Application Firewall deployment, and full-stack development, currently working as a Senior Cloud Security Engineer at IBM in Bengaluru, India.
+            - generic [ref=e296]:
+              - button "What is Bijo Dev's experience with Cloudflare and Web Application Firewalls (WAF)?" [ref=e297] [cursor=pointer]
+              - paragraph [ref=e301]: Bijo Dev specializes in deploying and tuning Web Application Firewalls across Cloudflare, Akamai, F5 ASM, and Imperva, including WAF policy development, bot mitigation, DDoS protection, and edge security architecture for high-traffic production systems.
+            - generic [ref=e302]:
+              - button "What kind of security engineering work does Bijo Dev do?" [ref=e303] [cursor=pointer]
+              - paragraph [ref=e307]: Bijo Dev's security engineering work spans WAF policy tuning, edge protection architecture, bot mitigation and threat intelligence, and security compliance including PCI DSS, HIPAA, and SOC 2, alongside hands-on tools like Splunk, QRadar SIEM, and vulnerability management.
+            - generic [ref=e308]:
+              - button "Does Bijo Dev also build software, or only security engineering?" [ref=e309] [cursor=pointer]
+              - paragraph [ref=e313]: Both. Bijo Dev bridges security and development, building full-stack applications with React, Node.js, and Python alongside security tooling, including an adaptive Cloudflare Workers traffic-profiling system and a WAF rule-diagnostics tool called CRS Logic Intelligence.
+            - generic [ref=e314]:
+              - button "What are some of Bijo Dev's notable Cloudflare projects?" [ref=e315] [cursor=pointer]
+              - paragraph [ref=e319]: Notable Cloudflare-focused projects include Adaptive Profiling with Cloudflare Workers (D1 and KV-based traffic baselining), CRS Logic Intelligence for WAF rule diagnostics, FlareSight Analytics (a multi-provider edge telemetry dashboard), and a Maintenance Control Panel built on Cloudflare Snippet Rules.
+            - generic [ref=e320]:
+              - button "How can I contact Bijo Dev?" [ref=e321] [cursor=pointer]
+              - paragraph [ref=e325]: You can reach Bijo Dev at bijodev1@gmail.com, or connect via the LinkedIn and GitHub links in the site header.
+      - generic [ref=e326]:
+        - generic [ref=e327]:
+          - heading "Technical Expertise" [level=2] [ref=e328]
+          - generic [ref=e329]:
+            - generic [ref=e330]:
+              - heading "Cloud Security & WAF" [level=3] [ref=e331]
+              - generic [ref=e332]:
+                - generic [ref=e333]: Cloudflare
+                - generic [ref=e334]: Akamai
+                - generic [ref=e335]: F5 ASM
+                - generic [ref=e336]: Imperva
+                - generic [ref=e337]: WAF Architecture
+                - generic [ref=e338]: Bot Mitigation
+                - generic [ref=e339]: Edge Security
+                - generic [ref=e340]: DDoS Protection
+            - generic [ref=e341]:
+              - heading "Full-Stack Development" [level=3] [ref=e342]
+              - generic [ref=e343]:
+                - generic [ref=e344]: React
+                - generic [ref=e345]: JavaScript
+                - generic [ref=e346]: Python
+                - generic [ref=e347]: Node.js
+                - generic [ref=e348]: REST APIs
+                - generic [ref=e349]: Supabase
+                - generic [ref=e350]: Cloudinary
+                - generic [ref=e351]: Razorpay
+            - generic [ref=e352]:
+              - heading "Network & Infrastructure" [level=3] [ref=e353]
+              - generic [ref=e354]:
+                - generic [ref=e355]: F5 Load Balancers
+                - generic [ref=e356]: Fortigate Firewalls
+                - generic [ref=e357]: Checkpoint
+                - generic [ref=e358]: Network Protocols
+                - generic [ref=e359]: Kubernetes
+                - generic [ref=e360]: Docker
+                - generic [ref=e361]: CI/CD
+            - generic [ref=e362]:
+              - heading "Security Operations" [level=3] [ref=e363]
+              - generic [ref=e364]:
+                - generic [ref=e365]: Splunk
+                - generic [ref=e366]: QRadar SIEM
+                - generic [ref=e367]: SOC Analysis
+                - generic [ref=e368]: Incident Response
+                - generic [ref=e369]: Threat Hunting
+                - generic [ref=e370]: Vulnerability Management
+            - generic [ref=e371]:
+              - heading "Identity & Access Management" [level=3] [ref=e372]
+              - generic [ref=e373]:
+                - generic [ref=e374]: Active Directory
+                - generic [ref=e375]: AS400
+                - generic [ref=e376]: SAP Systems
+                - generic [ref=e377]: User Provisioning
+                - generic [ref=e378]: Role-Based Access
+                - generic [ref=e379]: Privileged Access
+            - generic [ref=e380]:
+              - heading "Compliance & Governance" [level=3] [ref=e381]
+              - generic [ref=e382]:
+                - generic [ref=e383]: PCI DSS
+                - generic [ref=e384]: SOC 2
+                - generic [ref=e385]: HIPAA
+                - generic [ref=e386]: Security Audits
+                - generic [ref=e387]: Risk Assessment
+                - generic [ref=e388]: Policy Development
+        - generic [ref=e389]:
+          - heading "Certifications & Awards" [level=2] [ref=e390]
+          - generic [ref=e391]:
+            - generic [ref=e392]:
+              - heading "Certifications" [level=3] [ref=e393]
+              - list [ref=e394]:
+                - listitem [ref=e395]:
+                  - generic [ref=e398]:
+                    - text: F5 Advanced Web Application Firewall (ASM)
+                    - paragraph [ref=e399]: Certified in advanced WAF deployment and tuning
+                - listitem [ref=e400]:
+                  - generic [ref=e403]:
+                    - text: Certified Ethical Hacker (CEH)
+                    - paragraph [ref=e404]: Credentialed in penetration testing and vulnerability assessment
+            - generic [ref=e405]:
+              - heading "Awards & Recognition" [level=3] [ref=e406]
+              - list [ref=e407]:
+                - listitem [ref=e408]:
+                  - generic [ref=e411]:
+                    - text: Excellence Award at Walmart
+                    - paragraph [ref=e412]: Recognized for bot traffic isolation and improved security metrics
+                - listitem [ref=e413]:
+                  - generic [ref=e416]:
+                    - text: Automation Achievement
+                    - paragraph [ref=e417]: Built PowerShell scripts to automate Active Directory user creation
+        - generic [ref=e418]:
+          - heading "Education" [level=2] [ref=e419]
+          - generic [ref=e420]:
+            - heading "Master of Computer Application (MCA)" [level=3] [ref=e421]
+            - paragraph [ref=e422]: Karunya University
+            - paragraph [ref=e423]: May 2015
+            - paragraph [ref=e424]: "CGPA: 8.6/10 | Ranked 3rd in Department"
+            - paragraph [ref=e425]: Focused on Data Structures and Algorithms, Operating Systems, Computer Networks, Systems Programming, Network Security, Micro Processors, and Cloud Architecture.
+        - generic [ref=e426]:
+          - heading "Hobbies & Interests" [level=2] [ref=e427]
+          - generic [ref=e428]:
+            - generic [ref=e429]: Chess
+            - generic [ref=e430]: Badminton
+            - generic [ref=e431]: Reading
+            - generic [ref=e432]: Coding
+            - generic [ref=e433]: Security Research
+  - contentinfo [ref=e434]:
+    - paragraph [ref=e436]: © 2026 Bijo Dev. All rights reserved.
