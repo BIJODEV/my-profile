@@ -15,7 +15,7 @@ const Header = () => {
             />
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-white">Bijo Dev</h1>
-              <p className="text-lg text-gray-400 mt-1">Cloud Security Engineer</p>
+              <p className="text-lg text-gray-400 mt-1">Edge Security Solutions Engineer</p>
             </div>
           </div>
           <div className="mt-4 md:mt-0 flex flex-wrap gap-4">

@@ -2,9 +2,9 @@
 import React from 'react';
 
 const SEO = () => {
-  const title = "Cloudflare Security Engineer | Web Application Firewall (WAF) & Security Engineering Expert | Bijo Dev";
-  const description = "Bijo Dev is a Cloud Security Engineer with 12+ years of experience in security engineering, Cloudflare, and Web Application Firewall (WAF) deployment across Cloudflare, Akamai, F5 ASM, and Imperva. Specializes in bot mitigation, DDoS protection, and full-stack development.";
-  const keywords = "Cloudflare, Cloudflare Expert, Security Engineering, Security Engineer, Web Application Firewall, WAF, WAF Expert, Cloud Security Engineer, Akamai, F5 ASM, Imperva, Bot Mitigation, DDoS Protection, OWASP Top 10, WAF Tuning, Cybersecurity Consultant, WAF Deployment, Security Hardening";
+  const title = "Edge Security Solutions Engineer | Cloudflare & WAF Security Expert | Bijo Dev";
+  const description = "Bijo Dev is an Edge Security Solutions Engineer (Cloud Security Engineer) with 12+ years of experience in edge security, Cloudflare, and Web Application Firewall (WAF) deployment across Cloudflare, Akamai, F5 ASM, and Imperva. Specializes in bot mitigation, DDoS protection, and full-stack development.";
+  const keywords = "Edge Security, Edge Security Engineer, Edge Security Solutions Engineer, Cloudflare, Cloudflare Expert, Security Engineering, Security Engineer, Web Application Firewall, WAF, WAF Expert, Cloud Security Engineer, Akamai, F5 ASM, Imperva, Bot Mitigation, DDoS Protection, OWASP Top 10, WAF Tuning, Cybersecurity Consultant, WAF Deployment, Security Hardening";
 
   return (
     <>
@@ -23,7 +23,7 @@ const SEO = () => {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content="https://bijodev.github.io/my-profile/og-image.png" />
-      <meta property="og:site_name" content="Bijo Dev - Cloud Security Engineer" />
+      <meta property="og:site_name" content="Bijo Dev - Edge Security Solutions Engineer" />
       <meta property="profile:first_name" content="Bijo" />
       <meta property="profile:last_name" content="Dev" />
 
@@ -46,7 +46,7 @@ const SEO = () => {
           "@type": "Person",
           "name": "Bijo Dev",
           "url": "https://bijodev.github.io/my-profile/",
-          "jobTitle": "Cloud Security Engineer",
+          "jobTitle": "Edge Security Solutions Engineer",
           "description": "${description}",
           "worksFor": {
             "@type": "Organization",
@@ -59,6 +59,7 @@ const SEO = () => {
             "addressCountry": "IN"
           },
           "knowsAbout": [
+            "Edge Security",
             "Cloudflare",
             "Security Engineering",
             "Web Application Firewall",
